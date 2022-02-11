@@ -1,0 +1,66 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap");
+
+:root {
+  /* success color same as light bg */
+  --toastify-color-success: #4ade80;
+  /* error color same as buttonRed color */
+  --toastify-color-error: #ff3300;
+
+  --toastify-text-color-info: #141f31;
+  --toastify-text-color-success: #141f31;
+  --toastify-text-color-warning: #141f31;
+  --toastify-text-color-error: #141f31;
+
+  --toastify-font-family: "Quicksand", sans-serif;
+  --toastify-spinner-color: #fff;
+}
+
+* {
+  font-family: "Quicksand", sans-serif;
+  font-weight: 500;
+}
+*::-moz-selection {
+  background-color: #f3de68;
+  color: black;
+}
+*::selection {
+  background-color: #f3de68;
+  color: black;
+}
+
+body {
+  background-color: #ebebeb;
+  overflow-x: hidden;
+}
+body::-webkit-scrollbar-track {
+  background: #ebebeb;
+}
+body::-webkit-scrollbar-thumb {
+  background: #bebebe;
+}
+body::-webkit-scrollbar-thumb:hover {
+  background: #797979;
+}
+body::-webkit-scrollbar {
+  width: 10px;
+}
+
+@keyframes carousel {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(calc(-244px * 8));
+  }
+}
+
+.animate {
+  animation: carousel 20s linear infinite;
+}
+.animate:hover {
+  animation-play-state: paused;
+}
