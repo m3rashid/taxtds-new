@@ -1,5 +1,5 @@
 import MaterialTable, { Icons } from "material-table";
-import { forwardRef } from "react";
+import React from "react";
 
 import AddBox from "@material-ui/icons/AddBox";
 import ArrowDownward from "@material-ui/icons/ArrowDownward";
@@ -18,23 +18,23 @@ import Search from "@material-ui/icons/Search";
 import ViewColumn from "@material-ui/icons/ViewColumn";
 
 const tableIcons: Icons = {
-  Add: forwardRef(() => <AddBox />),
-  Check: forwardRef(() => <Check />),
-  Clear: forwardRef(() => <Clear />),
-  Delete: forwardRef(() => <DeleteOutline />),
-  DetailPanel: forwardRef(() => <ChevronRight />),
-  Edit: forwardRef(() => <Edit />),
-  Export: forwardRef(() => <SaveAlt />),
-  Filter: forwardRef(() => <FilterList />),
-  FirstPage: forwardRef(() => <FirstPage />),
-  LastPage: forwardRef(() => <LastPage />),
-  NextPage: forwardRef(() => <ChevronRight />),
-  PreviousPage: forwardRef(() => <ChevronLeft />),
-  ResetSearch: forwardRef(() => <Clear />),
-  Search: forwardRef(() => <Search />),
-  SortArrow: forwardRef(() => <ArrowDownward />),
-  ThirdStateCheck: forwardRef(() => <Remove />),
-  ViewColumn: forwardRef(() => <ViewColumn />),
+  Add: React.forwardRef(() => <AddBox />),
+  Check: React.forwardRef(() => <Check />),
+  Clear: React.forwardRef(() => <Clear />),
+  Delete: React.forwardRef(() => <DeleteOutline />),
+  DetailPanel: React.forwardRef(() => <ChevronRight />),
+  Edit: React.forwardRef(() => <Edit />),
+  Export: React.forwardRef(() => <SaveAlt />),
+  Filter: React.forwardRef(() => <FilterList />),
+  FirstPage: React.forwardRef(() => <FirstPage />),
+  LastPage: React.forwardRef(() => <LastPage />),
+  NextPage: React.forwardRef(() => <ChevronRight />),
+  PreviousPage: React.forwardRef(() => <ChevronLeft />),
+  ResetSearch: React.forwardRef(() => <Clear />),
+  Search: React.forwardRef(() => <Search />),
+  SortArrow: React.forwardRef(() => <ArrowDownward />),
+  ThirdStateCheck: React.forwardRef(() => <Remove />),
+  ViewColumn: React.forwardRef(() => <ViewColumn />),
 };
 
 export interface IBuyer {
@@ -54,18 +54,17 @@ export interface IColumn {
 export interface ITableProps {
   columns: IColumn[];
   data: Array<IBuyer | ISeller>;
-  title: string;
+  Title: JSX.Element;
 }
 
-const Table = ({ columns, data, title }: ITableProps) => {
+const Table = ({ columns, data, Title }: ITableProps) => {
   return (
     <div className="w-full p-4 md:p-6 max-w-[1400px]">
       <MaterialTable
         icons={tableIcons}
-        style={{ borderRadius: "0.375rem", backgroundColor: "#D5EBF5" }}
         columns={columns}
         data={data}
-        title={title}
+        title={Title}
         options={{
           pageSizeOptions: [5, 10, 20, 50, 100],
           debounceInterval: 1000,
@@ -73,9 +72,22 @@ const Table = ({ columns, data, title }: ITableProps) => {
             backgroundColor: "#141F31",
             position: "sticky",
             top: 0,
-            color: "#ffffff",
-            fontWeight: 700,
+            color: "#FFFFFF",
+            fontWeight: "bold",
+            textAlign: "center",
           },
+          rowStyle: (_: any, index: number) => {
+            if (index % 2) {
+              return {
+                backgroundColor: "#C1E1F0",
+              };
+            }
+            return {};
+          },
+        }}
+        style={{
+          borderRadius: "0.375rem",
+          backgroundColor: "#D5EBF5",
         }}
       />
     </div>

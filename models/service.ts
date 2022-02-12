@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
-import { IUser } from "./user";
 
+import { IUser } from "./user";
+import { StateUt } from "./user";
 export interface IReview {
   name: string;
   rating: number;
@@ -27,27 +28,27 @@ export interface IService {
 }
 
 const serviceSchema = new mongoose.Schema({
-  brandName: { type: String, required: true },
-  tagline: String,
-  avatar: { type: String, required: true },
-  gallery: [{ type: String, unique: true }],
-  owner: { type: String, required: true },
-  // experience in years
-  experience: { type: Number, required: true },
-  establishment: { type: String, required: true },
-  phone: { type: String, required: true },
-  email: { type: String, required: true },
-  professions: [{ type: String, required: true }],
-  address: { type: String, required: true },
-  state: { type: String, required: true },
-  services: [{ type: String }],
-  reviews: [
-    {
-      name: { type: String, required: true },
-      rating: { type: Number, required: true, min: 0, max: 5 },
-      comment: { type: String, required: true },
-    },
-  ],
+  brandName: { type: String, required: [true, "Brand must have a name"] },
+  avatar: { type: String, required: [true, "Avatar image is required"] },
+  gallery: {
+    type: [String],
+    min: [1, "Images are required"],
+    max: [3, "Too many images"],
+  },
+  services: {
+    type: [mongoose.Schema.Types.ObjectId],
+    ref: "ServiceName",
+    min: [1, "You must have atleast one service"],
+  },
+  addedBy: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+  established: { type: String },
+  tagline: { type: String },
+  owner: { type: String, required: [true, "Service must have an owner"] },
+  addressLineOne: { type: String, required: [true, "Address is required"] },
+  addressLineTwo: { type: String },
+  state: { type: String, enum: StateUt },
+  phone: { type: Number, required: [true, "Phone number is required"] },
+  email: { type: String, required: [true, "Email is required"] },
 });
 
 export default mongoose.model<IService>("Service", serviceSchema);

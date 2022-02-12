@@ -1,11 +1,11 @@
-import SellerTable from "./SellerTable";
-import BuyerTable from "./BuyerTable";
+import UserTable from "./UserTable";
+import ServiceTable from "./ServiceTable";
 
 const AdminDashboard = () => {
   return (
     <>
-      <SellerTable />
-      <BuyerTable />
+      <UserTable />
+      <ServiceTable />
     </>
   );
 };
