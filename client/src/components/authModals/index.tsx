@@ -1,4 +1,5 @@
-import { useEffect, useMemo, useState } from "react";
+import React from "react";
+
 import CloseEl from "../atoms/Close";
 import { Signup, Login, Quotes, AdminLogin } from "./modals";
 
@@ -9,7 +10,7 @@ const AuthModals = ({
   trigger: string;
   setTrigger: any;
 }) => {
-  const initialState = useMemo(() => {
+  const initialState = React.useMemo(() => {
     return {
       adminLogin: false,
       userLogin: false,
@@ -18,8 +19,8 @@ const AuthModals = ({
     };
   }, []);
 
-  const [show, setShow] = useState(initialState);
-  useEffect(() => {
+  const [show, setShow] = React.useState(initialState);
+  React.useEffect(() => {
     switch (trigger) {
       case "admin":
         setShow({ ...initialState, adminLogin: true });

@@ -1,9 +1,13 @@
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
-import Home from "@material-ui/icons/Home";
 import ExitToApp from "@material-ui/icons/ExitToApp";
+import Home from "@material-ui/icons/Home";
 
-const Header = ({ username }: { username: string }) => {
+interface IProps {
+  username: string;
+}
+
+const Header = ({ username }: IProps) => {
   const handleLogout = () => {
     toast.success("Logged out successfully");
     toast.error("Logged out successfully");

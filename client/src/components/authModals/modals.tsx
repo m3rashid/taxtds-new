@@ -5,10 +5,10 @@ import Phone from "@material-ui/icons/Phone";
 
 import InputEl from "../atoms/Input";
 import ButtonEl from "../atoms/Button";
-import { useState } from "react";
+import React from "react";
 
 const Signup = () => {
-  const [data, setData] = useState({
+  const [data, setData] = React.useState({
     name: "",
     email: "",
     password: "",
@@ -65,7 +65,7 @@ const Signup = () => {
 };
 
 const Login = () => {
-  const [data, setData] = useState({
+  const [data, setData] = React.useState({
     email: "",
     password: "",
   });
@@ -104,7 +104,7 @@ const Login = () => {
 };
 
 const AdminLogin = () => {
-  const [data, setData] = useState({
+  const [data, setData] = React.useState({
     username: "",
     password: "",
   });
@@ -143,7 +143,7 @@ const AdminLogin = () => {
 };
 
 const Quotes = () => {
-  const [data, setData] = useState({
+  const [data, setData] = React.useState({
     org: "",
     email: "",
     phone: "",

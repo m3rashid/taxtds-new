@@ -1,5 +1,4 @@
 import Table from "./widgets/Table";
-// import ButtonEl from "../atoms/Button";
 
 const demoData = [
   {

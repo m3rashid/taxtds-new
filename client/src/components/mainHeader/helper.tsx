@@ -1,21 +1,20 @@
-import { MouseEventHandler } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React from "react";
 
 const TopLink = ({
   name,
-  icon,
+  Icon,
   callback,
 }: {
   name: string;
-  icon: any;
-  callback: MouseEventHandler;
+  Icon: any;
+  callback: React.MouseEventHandler;
 }) => {
   return (
     <div
       className="flex items-center gap-1 text-lightBgOne m-[5px] hover:text-accentTwo"
       onClick={callback}
     >
-      <FontAwesomeIcon icon={icon} />
+      {Icon}
       <p>{name}</p>
     </div>
   );

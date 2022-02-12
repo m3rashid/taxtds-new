@@ -1,4 +1,4 @@
-import { useState, ChangeEventHandler } from "react";
+import React from "react";
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
 
@@ -7,7 +7,7 @@ interface IInputElProps {
   type: string;
   name: string;
   value: string;
-  onChange: ChangeEventHandler;
+  onChange: React.ChangeEventHandler;
   placeholder: string;
 }
 
@@ -19,7 +19,7 @@ const InputEl = ({
   onChange,
   placeholder,
 }: IInputElProps) => {
-  const [passwordType, setpasswordType] = useState("password");
+  const [passwordType, setpasswordType] = React.useState("password");
   const showPassword = (e: any) => {
     if (passwordType === "password") {
       setpasswordType("text");

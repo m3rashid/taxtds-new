@@ -1,19 +1,16 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faSearch,
-  faUser,
-  faQuestionCircle,
-  faKey,
-  faSignInAlt,
-} from "@fortawesome/free-solid-svg-icons";
-import { useState } from "react";
+import React from "react";
+import Search from "@material-ui/icons/Search";
+import Person from "@material-ui/icons/Person";
+import Help from "@material-ui/icons/Help";
+import Lock from "@material-ui/icons/Lock";
+import VpnKey from "@material-ui/icons/VpnKey";
 
-import { data } from "./data";
+import data from "./data";
 import AuthModals from "../authModals";
 import { TopLink, Input } from "./helper";
 
 const Header = () => {
-  const [modalShow, setModalShow] = useState<string>("");
+  const [modalShow, setModalShow] = React.useState<string>("");
   const setModalTrigger = () => {
     setModalShow("");
   };
@@ -38,29 +35,29 @@ const Header = () => {
           </div>
 
           <button className="h-[30px] w-[40px] md:h-[40px] md:w-[60px] bg-accentTwo rounded-sm">
-            <FontAwesomeIcon style={{ width: "1.3rem" }} icon={faSearch} />
+            <Search />
           </button>
         </div>
 
         <div className="ml-0 md:ml-[50px] md:mt-[10px] lg:ml-[30px] xl:ml-[200px] cursor-pointer flex gap-2">
           <TopLink
             name="Quotes"
-            icon={faQuestionCircle}
+            Icon={<Help />}
             callback={() => setModalShow("quotes")}
           />
 
           {user ? (
-            <TopLink name="Profile" icon={faUser} callback={() => {}} />
+            <TopLink name="Profile" Icon={<Person />} callback={() => {}} />
           ) : (
             <>
               <TopLink
                 name="Login"
-                icon={faKey}
+                Icon={<VpnKey />}
                 callback={() => setModalShow("login")}
               />
               <TopLink
                 name="Signup"
-                icon={faSignInAlt}
+                Icon={<Lock />}
                 callback={() => setModalShow("signup")}
               />
             </>
