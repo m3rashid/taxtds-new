@@ -54,7 +54,7 @@ export interface IColumn {
 export interface ITableProps {
   columns: IColumn[];
   data: Array<IBuyer | ISeller>;
-  Title: JSX.Element;
+  Title: React.ReactElement;
 }
 
 const Table = ({ columns, data, Title }: ITableProps) => {
