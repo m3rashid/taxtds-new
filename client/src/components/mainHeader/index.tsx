@@ -3,7 +3,6 @@ import Search from "@material-ui/icons/Search";
 import Person from "@material-ui/icons/Person";
 import Help from "@material-ui/icons/Help";
 import Lock from "@material-ui/icons/Lock";
-import VpnKey from "@material-ui/icons/VpnKey";
 
 import data from "./data";
 import AuthModals from "../authModals";
@@ -19,7 +18,7 @@ const Header = () => {
   return (
     <header className="w-screen">
       <div className="bg-accentOne p-[5px] md:p-[10px] flex flex-col md:flex-row justify-center items-center">
-        <div className="flex-shrink flex flex-row mb-3 md:mb-0">
+        <div className="flex-shrink flex flex-row mt-2 md:mt-0 mb-3 md:mb-0">
           <Input
             classes="flex-shrink max-w-[150px] mr-[8px] md:mr-[20px] md:max-w-[250px]"
             placeholder="Search State"
@@ -39,7 +38,7 @@ const Header = () => {
           </button>
         </div>
 
-        <div className="ml-0 md:ml-[50px] md:mt-[10px] lg:ml-[30px] xl:ml-[200px] cursor-pointer flex gap-2">
+        <div className="ml-0 md:ml-[50px] md:mt-2 lg:ml-[30px] xl:ml-[200px] cursor-pointer flex gap-2">
           <TopLink
             name="Quotes"
             Icon={<Help />}
@@ -52,7 +51,7 @@ const Header = () => {
             <>
               <TopLink
                 name="Login"
-                Icon={<VpnKey />}
+                Icon={<Lock />}
                 callback={() => setModalShow("login")}
               />
               <TopLink

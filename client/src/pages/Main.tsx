@@ -43,12 +43,11 @@ const Main = () => {
   return (
     <>
       <Header />
-      <div className="flex flex-col md:flex-row">
-        <div className="mb-4">
-          {/* make the sidebar dropdown-able */}
+      <div className="flex flex-col md:flex-row max-w-[1400px] lg:min-w-[1200px] justify-center">
+        <div className="mb-4 mx-auto">
           <Sidebar />
         </div>
-        <div className="">
+        <div className="flex flex-col justify-start">
           {demoData.map((item) => {
             const { id, name, tagline, owner, avatar, state, phone, email } =
               item;

@@ -1,3 +1,6 @@
+import React from "react";
+import ArrowDropDownCircle from "@material-ui/icons/ArrowDropDownCircle";
+
 const services = [
   { name: "Registration Services" },
   { name: "Company Compliance" },
@@ -133,19 +136,28 @@ const services = [
 ];
 
 const Sidebar = () => {
+  const [open, setOpen] = React.useState<boolean>(true);
+
   return (
     <>
-      <ul className="list-none w-[94vw] md:w-[350px] h-full mr-0 md:mr-[20px] lg:mr-[40px] pb-[20px] rounded-b-md bg-[white]">
-        <li className="font-bold text-lg p-[15px] bg-accentOne text-[white] rounded-t-md mb-4">
-          Listed Services
+      <ul className="list-none w-[94vw] md:w-[350px] h-full mr-0 md:mr-[20px] lg:mr-[40px] pb-[20px] rounded-b-md bg-[white] shadow-md">
+        <li className="p-[15px] bg-accentOne text-[white] rounded-t-md mb-4 flex flex-row items-center justify-between">
+          <p className="font-bold text-lg hover:text-buttonSuccess">
+            Listed Services
+          </p>
+          <div className="md:hidden" onClick={() => setOpen(!open)}>
+            <ArrowDropDownCircle className="hover:text-accentTwo" />
+          </div>
         </li>
         {services.map(({ name }: { name: string }) => {
           return (
-            <li className="mx-[30px] mt-3 mb-2 md:mx-[10px] border-b border-darkBgOne">
-              {/* remove this to react Link */}
-              <a href="/" className="text-darkBgTwo hover:text-buttonDanger">
-                {name}
-              </a>
+            <li
+              className={`mx-[10px] px-[10px] my-1 py-1 text-accentOne font-semibold hover:text-buttonSuccess hover:bg-accentOne cursor-pointer rounded-md ${
+                !open && "hidden md:block"
+              }`}
+              onClick={() => {}}
+            >
+              {name}
             </li>
           );
         })}

@@ -2,6 +2,8 @@ import AlternateEmail from "@material-ui/icons/AlternateEmail";
 import VpnKey from "@material-ui/icons/VpnKey";
 import Person from "@material-ui/icons/Person";
 import Phone from "@material-ui/icons/Phone";
+import Help from "@material-ui/icons/Help";
+import Lock from "@material-ui/icons/Lock";
 
 import InputEl from "../atoms/Input";
 import ButtonEl from "../atoms/Button";
@@ -59,7 +61,7 @@ const Signup = () => {
         type="password"
         placeholder="Confirm password"
       />
-      <ButtonEl label="SignUp" callback={signupUser} />
+      <ButtonEl Icon={<Lock />} label="SignUp" callback={signupUser} />
     </>
   );
 };
@@ -98,7 +100,7 @@ const Login = () => {
         type="password"
         placeholder="Enter password"
       />
-      <ButtonEl label="Login" callback={loginUser} />
+      <ButtonEl Icon={<Lock />} label="Login" callback={loginUser} />
     </>
   );
 };
@@ -137,7 +139,7 @@ const AdminLogin = () => {
         type="password"
         placeholder="Admin password"
       />
-      <ButtonEl label="Admin Login" callback={loginAdmin} />
+      <ButtonEl Icon={<Lock />} label="Admin Login" callback={loginAdmin} />
     </>
   );
 };
@@ -191,10 +193,10 @@ const Quotes = () => {
         value={data.query}
         onChange={handleChange}
         rows={3}
-        className="rounded mb-3 px-2 py-1 w-full focus:outline-none  border-x-4 border-buttonDanger"
+        className="rounded mb-3 px-2 py-1 w-full focus:outline-none  border-x-4 border-accentTwo"
         placeholder="Enter your query to be asked"
       />
-      <ButtonEl label="Get Quotes" callback={getQuotes} />
+      <ButtonEl Icon={<Help />} label="Get Quotes" callback={getQuotes} />
     </>
   );
 };
