@@ -51,7 +51,7 @@ const columns = [
     field: "",
     sorting: false,
     render: () => (
-      <div className="flex flex-col md:flex-row gap-2 md:items-center justify-around">
+      <div className="flex flex-col md:flex-row gap-2 md:items-center justify-end">
         <Button
           textColor="text-accentOne"
           color="bg-buttonSuccess"

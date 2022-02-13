@@ -1,6 +1,6 @@
 import { config } from "dotenv";
 config();
-import express from "express";
+import express, { Request, Response } from "express";
 import mongoose from "mongoose";
 
 import { login, register } from "./handlers/authUser";
@@ -49,7 +49,7 @@ app.listen(port, async () => {
   app.use("/service", authRateLimiter, removeService);
   app.use("/service-name", authRateLimiter, serviceName);
 
-  app.all("/", (req: any, res: any) => {
+  app.all("*", (req: Request, res: Response) => {
     res.status(200).json({
       message: "This page does not exist",
     });

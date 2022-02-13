@@ -65,7 +65,7 @@ const columns = [
     render: (rowData: any) => {
       const { featured } = rowData;
       return (
-        <div className="flex flex-col md:flex-row gap-2 md:items-center justify-around">
+        <div className="flex flex-col md:flex-row gap-2 md:items-center justify-end">
           <Button
             textColor="text-accentOne"
             color="bg-buttonSuccess"

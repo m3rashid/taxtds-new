@@ -3,8 +3,14 @@ import { join } from "path";
 import { readFileSync } from "fs";
 import { IUser } from "../models/user";
 
-const privateKey = readFileSync(join(__dirname, "./keys/private.pem"), "utf8");
-const publicKey = readFileSync(join(__dirname, "./keys/public.pem"), "utf8");
+const privateKey = readFileSync(
+  join(__dirname, "../utils/keys/private.pem"),
+  "utf8"
+);
+const publicKey = readFileSync(
+  join(__dirname, "../utils/keys/public.pem"),
+  "utf8"
+);
 
 const issueJWT = (user: IUser) => {
   const expiresIn = "1d";

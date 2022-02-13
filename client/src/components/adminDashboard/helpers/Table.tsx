@@ -37,14 +37,22 @@ const tableIcons: Icons = {
   ViewColumn: React.forwardRef(() => <ViewColumn />),
 };
 
-export interface IBuyer {
+export interface IUser {
   name: string;
   email: string;
+  avatar?: string;
 }
 
-export interface ISeller extends IBuyer {
-  services: string | number;
+export interface IService extends IUser {
+  featured: boolean;
+  phone: string;
 }
+
+export interface IListedService {
+  name: string;
+}
+
+export interface IProfession extends IListedService {}
 
 export interface IColumn {
   title?: string;
@@ -53,7 +61,7 @@ export interface IColumn {
 
 export interface ITableProps {
   columns: IColumn[];
-  data: Array<IBuyer | ISeller>;
+  data: Array<IUser | IService | IListedService | IProfession>;
   Title: React.ReactElement;
 }
 

@@ -2,8 +2,8 @@ import express, { Request, Response, NextFunction } from "express";
 import Joi from "joi";
 const router = express.Router();
 
-import ServiceName from "../models/serviceName";
-import { resourceAbsent, internalServerError } from "./helpers";
+import ServiceName from "../../models/serviceName";
+import { resourceAbsent, internalServerError } from "../helpers";
 
 const serviceNameSchema = Joi.object({
   name: Joi.string().required(),
