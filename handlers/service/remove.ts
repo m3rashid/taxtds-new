@@ -2,18 +2,18 @@ import express, { Response, NextFunction } from "express";
 import Joi from "joi";
 const router = express.Router();
 
-import { internalServerError } from "./helpers";
-import checkAuth, { SecureRequest } from "../middlewares/jwt.auth";
+import { internalServerError } from "../helpers";
+import checkAuth, { SecureRequest } from "../../middlewares/jwt.auth";
 
-const editSchema = Joi.object({});
+const removeSchema = Joi.object({});
 
-const validateEditServiceRequest = async (
+const validateRemoveServiceRequest = async (
   req: SecureRequest,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    const value = await editSchema.validateAsync({
+    const value = await removeSchema.validateAsync({
       ...req.body,
     });
     // TODO validate according to its value
@@ -25,10 +25,12 @@ const validateEditServiceRequest = async (
 };
 
 router.post(
-  "/service/edit/:serviceId",
+  "/service/remove/:serviceId",
   checkAuth,
-  validateEditServiceRequest,
+  validateRemoveServiceRequest,
   (req: SecureRequest, res: Response) => {
     res.send("reached");
   }
 );
+
+export default router;

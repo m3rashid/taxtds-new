@@ -3,7 +3,18 @@ config();
 import express from "express";
 import mongoose from "mongoose";
 
-import register from "./handlers/auth.register";
+import { login, register } from "./handlers/authUser";
+import user from "./handlers/user";
+import professionName from "./handlers/professionName";
+import review from "./handlers/review";
+// TOD merge all these into one (make better file structure)
+import {
+  addService,
+  editService,
+  removeService,
+  serviceName,
+} from "./handlers/service";
+
 import { authRateLimiter, regularRateLimiter } from "./utils/rateLimiters";
 
 const connect = async () => {
@@ -26,9 +37,23 @@ app.use(express.json());
 const port = process.env.PORT || 3000;
 app.listen(port, async () => {
   await connect();
-  app.get("/", (req: any, res: any) => {
-    res.send("hello");
-  });
+
+  // refactor the routes
   app.use("/user", authRateLimiter, register);
-  console.log(`Server on: http://localhost:${port}`);
+  app.use("/user", authRateLimiter, login);
+  app.use("/user", regularRateLimiter, user);
+  app.use("/profession-name", regularRateLimiter, professionName);
+  app.use("/review", regularRateLimiter, review);
+  app.use("/service", authRateLimiter, addService);
+  app.use("/service", authRateLimiter, editService);
+  app.use("/service", authRateLimiter, removeService);
+  app.use("/service-name", authRateLimiter, serviceName);
+
+  app.all("/", (req: any, res: any) => {
+    res.status(200).json({
+      message: "This page does not exist",
+    });
+  });
+
+  console.log(`Server ready on: http://localhost:${port}`);
 });

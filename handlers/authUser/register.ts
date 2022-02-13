@@ -2,7 +2,7 @@ import express, { Request, Response, NextFunction } from "express";
 import Joi from "joi";
 const router = express.Router();
 
-import { internalServerError, notFound } from "./helpers";
+import { internalServerError, notFound } from "../helpers";
 
 const registerOneSchema = Joi.object({
   email: Joi.string().email().required(),

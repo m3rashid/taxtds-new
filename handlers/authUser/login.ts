@@ -2,7 +2,7 @@ import express, { Request, Response, NextFunction } from "express";
 import Joi from "joi";
 const router = express.Router();
 
-import { resourceAbsent } from "./helpers";
+import { resourceAbsent } from "../helpers";
 
 const loginSchema = Joi.object({
   email: Joi.string().email().required(),

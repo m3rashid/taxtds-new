@@ -35,3 +35,5 @@ router.get("/user", checkAuth, async (req: SecureRequest, res: Response) => {
     });
   }
 });
+
+export default router;
