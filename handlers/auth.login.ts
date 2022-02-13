@@ -29,3 +29,5 @@ const validateLoginRequest = async (
 router.post("/login", validateLoginRequest, (req: Request, res: Response) => {
   res.send("reached");
 });
+
+export default router;

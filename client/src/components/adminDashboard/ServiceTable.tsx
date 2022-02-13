@@ -8,6 +8,7 @@ const demoData = [
     name: "Service 1",
     phone: "1234567890",
     email: "user@user.com",
+    featured: true,
   },
   {
     id: 2,
@@ -15,6 +16,7 @@ const demoData = [
     name: "Service 2",
     phone: "1234567890",
     email: "user@user.com",
+    featured: true,
   },
   {
     id: 3,
@@ -22,6 +24,7 @@ const demoData = [
     name: "Service 3",
     phone: "1234567890",
     email: "user@user.com",
+    featured: false,
   },
   {
     id: 4,
@@ -29,6 +32,7 @@ const demoData = [
     name: "Service 4",
     phone: "1234567890",
     email: "user@user.com",
+    featured: false,
   },
   {
     id: 5,
@@ -36,6 +40,7 @@ const demoData = [
     name: "Service 5",
     phone: "1234567890",
     email: "user@user.com",
+    featured: true,
   },
 ];
 
@@ -44,6 +49,7 @@ const columns = [
     title: "",
     field: "avatar",
     sorting: false,
+    cellStyle: { width: "4.5rem" },
     render: ({ avatar }: { avatar: string }) => (
       <ProfilePhoto avatar={avatar} />
     ),
@@ -55,22 +61,28 @@ const columns = [
     title: "Actions",
     field: "",
     sorting: false,
-    render: () => (
-      <div className="flex flex-col md:flex-row gap-2 md:items-center justify-around">
-        <Button
-          color="bg-buttonDanger"
-          label="Delete Service"
-          onClick={() => {}}
-        />
-        <Button
-          textColor="text-accentOne"
-          color="bg-buttonSuccess"
-          label="Contact"
-          onClick={() => {}}
-        />
-        <Button color="bg-accentOne" label="Show Details" onClick={() => {}} />
-      </div>
-    ),
+    // TODO make interfaces of row data
+    render: (rowData: any) => {
+      const { featured } = rowData;
+      return (
+        <div className="flex flex-col md:flex-row gap-2 md:items-center justify-around">
+          <Button
+            textColor="text-accentOne"
+            color="bg-buttonSuccess"
+            label="Email"
+            onClick={() => {}}
+          />
+          <Button
+            textColor={!featured ? "text-accentOne" : ""}
+            color={!featured ? "bg-buttonSuccess" : "bg-buttonDanger"}
+            label={featured ? "UnFeature" : "Feature"}
+            onClick={() => {}}
+          />
+          <Button color="bg-accentOne" label="Details" onClick={() => {}} />
+          <Button color="bg-buttonDanger" label="Delete" onClick={() => {}} />
+        </div>
+      );
+    },
   },
 ];
 

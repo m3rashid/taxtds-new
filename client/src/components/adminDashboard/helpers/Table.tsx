@@ -74,7 +74,6 @@ const Table = ({ columns, data, Title }: ITableProps) => {
             top: 0,
             color: "#FFFFFF",
             fontWeight: "bold",
-            textAlign: "center",
           },
           rowStyle: (_: any, index: number) => {
             if (index % 2) {

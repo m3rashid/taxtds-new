@@ -39,6 +39,7 @@ const columns = [
     title: "",
     field: "avatar",
     sorting: false,
+    cellStyle: { width: "4.5rem" },
     render: ({ avatar }: { avatar?: string }) => (
       <ProfilePhoto avatar={avatar} />
     ),
@@ -52,17 +53,13 @@ const columns = [
     render: () => (
       <div className="flex flex-col md:flex-row gap-2 md:items-center justify-around">
         <Button
-          color="bg-buttonDanger"
-          label="Delete User"
-          onClick={() => {}}
-        />
-        <Button
           textColor="text-accentOne"
           color="bg-buttonSuccess"
-          label="Contact"
+          label="Email"
           onClick={() => {}}
         />
-        <Button color="bg-accentOne" label="Show Services" onClick={() => {}} />
+        <Button color="bg-buttonDanger" label="Delete" onClick={() => {}} />
+        <Button color="bg-accentOne" label="Services" onClick={() => {}} />
       </div>
     ),
   },

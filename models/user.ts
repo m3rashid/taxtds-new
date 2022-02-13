@@ -53,7 +53,7 @@ export interface IUser {
   state: string;
   avatar: string;
   professions: any;
-  disabled?: boolean;
+  deleted?: boolean;
   createdAt?: any;
   updatedAt?: any;
 }
@@ -71,7 +71,7 @@ const userSchema = new mongoose.Schema(
     state: { type: String, enum: StateUt },
     avatar: { type: String },
     professions: { type: [mongoose.Schema.Types.ObjectId], ref: "Profession" },
-    disabled: { type: Boolean, default: false },
+    deleted: { type: Boolean, default: false },
   },
   { timestamps: true }
 );

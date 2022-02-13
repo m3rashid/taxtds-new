@@ -13,7 +13,12 @@ export interface IReview {
 const reviewSchema = new mongoose.Schema(
   {
     name: { type: String, default: "Anonymous" },
-    rating: { type: Number, required: [true, "Rating is required"] },
+    rating: {
+      type: Number,
+      required: [true, "Rating is required"],
+      min: 0,
+      max: 10,
+    },
     comment: { type: String },
     service: { type: mongoose.Schema.Types.ObjectId, ref: "Service" },
   },
