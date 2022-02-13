@@ -19,23 +19,23 @@ const demoData = [
     id: 2,
     name: "Rashid sdflasdjfklasd",
     tagline: "jsdfl asdflaksdfa sldkad",
-    avatar: "/images/carousel/1.jpg",
+    avatar: "/images/carousel/2.jpg",
     owner: "Rashid",
     state: "delhi",
     phone: "4952903453",
     email: "user@wwamil.com",
-    featured: false,
+    featured: true,
   },
   {
     id: 3,
     name: "Rashid slkdjfals dflkj",
     tagline: "jsdfl asdflaksdfa sldkad",
-    avatar: "/images/carousel/1.jpg",
+    avatar: "/images/carousel/3.jpg",
     owner: "Rashid",
     state: "delhi",
     phone: "4952903453",
     email: "user@wwamil.com",
-    featured: false,
+    featured: true,
   },
 ];
 
@@ -43,15 +43,24 @@ const Main = () => {
   return (
     <>
       <Header />
-      <div className="flex flex-col md:flex-row max-w-[1400px] lg:min-w-[1200px] justify-center">
-        <div className="mb-4 mx-auto">
+      <div className="flex flex-col md:flex-row max-w-[1400px] lg:min-w-[1200px] justify-center items-start mb-4">
+        <div className="mb-4 md:mb-0 flex justify-center">
           <Sidebar />
         </div>
-        <div className="flex flex-col justify-start">
-          {demoData.map((item) => {
-            const { id, name, tagline, owner, avatar, state, phone, email } =
-              item;
-            return (
+        <div className="flex flex-col items-center gap-4">
+          {/* TODO show the featured services at the top */}
+          {demoData.map(
+            ({
+              id,
+              name,
+              tagline,
+              owner,
+              avatar,
+              state,
+              phone,
+              email,
+              featured,
+            }) => (
               <Card
                 key={id}
                 name={name}
@@ -61,9 +70,10 @@ const Main = () => {
                 state={state}
                 phone={phone}
                 email={email}
+                featured={featured}
               />
-            );
-          })}
+            )
+          )}
         </div>
       </div>
       <Footer />

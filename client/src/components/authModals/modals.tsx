@@ -193,7 +193,7 @@ const Quotes = () => {
         value={data.query}
         onChange={handleChange}
         rows={3}
-        className="rounded mb-3 px-2 py-1 w-full focus:outline-none  border-x-4 border-accentTwo"
+        className="rounded mb-3 px-2 py-1 w-full focus:outline-none  border-x-4 border-buttonSuccess"
         placeholder="Enter your query to be asked"
       />
       <ButtonEl Icon={<Help />} label="Get Quotes" callback={getQuotes} />

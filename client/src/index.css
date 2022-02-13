@@ -24,11 +24,11 @@
   font-weight: 500;
 }
 *::-moz-selection {
-  background-color: #f3de68;
+  background-color: #fdf2d4;
   color: black;
 }
 *::selection {
-  background-color: #f3de68;
+  background-color: #fdf2d4;
   color: black;
 }
 
@@ -47,6 +47,12 @@ body::-webkit-scrollbar-thumb:hover {
 }
 body::-webkit-scrollbar {
   width: 10px;
+}
+
+@media (max-width: 768px) {
+  body::-webkit-scrollbar {
+    width: 0;
+  }
 }
 
 @keyframes carousel {

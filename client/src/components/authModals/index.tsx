@@ -51,8 +51,8 @@ const AuthModals = ({
 
   return (
     <>
-      <div className="fixed top-0 left-0 right-0 bottom-0 overflow-hidden bg-accentOne opacity-70"></div>
-      <div className="absolute top-[50%] -translate-y-[50%] left-[50%] -translate-x-[50%] w-full flex items-center justify-center">
+      <div className="fixed top-0 left-0 right-0 bottom-0 overflow-hidden bg-accentOne opacity-70 z-10"></div>
+      <div className="absolute top-[50%] -translate-y-[50%] left-[50%] -translate-x-[50%] w-full flex items-center justify-center  z-50">
         <div className="bg-accentTwo rounded-md z-100 px-[15px] py-[25px] md:px-[25px] md:py-[35px] flex flex-col items-end">
           <CloseEl callback={closeCurrent} />
           <div className="flex flex-col items-center bg-accentOne rounded-md px-[15px] pb-[25px] md:px-[25px] md:pb-[35px]">

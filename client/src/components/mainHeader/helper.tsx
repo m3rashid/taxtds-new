@@ -11,7 +11,7 @@ const TopLink = ({
 }) => {
   return (
     <div
-      className="flex items-center gap-1 text-lightBgOne m-[5px] hover:text-buttonSuccess"
+      className="flex items-center gap-1 text-lightBgOne m-[5px] hover:text-lightHover"
       onClick={callback}
     >
       {Icon}

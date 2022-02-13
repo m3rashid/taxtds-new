@@ -149,10 +149,12 @@ const Sidebar = () => {
             <ArrowDropDownCircle className="hover:text-accentTwo" />
           </div>
         </li>
-        {services.map(({ name }: { name: string }) => {
+        {services.map(({ name }: { name: string }, index: number) => {
+          // made id as the key
           return (
             <li
-              className={`mx-[10px] px-[10px] my-1 py-1 text-accentOne font-semibold hover:text-buttonSuccess hover:bg-accentOne cursor-pointer rounded-md ${
+              key={index}
+              className={`mx-[10px] px-[10px] my-1 py-1 text-accentOne font-semibold hover:bg-lightHover hover:font-bold cursor-pointer rounded-md ${
                 !open && "hidden md:block"
               }`}
               onClick={() => {}}

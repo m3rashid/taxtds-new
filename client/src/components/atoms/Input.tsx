@@ -30,7 +30,7 @@ const InputEl = ({
 
   return (
     <div
-      className={`flex flex-row items-center w-full border-x-4 border-accentTwo bg-[white] mb-[15px] pl-[8px] h-[35px] rounded`}
+      className={`flex flex-row items-center w-full border-x-4 border-buttonSuccess bg-[white] mb-[15px] pl-[8px] h-[35px] rounded`}
     >
       {Icon}
       <input

@@ -5,8 +5,8 @@ module.exports = {
       accentOne: "#141F31",
       accentTwo: "#D5EBF5",
 
-      buttonDanger: "#FF3300",
-      buttonSuccess: "#4ade80",
+      buttonDanger: "#ff5c33",
+      buttonSuccess: "#53df86",
       buttonOther: "#141F31",
       // buttonWarning: "",
       // buttonSuccess: "",
@@ -21,7 +21,7 @@ module.exports = {
       darkFgOne: "#f5f5f5",
       darkFgTwo: "#616161",
 
-      lightHover: "#FDF2D4",
+      lightHover: "#fdf2d4",
       darkHover: "#757575",
     },
     extend: {},

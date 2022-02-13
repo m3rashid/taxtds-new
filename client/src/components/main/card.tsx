@@ -2,6 +2,7 @@ import Email from "@material-ui/icons/Email";
 import Phone from "@material-ui/icons/Phone";
 import RateReview from "@material-ui/icons/RateReview";
 import AttachMoney from "@material-ui/icons/AttachMoney";
+import Info from "@material-ui/icons/Info";
 
 import ButtonEl from "../atoms/Button";
 
@@ -13,6 +14,7 @@ interface IProps {
   state: string;
   phone: string;
   email: string;
+  featured: boolean;
 }
 
 const Card = ({
@@ -23,10 +25,16 @@ const Card = ({
   state,
   phone,
   email,
+  featured,
 }: IProps) => {
   return (
     <>
-      <div className="bg-[white] hover:bg-accentTwo md:min-w-[350px] lg:min-w-[520px] rounded-md mb-[30px] p-[20px] shadow-md">
+      <div className="bg-[white] hover:bg-lightHover w-[94vw] md:w-auto md:min-w-[350px] lg:min-w-[520px] rounded-md p-[20px] shadow-md relative overflow-hidden">
+        {featured && (
+          <div className="absolute top-6 -right-10 h-10 w-[165px] bg-accentOne text-[white] rotate-45 flex items-center justify-center font-bold">
+            Featured
+          </div>
+        )}
         <div className="mb-3">
           <h3 className="text-2xl lg:text-3xl font-bold">{name}</h3>
           <p className="ml-4"> ~ {tagline}</p>
@@ -50,7 +58,13 @@ const Card = ({
             </p>
           </div>
         </div>
-        <div className="flex flex-row gap-2">
+        <div className="flex flex-row gap-2 flex-wrap">
+          <ButtonEl
+            bgColor="bg-accentTwo"
+            Icon={<Info />}
+            label="Show Details"
+            callback={() => {}}
+          />
           <ButtonEl Icon={<Phone />} label="Call Now" callback={() => {}} />
           <ButtonEl
             Icon={<RateReview />}
@@ -59,6 +73,8 @@ const Card = ({
           />
           <ButtonEl
             Icon={<AttachMoney />}
+            bgColor="bg-buttonDanger"
+            textColor="text-[white]"
             label="Get Quotes"
             callback={() => {}}
           />
