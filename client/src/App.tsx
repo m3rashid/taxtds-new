@@ -10,6 +10,7 @@ import {
 import Main from "./pages/Main";
 import User from "./pages/User";
 import Admin from "./pages/Admin";
+import ServiceDetail from "./pages/ServiceDetail";
 import NotFound from "./pages/NotFound";
 
 const App = () => {
@@ -33,6 +34,7 @@ const App = () => {
           <Route path="/" element={<Main />} />
           <Route path="/user" element={<User />} />
           <Route path="/admin" element={<Admin />} />
+          <Route path="/service/:id" element={<ServiceDetail />} />
           {/* <Route path="/" element={} /> */}
           <Route path="*" element={<NotFound />} />
         </Routes>

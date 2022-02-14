@@ -8,12 +8,16 @@ interface IInputElProps {
   name: string;
   value: string;
   onChange: React.ChangeEventHandler;
-  placeholder: string;
+  min?: number;
+  max?: number;
+  placeholder?: string;
 }
 
 const InputEl = ({
   Icon,
   type,
+  min,
+  max,
   name,
   value,
   onChange,
@@ -30,17 +34,20 @@ const InputEl = ({
 
   return (
     <div
-      className={`flex flex-row items-center w-full border-x-4 border-buttonSuccess bg-[white] mb-[15px] pl-[8px] h-[35px] rounded`}
+      className={`flex flex-row items-center w-full border-x-4 border-buttonSuccess bg-[white] mb-[15px] pl-[8px] h-[35px] rounded shadow-md`}
     >
       {Icon}
       <input
         name={name}
+        min={min}
+        max={max}
         onChange={onChange}
         type={type === "password" ? passwordType : type}
         className={`h-[35px] pl-[10px] w-full focus:outline-none ${
           type !== "password" ? "rounded-r" : ""
         }`}
         placeholder={placeholder}
+        value={value}
       />
       {type === "password" ? (
         passwordType === "password" ? (

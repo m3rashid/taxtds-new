@@ -4,6 +4,8 @@ import Header from "../components/mainHeader";
 import Footer from "../components/mainFooter";
 
 const NotFound = () => {
+  // TODO handle OG tags
+  document.title = "Taxtds - 404 Not Found";
   return (
     <>
       <Header />

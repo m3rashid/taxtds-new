@@ -40,6 +40,8 @@ const demoData = [
 ];
 
 const Main = () => {
+  // handle OG tags
+  document.title = "Taxtds - Home";
   return (
     <>
       <Header />
