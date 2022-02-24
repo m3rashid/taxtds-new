@@ -64,6 +64,7 @@ const Main = () => {
               featured,
             }) => (
               <Card
+                id={id}
                 key={id}
                 name={name}
                 tagline={tagline}

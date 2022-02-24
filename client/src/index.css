@@ -36,16 +36,16 @@ body {
   background-color: #ebebeb;
   overflow-x: hidden;
 }
-body::-webkit-scrollbar-track {
+*::-webkit-scrollbar-track {
   background: #ebebeb;
 }
-body::-webkit-scrollbar-thumb {
+*::-webkit-scrollbar-thumb {
   background: #bebebe;
 }
-body::-webkit-scrollbar-thumb:hover {
+*::-webkit-scrollbar-thumb:hover {
   background: #797979;
 }
-body::-webkit-scrollbar {
+*::-webkit-scrollbar {
   width: 10px;
 }
 

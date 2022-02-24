@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-export interface IServiceName {
+export interface IServiceName extends mongoose.Document {
   _id?: string;
   name: string;
   createdAt?: any;

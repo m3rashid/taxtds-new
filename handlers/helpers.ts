@@ -28,45 +28,14 @@ export const resourceAbsent = (res: Response) => {
   });
 };
 
-const responses = (data: any, err: boolean) => {
-  return {
-    data: data,
-    err: err,
-  };
+export const alreadyPresent = (res: Response) => {
+  return res.status(400).json({
+    message: "Resource already exists",
+  });
 };
 
-export const findUserByEmail = async (email: string) => {
-  try {
-    const user = await User.findOne({ email: email });
-    if (!user) {
-      return responses(user, true);
-    }
-    return responses(user, false);
-  } catch (err) {
-    return responses(false, true);
-  }
-};
-
-export const findServiceById = async (id: string) => {
-  try {
-    const service = await Service.findById(id);
-    if (!service) {
-      return responses(service, true);
-    }
-    return responses(service, false);
-  } catch (err) {
-    return responses(false, true);
-  }
-};
-
-export const findOtpByEmail = async (email: string) => {
-  try {
-    const otp = await Otp.find({ email: email });
-    if (!otp) {
-      return responses(otp, true);
-    }
-    return responses(otp, false);
-  } catch (err) {
-    return responses(false, true);
-  }
+export const invalidData = (res: Response) => {
+  return res.status(400).json({
+    message: "Invalid data",
+  });
 };

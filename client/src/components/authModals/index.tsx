@@ -1,7 +1,10 @@
 import React from "react";
 
 import CloseEl from "../atoms/Close";
-import { Signup, Login, Quotes, AdminLogin } from "./modals";
+import Login from "./login";
+import Signup from "./signup";
+import AdminLogin from "./adminLogin";
+import Quotes from "./quotes";
 
 const AuthModals = ({
   trigger,

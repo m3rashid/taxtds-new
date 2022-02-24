@@ -34,7 +34,7 @@ const InputEl = ({
 
   return (
     <div
-      className={`flex flex-row items-center w-full border-x-4 border-buttonSuccess bg-[white] mb-[15px] pl-[8px] h-[35px] rounded shadow-md`}
+      className={`flex flex-row items-center w-full border-x-4 border-buttonSuccess bg-[white] mb-[15px] pl-[8px] h-[35px] rounded-md shadow-md`}
     >
       {Icon}
       <input

@@ -40,9 +40,8 @@ export const StateUt = [
   "Puducherry",
 ];
 
-export interface IUser {
+export interface IUser extends mongoose.Document {
   _id?: string;
-  username: string;
   email: string;
   password: string;
   phone: number;
@@ -60,7 +59,6 @@ export interface IUser {
 
 const userSchema = new mongoose.Schema(
   {
-    username: { type: String, trim: [true, "username is requierd"] },
     email: { type: String, required: [true, "Email is required"] },
     password: { type: String },
     phone: { type: Number, required: [true, "Phone number is required"] },

@@ -2,7 +2,10 @@ import express, { Request, Response, NextFunction } from "express";
 import Joi from "joi";
 const router = express.Router();
 
-import { resourceAbsent } from "../helpers";
+import { invalidData, resourceAbsent } from "../helpers";
+import User from "../../models/user";
+import { issueJWT } from "../../middlewares/jwt";
+import { comparePassword } from "../../utils/auth";
 
 const loginSchema = Joi.object({
   email: Joi.string().email().required(),
@@ -15,19 +18,33 @@ const validateLoginRequest = async (
   next: NextFunction
 ) => {
   try {
-    const value = await loginSchema.validateAsync({
-      ...req.body,
-    });
-    // TODO validate according to its value
-    console.log(value);
+    const value = await loginSchema.validateAsync({ ...req.body });
     next();
   } catch (err) {
     return resourceAbsent(res);
   }
 };
 
-router.post("/login", validateLoginRequest, (req: Request, res: Response) => {
-  res.send("reached");
-});
+router.post(
+  "/login",
+  validateLoginRequest,
+  async (req: Request, res: Response) => {
+    const { email, password } = req.body;
+    try {
+      const newUser = await User.findOne({ email });
+      if (!newUser) {
+        return resourceAbsent(res);
+      }
+      const match = comparePassword(password, newUser.password);
+      if (!match) {
+        return invalidData(res);
+      }
+      const { token, expires } = issueJWT(newUser);
+      return res.status(200).json({ token, expires, user: newUser });
+    } catch (err) {
+      return resourceAbsent(res);
+    }
+  }
+);
 
 export default router;

@@ -1,22 +1,17 @@
 import bcrypt from "bcrypt";
-const saltRounds = 10;
 
-const hashPassword = (password: string) => {
-  bcrypt.hash(password, saltRounds, (err, hash) => {
-    if (err || !hash) {
-      return new Error();
-    }
-    return hash;
-  });
+// @ts-ignore
+const saltRounds = parseInt(process.env.SALT_ROUNDS);
+
+const hashPassword = async (password: string) => {
+  const salt = await bcrypt.genSalt(saltRounds);
+  const hash = await bcrypt.hash(password, salt);
+  return hash;
 };
 
-const comparePassword = (password: string, hash: string) => {
-  bcrypt.compare(password, hash, (err, result) => {
-    if (err) {
-      return new Error();
-    }
-    return result;
-  });
+const comparePassword = async (password: string, hash: string) => {
+  const match = await bcrypt.compare(password, hash);
+  return match;
 };
 
 export { hashPassword, comparePassword };

@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-export interface IOtp {
+export interface IOtp extends mongoose.Document {
   _id?: string;
   email: string;
   otp: number;

@@ -8,7 +8,7 @@ export interface IReview {
   comment: string;
 }
 
-export interface IService {
+export interface IService extends mongoose.Document {
   _id?: string;
   brandName: string;
   avatar: string;

@@ -5,8 +5,26 @@ import AttachMoney from "@material-ui/icons/AttachMoney";
 import Info from "@material-ui/icons/Info";
 
 import ButtonEl from "../atoms/Button";
+import ButtonLink from "../atoms/ButtonLink";
+
+const Tag = ({
+  label = "featured",
+  bgColor = "bg-accentOne",
+  textColor = "text-[white]",
+}) => {
+  return (
+    <>
+      <div
+        className={`absolute top-6 -right-10 h-10 w-[165px] ${bgColor} ${textColor} rotate-45 flex items-center justify-center font-bold`}
+      >
+        {label}
+      </div>
+    </>
+  );
+};
 
 interface IProps {
+  id: string | number;
   name: string;
   tagline: string;
   owner: string;
@@ -18,6 +36,7 @@ interface IProps {
 }
 
 const Card = ({
+  id,
   name,
   tagline,
   owner,
@@ -30,11 +49,7 @@ const Card = ({
   return (
     <>
       <div className="bg-[white] hover:bg-lightHover w-[94vw] md:w-auto md:min-w-[350px] lg:min-w-[520px] rounded-md p-[20px] shadow-md relative overflow-hidden">
-        {featured && (
-          <div className="absolute top-6 -right-10 h-10 w-[165px] bg-accentOne text-[white] rotate-45 flex items-center justify-center font-bold">
-            Featured
-          </div>
-        )}
+        {featured && <Tag />}
         <div className="mb-3">
           <h3 className="text-2xl lg:text-3xl font-bold">{name}</h3>
           <p className="ml-4"> ~ {tagline}</p>
@@ -59,11 +74,11 @@ const Card = ({
           </div>
         </div>
         <div className="flex flex-row gap-2 flex-wrap">
-          <ButtonEl
+          <ButtonLink
             bgColor="bg-accentTwo"
             Icon={<Info />}
             label="Show Details"
-            callback={() => {}}
+            to={`/service/${id}`}
           />
           <ButtonEl Icon={<Phone />} label="Call Now" callback={() => {}} />
           <ButtonEl

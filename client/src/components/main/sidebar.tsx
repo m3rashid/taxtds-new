@@ -140,7 +140,7 @@ const Sidebar = () => {
 
   return (
     <>
-      <ul className="list-none w-[94vw] md:w-[350px] h-full mr-0 md:mr-[20px] lg:mr-[40px] pb-[20px] rounded-b-md bg-[white] shadow-md">
+      <ul className="list-none w-[94vw] md:w-[350px] h-full mr-0 md:mr-[20px] lg:mr-[40px] pb-[20px] rounded-b-md bg-[white] rounded-md shadow-md">
         <li className="p-[15px] bg-accentOne text-[white] rounded-t-md mb-4 flex flex-row items-center justify-between">
           <p className="font-bold text-lg hover:text-buttonSuccess">
             Listed Services

@@ -60,8 +60,8 @@ const ServiceDetail = () => {
         person={false}
       />
       <div className="slideshow"></div>
-      <div className="min-h-[25vh] grid grid-cols-1 md:grid-cols-2 gap-[30px] mb-8">
-        <div className="left">
+      <div className="min-h-[25vh] grid grid-cols-1 md:grid-cols-2 gap-[30px] mb-8 max-w-[1400px]">
+        <div className="p-[10px] md:p-[15px]">
           <div className="max-w-[600px] mb-[15px] p-0 shadow-md">
             <img
               className="w-full rounded-md"
@@ -120,7 +120,7 @@ const ServiceDetail = () => {
         </div>
       </div>
       <div className="min-h-[25vh] grid gap-[10px] grid-cols-1 md:grid-cols-2">
-        <div className="">
+        <div className="order-last md:order-none">
           <h2 className="text-center text-2xl font-bold">
             Reviews from customers
           </h2>

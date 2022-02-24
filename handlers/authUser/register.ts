@@ -2,7 +2,16 @@ import express, { Request, Response, NextFunction } from "express";
 import Joi from "joi";
 const router = express.Router();
 
-import { internalServerError, notFound } from "../helpers";
+import {
+  internalServerError,
+  notFound,
+  alreadyPresent,
+  invalidData,
+} from "../helpers";
+import Otp from "../../models/otp";
+import User from "../../models/user";
+import { hashPassword } from "../../utils/auth";
+import { issueJWT } from "../../middlewares/jwt";
 
 const registerOneSchema = Joi.object({
   email: Joi.string().email().required(),
@@ -14,10 +23,7 @@ const validateRegisterOneRequest = async (
   next: NextFunction
 ) => {
   try {
-    const value = await registerOneSchema.validateAsync({
-      ...req.body,
-    });
-    console.log(value);
+    await registerOneSchema.validateAsync({ ...req.body });
     next();
   } catch (err) {
     return notFound(res);
@@ -28,10 +34,34 @@ router.post(
   "/register-one",
   validateRegisterOneRequest,
   async (req: Request, res: Response) => {
-    const otp = Math.floor(100000 + Math.random() * 900000);
     const { email } = req.body;
-    console.log("reached");
-    res.status(200).json({ email: email, otp: otp });
+    try {
+      const user = await User.findOne({ email });
+      if (user) {
+        return alreadyPresent(res);
+      }
+      let otpToSend: number, emailToSend: string;
+      const savedOtp = await Otp.findOne({ email });
+      if (savedOtp) {
+        // send the same otp to the user
+        otpToSend = savedOtp.otp;
+        emailToSend = savedOtp.email;
+      } else {
+        const dbOtp = new Otp({
+          email,
+          otp: Math.floor(100000 + Math.random() * 900000),
+        });
+        await dbOtp.save();
+        otpToSend = dbOtp.otp;
+        emailToSend = dbOtp.email;
+      }
+      // send mail to the user with the OTP
+      // TODO send mail
+      console.log(emailToSend, otpToSend);
+      return res.send(200);
+    } catch (err) {
+      return internalServerError(res);
+    }
   }
 );
 
@@ -39,6 +69,14 @@ const registerTwoSchema = Joi.object({
   email: Joi.string().email().required(),
   name: Joi.string().min(3).max(30).required(),
   otp: Joi.number().integer().min(0).max(999999).required(),
+  phone: Joi.string().min(6).max(13).required(),
+  experience: Joi.number().min(0).max(100),
+  addressLineOne: Joi.string().min(3).max(50).required(),
+  addressLineTwo: Joi.string().min(3).max(50),
+  state: Joi.string().min(3).max(30).required(),
+  // get avatar from some secure source
+  avatar: Joi.binary().encoding("base64"),
+  professions: Joi.array().items(Joi.string()),
   password: Joi.string(),
   confirmPassword: Joi.ref("password"),
 }).with("password", "confirmPassword");
@@ -49,9 +87,7 @@ const validateRegisterTwoRequest = async (
   next: NextFunction
 ) => {
   try {
-    await registerTwoSchema.validateAsync({
-      ...req.body,
-    });
+    await registerTwoSchema.validateAsync({ ...req.body });
     next();
   } catch (err) {
     return notFound(res);
@@ -62,7 +98,48 @@ router.post(
   "/register-two",
   validateRegisterTwoRequest,
   async (req: Request, res: Response) => {
-    res.send("reached");
+    const {
+      email,
+      name,
+      otp,
+      phone,
+      experience,
+      addressLineOne,
+      addressLineTwo,
+      state,
+      professions,
+      password,
+    } = req.body;
+    try {
+      const dbOtp = await Otp.findOne({ email, otp });
+      if (!dbOtp || otp !== dbOtp.otp) {
+        return invalidData(res);
+      }
+      const user = await User.findOne({ email });
+      if (user) {
+        return alreadyPresent(res);
+      }
+
+      const hash = await hashPassword(password);
+      const newUser = new User({
+        email,
+        name,
+        phone,
+        experience,
+        addressLineOne,
+        addressLineTwo,
+        state,
+        professions,
+        password: hash,
+      });
+      await newUser.save();
+      const { token, expires } = issueJWT(newUser);
+      res.status(200).json({ token, expires, user: newUser });
+
+      return res.send(200);
+    } catch (err) {
+      return internalServerError(res);
+    }
   }
 );
 
