@@ -82,11 +82,6 @@ const Card = ({
           />
           <ButtonEl Icon={<Phone />} label="Call Now" callback={() => {}} />
           <ButtonEl
-            Icon={<RateReview />}
-            label="Write Review"
-            callback={() => {}}
-          />
-          <ButtonEl
             Icon={<AttachMoney />}
             bgColor="bg-buttonDanger"
             textColor="text-[white]"

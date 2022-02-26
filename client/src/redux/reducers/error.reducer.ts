@@ -10,7 +10,6 @@ const errorReducer = (state = initialState, action: any) => {
   switch (action.type) {
     case GET_ERRORS:
       // TODO only for dev purposes
-      console.log(action.payload);
       return {
         msg: action.payload.msg.message,
         status: action.payload.status,

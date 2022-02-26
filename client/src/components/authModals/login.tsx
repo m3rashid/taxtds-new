@@ -1,10 +1,12 @@
 import VpnKey from "@material-ui/icons/VpnKey";
 import Person from "@material-ui/icons/Person";
 import Lock from "@material-ui/icons/Lock";
+import { useDispatch } from "react-redux";
 
 import InputEl from "../atoms/Input";
 import ButtonEl from "../atoms/Button";
 import React from "react";
+import { login } from "../../redux/actions/auth.action";
 
 const Login = () => {
   const [data, setData] = React.useState({
@@ -20,7 +22,10 @@ const Login = () => {
     }));
   };
 
-  const loginUser = () => {};
+  const dispatch = useDispatch();
+  const loginUser = () => {
+    dispatch(login(data));
+  };
 
   return (
     <>

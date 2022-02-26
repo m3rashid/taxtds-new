@@ -1,4 +1,5 @@
 import axios from "axios";
+import { toast } from "react-toastify";
 
 import {
   REGISTER_ONE_SUCCESS,
@@ -16,38 +17,71 @@ import { configContentType } from "../../constants/config";
 import { userLoading } from "../auth.action";
 import { returnErrors } from "../error.action";
 
+export const registerOneAlreadyDone =
+  (success: boolean) => (dispatch: Function) => {
+    if (success) {
+      dispatch({
+        type: REGISTER_ONE_SUCCESS,
+        payload: {},
+      });
+    } else {
+      dispatch({
+        type: REGISTER_ONE_FAIL,
+        payload: {},
+      });
+    }
+  };
+
 export const registerOne =
-  ({ email, password }: RegisterUserTypeOne) =>
+  ({ email }: RegisterUserTypeOne) =>
   (dispatch: Function) => {
     dispatch(userLoading());
-    const body = JSON.stringify({ email, password });
+    const body = JSON.stringify({ email });
     axios
       .post(`${SERVER_ROOT_URL}/user/register-one`, body, configContentType)
       .then((res) => {
         dispatch({
           type: REGISTER_ONE_SUCCESS,
-          payload: res.data,
+          payload: { email },
         });
         dispatch({
           type: CLEAR_ERRORS,
         });
+        toast.success("Email sent with OTP");
       })
       .catch((err: any) => {
         returnErrors(err.response.data, err.response.status, REGISTER_ONE_FAIL);
         dispatch({
           type: REGISTER_ONE_FAIL,
         });
+        toast.error(err.response.data.message);
       });
   };
 
 export const registerTwo =
-  ({ email, password, name, confirmPassword, otp }: RegisterUserTypeTwo) =>
+  ({
+    name,
+    email,
+    phone,
+    experience,
+    addressLineOne,
+    addressLineTwo,
+    state,
+    password,
+    confirmPassword,
+    otp,
+  }: RegisterUserTypeTwo) =>
   (dispatch: Function) => {
     dispatch(userLoading());
     const body = JSON.stringify({
-      email,
-      password,
       name,
+      email,
+      phone,
+      experience,
+      addressLineOne,
+      addressLineTwo,
+      state,
+      password,
       confirmPassword,
       otp,
     });
@@ -62,11 +96,13 @@ export const registerTwo =
         dispatch({
           type: CLEAR_ERRORS,
         });
+        toast.success("Register Successful");
       })
       .catch((err: any) => {
         returnErrors(err.response.data, err.response.status, REGISTER_TWO_FAIL);
         dispatch({
           type: REGISTER_TWO_FAIL,
         });
+        toast.error("Register Failed");
       });
   };

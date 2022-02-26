@@ -18,9 +18,10 @@ const validateLoginRequest = async (
   next: NextFunction
 ) => {
   try {
-    const value = await loginSchema.validateAsync({ ...req.body });
+    await loginSchema.validateAsync({ ...req.body });
     next();
   } catch (err) {
+    console.log(err);
     return resourceAbsent(res);
   }
 };
@@ -35,13 +36,14 @@ router.post(
       if (!newUser) {
         return resourceAbsent(res);
       }
-      const match = comparePassword(password, newUser.password);
+      const match = await comparePassword(password, newUser.password);
       if (!match) {
         return invalidData(res);
       }
       const { token, expires } = issueJWT(newUser);
       return res.status(200).json({ token, expires, user: newUser });
     } catch (err) {
+      console.log(err);
       return resourceAbsent(res);
     }
   }

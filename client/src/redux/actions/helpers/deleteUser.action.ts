@@ -1,4 +1,5 @@
 import axios from "axios";
+import { toast } from "react-toastify";
 
 import {
   DELETE_USER_ONE_SUCCESS,
@@ -24,6 +25,7 @@ export const deleteUserOne =
           type: DELETE_USER_ONE_SUCCESS,
           payload: res.data,
         });
+        toast.success("Email sent with OTP");
       })
       .catch((err: any) => {
         dispatch(
@@ -33,6 +35,7 @@ export const deleteUserOne =
             DELETE_USER_ONE_FAIL
           )
         );
+        toast.error("Delete Failed");
       });
   };
 
@@ -48,6 +51,7 @@ export const deleteUserTwo =
           type: DELETE_USER_TWO_SUCCESS,
           payload: res.data,
         });
+        toast.success("Delete Successful");
       })
       .catch((err: any) => {
         dispatch(
@@ -57,5 +61,6 @@ export const deleteUserTwo =
             DELETE_USER_TWO_FAIL
           )
         );
+        toast.error("Delete Failed");
       });
   };

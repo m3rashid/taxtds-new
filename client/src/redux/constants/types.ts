@@ -11,13 +11,17 @@ export interface DeleteUserTypeTwo {
 
 export interface RegisterUserTypeOne {
   email: string;
-  password: string;
 }
 
 export interface RegisterUserTypeTwo {
-  email: string;
-  password: string;
   name: string;
+  email: string;
+  phone: string;
+  experience: string;
+  addressLineOne: string;
+  addressLineTwo: string;
+  password: string;
+  state: string;
   confirmPassword: string;
   otp: string;
 }

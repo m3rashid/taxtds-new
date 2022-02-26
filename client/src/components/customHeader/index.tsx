@@ -1,7 +1,9 @@
-import { Link } from "react-router-dom";
-import { toast } from "react-toastify";
+import { Link, useNavigate } from "react-router-dom";
 import ExitToApp from "@material-ui/icons/ExitToApp";
 import Home from "@material-ui/icons/Home";
+import { useDispatch } from "react-redux";
+
+import { logout } from "../../redux/actions/auth.action";
 
 interface IProps {
   greeting: string;
@@ -10,9 +12,12 @@ interface IProps {
 }
 
 const Header = ({ greeting, subtitle, person = true }: IProps) => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const handleLogout = () => {
-    toast.success("Logged out successfully");
-    toast.error("Logged out successfully");
+    dispatch(logout());
+    navigate("/");
   };
 
   return (

@@ -1,4 +1,5 @@
 import axios from "axios";
+import { toast } from "react-toastify";
 
 import {
   LOGIN_FAIL,
@@ -26,6 +27,7 @@ export const login =
         dispatch({
           type: CLEAR_ERRORS,
         });
+        toast.success("Login Successful");
       })
       .catch((err: any) => {
         dispatch(
@@ -34,5 +36,6 @@ export const login =
         dispatch({
           type: LOGIN_FAIL,
         });
+        toast.error(err.response.data.message);
       });
   };

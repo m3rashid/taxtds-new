@@ -1,26 +1,29 @@
+import React from "react";
 import { ToastContainer, Bounce } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import {
-  BrowserRouter,
-  Routes,
-  Route,
-  // Navigate
-} from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
 import Main from "./pages/Main";
 import User from "./pages/User";
 import Admin from "./pages/Admin";
 import ServiceDetail from "./pages/ServiceDetail";
 import NotFound from "./pages/NotFound";
+import { loadUser } from "./redux/actions/auth.action";
 
 const App = () => {
+  const dispatch = useDispatch();
+
+  React.useEffect(() => {
+    dispatch(loadUser());
+  }, [dispatch]);
+
   return (
     <BrowserRouter>
       <div className="flex flex-col items-center justify-center">
         <ToastContainer
           position="top-right"
-          theme="colored"
-          autoClose={200000}
+          autoClose={5000}
           hideProgressBar={false}
           newestOnTop={false}
           closeOnClick

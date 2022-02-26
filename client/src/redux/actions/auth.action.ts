@@ -1,20 +1,34 @@
+import { toast } from "react-toastify";
+
 import { USER_LOADING, LOGOUT_SUCCESS } from "../constants";
-import { deleteUserOne, deleteUserTwo } from "./helpers/deleteUser.action";
+import { loadUser } from "./helpers/loadUser.action";
+import {
+  registerOne,
+  registerTwo,
+  registerOneAlreadyDone,
+} from "./helpers/register.action";
 import { login } from "./helpers/login.action";
-import { registerOne, registerTwo } from "./helpers/register.action";
+import { deleteUserOne, deleteUserTwo } from "./helpers/deleteUser.action";
 import { forgotPassword, resetPassword } from "./helpers/password.action";
 
-const logout = () => ({ type: LOGOUT_SUCCESS });
+const logout = () => {
+  toast.success("Successfully logged out");
+  return {
+    type: LOGOUT_SUCCESS,
+  };
+};
 const userLoading = () => ({ type: USER_LOADING });
 
 export {
   userLoading,
   login,
   logout,
+  loadUser,
   registerOne,
   registerTwo,
   deleteUserOne,
   deleteUserTwo,
   forgotPassword,
   resetPassword,
+  registerOneAlreadyDone,
 };

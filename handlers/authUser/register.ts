@@ -26,6 +26,7 @@ const validateRegisterOneRequest = async (
     await registerOneSchema.validateAsync({ ...req.body });
     next();
   } catch (err) {
+    console.log(err);
     return notFound(res);
   }
 };
@@ -43,7 +44,6 @@ router.post(
       let otpToSend: number, emailToSend: string;
       const savedOtp = await Otp.findOne({ email });
       if (savedOtp) {
-        // send the same otp to the user
         otpToSend = savedOtp.otp;
         emailToSend = savedOtp.email;
       } else {
@@ -55,11 +55,11 @@ router.post(
         otpToSend = dbOtp.otp;
         emailToSend = dbOtp.email;
       }
-      // send mail to the user with the OTP
-      // TODO send mail
+      // TODO send mail to the user with the OTP
       console.log(emailToSend, otpToSend);
-      return res.send(200);
+      return res.sendStatus(200);
     } catch (err) {
+      console.log(err);
       return internalServerError(res);
     }
   }
@@ -69,10 +69,10 @@ const registerTwoSchema = Joi.object({
   email: Joi.string().email().required(),
   name: Joi.string().min(3).max(30).required(),
   otp: Joi.number().integer().min(0).max(999999).required(),
-  phone: Joi.string().min(6).max(13).required(),
+  phone: Joi.string().required(),
   experience: Joi.number().min(0).max(100),
   addressLineOne: Joi.string().min(3).max(50).required(),
-  addressLineTwo: Joi.string().min(3).max(50),
+  addressLineTwo: Joi.string().min(3).max(50).allow(""),
   state: Joi.string().min(3).max(30).required(),
   // get avatar from some secure source
   avatar: Joi.binary().encoding("base64"),
@@ -90,6 +90,7 @@ const validateRegisterTwoRequest = async (
     await registerTwoSchema.validateAsync({ ...req.body });
     next();
   } catch (err) {
+    console.log(err);
     return notFound(res);
   }
 };
@@ -112,14 +113,14 @@ router.post(
     } = req.body;
     try {
       const dbOtp = await Otp.findOne({ email, otp });
-      if (!dbOtp || otp !== dbOtp.otp) {
+      console.log({ dbOtp, otp: parseInt(otp) });
+      if (!dbOtp || parseInt(otp) !== dbOtp.otp) {
         return invalidData(res);
       }
       const user = await User.findOne({ email });
       if (user) {
         return alreadyPresent(res);
       }
-
       const hash = await hashPassword(password);
       const newUser = new User({
         email,
@@ -135,9 +136,8 @@ router.post(
       await newUser.save();
       const { token, expires } = issueJWT(newUser);
       res.status(200).json({ token, expires, user: newUser });
-
-      return res.send(200);
     } catch (err) {
+      console.log(err);
       return internalServerError(res);
     }
   }

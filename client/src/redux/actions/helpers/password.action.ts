@@ -1,4 +1,5 @@
 import axios from "axios";
+import { toast } from "react-toastify";
 
 import {
   ResetPasswordTypeOne,
@@ -26,6 +27,7 @@ export const forgotPassword =
         dispatch({
           type: FORGOT_PASSWORD_SUCCESS,
         });
+        toast.success("Email sent with OTP");
       })
       .catch((err: any) => {
         dispatch(
@@ -35,6 +37,7 @@ export const forgotPassword =
             FORGOT_PASSWORD_FAIL
           )
         );
+        toast.error("Forgot Password Failed");
       });
   };
 
@@ -49,6 +52,7 @@ export const resetPassword =
         dispatch({
           type: RESET_PASSWORD_SUCCESS,
         });
+        toast.success("Password Reset Successful");
       })
       .catch((err: any) => {
         dispatch(
@@ -58,5 +62,6 @@ export const resetPassword =
             RESET_PASSWORD_FAIL
           )
         );
+        toast.error("Reset Password Failed");
       });
   };

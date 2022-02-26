@@ -1,4 +1,5 @@
 import React from "react";
+import { useSelector } from "react-redux";
 
 import CloseEl from "../atoms/Close";
 import Login from "./login";
@@ -13,6 +14,8 @@ const AuthModals = ({
   trigger: string;
   setTrigger: any;
 }) => {
+  const { isAuthUser } = useSelector((state: any) => state.auth);
+
   const initialState = React.useMemo(() => {
     return {
       adminLogin: false,
@@ -50,6 +53,9 @@ const AuthModals = ({
 
   if (show === initialState) {
     return null;
+  }
+  if (isAuthUser) {
+    setShow(initialState);
   }
 
   return (

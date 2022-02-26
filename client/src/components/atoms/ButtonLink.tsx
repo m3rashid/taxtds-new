@@ -10,7 +10,7 @@ interface IButtonProps {
 
 const ButtonLink = ({ label, to, bgColor, textColor, Icon }: IButtonProps) => {
   return (
-    <Link to={to}>
+    <Link className="h-full" to={to}>
       <span
         className={`${bgColor ? bgColor : "bg-accentTwo"} ${
           textColor ? textColor : "text-accentOne"

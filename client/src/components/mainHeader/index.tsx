@@ -3,18 +3,22 @@ import Search from "@material-ui/icons/Search";
 import Person from "@material-ui/icons/Person";
 import Help from "@material-ui/icons/Help";
 import Lock from "@material-ui/icons/Lock";
+import { useSelector } from "react-redux";
 
 import data from "./data";
 import AuthModals from "../authModals";
 import { TopLink, Input } from "./helper";
+import { useNavigate } from "react-router-dom";
 
 const Header = () => {
+  const navigate = useNavigate();
   const [modalShow, setModalShow] = React.useState<string>("");
   const setModalTrigger = () => {
     setModalShow("");
   };
 
-  let user;
+  const { isAuthUser, isAuthAdmin } = useSelector((state: any) => state.auth);
+
   return (
     <header className="w-screen">
       <div className="bg-accentOne p-[5px] md:p-[10px] flex flex-col md:flex-row justify-center items-center">
@@ -45,8 +49,12 @@ const Header = () => {
             callback={() => setModalShow("quotes")}
           />
 
-          {user ? (
-            <TopLink name="Profile" Icon={<Person />} callback={() => {}} />
+          {isAuthUser ? (
+            <TopLink
+              name="Profile"
+              Icon={<Person />}
+              callback={() => navigate("/user")}
+            />
           ) : (
             <>
               <TopLink
@@ -60,6 +68,19 @@ const Header = () => {
                 callback={() => setModalShow("signup")}
               />
             </>
+          )}
+          {isAuthAdmin ? (
+            <TopLink
+              name="Admin"
+              Icon={<Person />}
+              callback={() => navigate("/admin")}
+            />
+          ) : (
+            <TopLink
+              name="Admin"
+              Icon={<Lock />}
+              callback={() => setModalShow("admin")}
+            />
           )}
         </div>
       </div>

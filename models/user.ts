@@ -44,7 +44,7 @@ export interface IUser extends mongoose.Document {
   _id?: string;
   email: string;
   password: string;
-  phone: number;
+  phone: string;
   name: string;
   experience: number;
   addressLineOne: string;
@@ -61,7 +61,7 @@ const userSchema = new mongoose.Schema(
   {
     email: { type: String, required: [true, "Email is required"] },
     password: { type: String },
-    phone: { type: Number, required: [true, "Phone number is required"] },
+    phone: { type: String, required: [true, "Phone number is required"] },
     name: { type: String, required: [true, "Name is required"] },
     experience: { type: Number },
     addressLineOne: { type: String, required: [true, "Address is required"] },

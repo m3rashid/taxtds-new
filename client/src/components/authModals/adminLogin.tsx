@@ -40,7 +40,9 @@ const AdminLogin = () => {
         type="password"
         placeholder="Admin password"
       />
-      <ButtonEl Icon={<Lock />} label="Admin Login" callback={loginAdmin} />
+      <div className="flex flex-col w-full">
+        <ButtonEl Icon={<Lock />} label="Admin Login" callback={loginAdmin} />
+      </div>
     </>
   );
 };

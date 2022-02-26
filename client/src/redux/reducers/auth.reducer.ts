@@ -16,8 +16,9 @@ const initialState = {
     email: "",
     success: false,
   },
-  token: localStorage.getItem("token"),
-  isAuthenticated: false,
+  token: localStorage.getItem("taxtds-token"),
+  isAuthUser: false,
+  isAuthAdmin: false,
   isLoading: false,
   user: null,
 };
@@ -33,7 +34,7 @@ const authReducer = (state = initialState, action: any) => {
     case USER_LOADED:
       return {
         ...state,
-        isAuthenticated: true,
+        isAuthUser: true,
         isLoading: false,
       };
 
@@ -63,7 +64,7 @@ const authReducer = (state = initialState, action: any) => {
       return {
         ...state,
         token: null,
-        isAuthenticated: false,
+        isAuthUser: false,
         isLoading: false,
       };
 
@@ -73,7 +74,7 @@ const authReducer = (state = initialState, action: any) => {
       return {
         ...state,
         ...action.payload,
-        isAuthenticated: true,
+        isAuthUser: true,
         isLoading: false,
       };
 
