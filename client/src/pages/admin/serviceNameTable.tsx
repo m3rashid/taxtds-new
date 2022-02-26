@@ -1,5 +1,6 @@
-import Table from "./helpers/Table";
-import { TableHeader, Button } from "./helpers/atoms";
+import Table from "../../components/admin/Table";
+import { TableHeader, Button } from "../../components/admin/atoms";
+import AdminWrapper from "../../components/admin/wrapper";
 
 const demoData = [
   { id: 1, name: "Registration Services" },
@@ -9,6 +10,19 @@ const demoData = [
   { id: 5, name: "Taxation Advisory And Personal Advisory" },
   { id: 6, name: "FCRA FEMA NGOs" },
   { id: 7, name: "Valuations" },
+  { id: 8, name: "Accounting Services" },
+  { id: 9, name: "Investment Planning" },
+  { id: 10, name: "GST Return" },
+  { id: 11, name: "GST Registration" },
+  { id: 12, name: "GST Registration For Foreigners" },
+  { id: 13, name: "Cancel GST Registration" },
+  { id: 14, name: "Temporary Registration" },
+  { id: 15, name: "Income Tax Registration" },
+  { id: 16, name: "Company Registration" },
+  { id: 17, name: "Private Limited Company" },
+  { id: 18, name: "Public Limited Company" },
+  { id: 19, name: "Proprietorship Registration" },
+  { id: 20, name: "Partnership Registration" },
 ];
 
 const columns = [
@@ -33,16 +47,16 @@ const columns = [
   },
 ];
 
-const ProfesssionNameTable = () => {
+const ServiceNameTable = () => {
   return (
-    <>
+    <AdminWrapper>
       <Table
         columns={columns}
         data={demoData}
-        Title={<TableHeader title="Listed Professions" />}
+        Title={<TableHeader title="Listed Services" />}
       />
-    </>
+    </AdminWrapper>
   );
 };
 
-export default ProfesssionNameTable;
+export default ServiceNameTable;

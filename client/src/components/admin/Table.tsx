@@ -67,26 +67,27 @@ export interface ITableProps {
 
 const Table = ({ columns, data, Title }: ITableProps) => {
   return (
-    <div className="w-full p-4 md:p-6 max-w-[1400px]">
+    <div className="w-full h-full p-4 md:p-6 max-w-[1600px]">
       <MaterialTable
         icons={tableIcons}
         columns={columns}
         data={data}
         title={Title}
         options={{
-          pageSizeOptions: [5, 10, 20, 50, 100],
+          pageSizeOptions: [5, 10, 20, 50],
           debounceInterval: 1000,
           headerStyle: {
             backgroundColor: "#141F31",
             position: "sticky",
             top: 0,
-            color: "#FFFFFF",
+            overflow: "auto",
+            color: "#ffffff",
             fontWeight: "bold",
           },
           rowStyle: (_: any, index: number) => {
             if (index % 2) {
               return {
-                backgroundColor: "#C1E1F0",
+                backgroundColor: "#e5e7eb",
               };
             }
             return {};
@@ -94,7 +95,7 @@ const Table = ({ columns, data, Title }: ITableProps) => {
         }}
         style={{
           borderRadius: "0.375rem",
-          backgroundColor: "#D5EBF5",
+          backgroundColor: "#f3f4f6",
         }}
       />
     </div>

@@ -49,13 +49,7 @@ const Header = () => {
             callback={() => setModalShow("quotes")}
           />
 
-          {isAuthUser ? (
-            <TopLink
-              name="Profile"
-              Icon={<Person />}
-              callback={() => navigate("/user")}
-            />
-          ) : (
+          {!isAuthUser && !isAuthAdmin ? (
             <>
               <TopLink
                 name="Login"
@@ -67,19 +61,23 @@ const Header = () => {
                 Icon={<Lock />}
                 callback={() => setModalShow("signup")}
               />
+              <TopLink
+                name="Admin"
+                Icon={<Lock />}
+                callback={() => setModalShow("admin")}
+              />
             </>
-          )}
-          {isAuthAdmin ? (
+          ) : isAuthUser ? (
             <TopLink
-              name="Admin"
+              name="Profile"
               Icon={<Person />}
-              callback={() => navigate("/admin")}
+              callback={() => navigate("/user")}
             />
           ) : (
             <TopLink
               name="Admin"
-              Icon={<Lock />}
-              callback={() => setModalShow("admin")}
+              Icon={<Person />}
+              callback={() => navigate("/admin")}
             />
           )}
         </div>

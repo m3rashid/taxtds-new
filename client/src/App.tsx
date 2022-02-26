@@ -1,15 +1,19 @@
 import React from "react";
 import { ToastContainer, Bounce } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
 import Main from "./pages/Main";
 import User from "./pages/User";
-import Admin from "./pages/Admin";
 import ServiceDetail from "./pages/ServiceDetail";
 import NotFound from "./pages/NotFound";
 import { loadUser } from "./redux/actions/auth.action";
+
+import ProfesssionNameTable from "./pages/admin/professionNameTable";
+import ServiceNameTable from "./pages/admin/serviceNameTable";
+import ServiceTable from "./pages/admin/ServiceTable";
+import UserTable from "./pages/admin/UserTable";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -36,9 +40,21 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Main />} />
           <Route path="/user" element={<User />} />
-          <Route path="/admin" element={<Admin />} />
           <Route path="/service/:id" element={<ServiceDetail />} />
-          {/* <Route path="/" element={} /> */}
+          <Route
+            path="/admin/listed-rofessions"
+            element={<ProfesssionNameTable />}
+          />
+          <Route
+            path="/admin/list-services-names"
+            element={<ServiceNameTable />}
+          />
+          <Route path="/admin/listed-services" element={<ServiceTable />} />
+          <Route path="/admin/listed-users" element={<UserTable />} />
+          <Route
+            path="/admin"
+            element={<Navigate to="/admin/listed-services" />}
+          />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </div>

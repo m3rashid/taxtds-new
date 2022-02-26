@@ -1,5 +1,10 @@
-import Table from "./helpers/Table";
-import { ProfilePhoto, TableHeader, Button } from "./helpers/atoms";
+import Table from "../../components/admin/Table";
+import {
+  ProfilePhoto,
+  TableHeader,
+  Button,
+} from "../../components/admin/atoms";
+import AdminWrapper from "../../components/admin/wrapper";
 
 const demoData = [
   {
@@ -88,13 +93,13 @@ const columns = [
 
 const ServiceTable = () => {
   return (
-    <>
+    <AdminWrapper>
       <Table
         columns={columns}
         data={demoData}
         Title={<TableHeader title="Registered Services" />}
       />
-    </>
+    </AdminWrapper>
   );
 };
 

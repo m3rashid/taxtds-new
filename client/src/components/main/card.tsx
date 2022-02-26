@@ -1,6 +1,5 @@
 import Email from "@material-ui/icons/Email";
 import Phone from "@material-ui/icons/Phone";
-import RateReview from "@material-ui/icons/RateReview";
 import AttachMoney from "@material-ui/icons/AttachMoney";
 import Info from "@material-ui/icons/Info";
 

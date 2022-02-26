@@ -1,5 +1,10 @@
-import Table from "./helpers/Table";
-import { TableHeader, ProfilePhoto, Button } from "./helpers/atoms";
+import Table from "../../components/admin/Table";
+import {
+  TableHeader,
+  ProfilePhoto,
+  Button,
+} from "../../components/admin/atoms";
+import AdminWrapper from "../../components/admin/wrapper";
 
 const demoData = [
   {
@@ -67,13 +72,13 @@ const columns = [
 
 const SellerTable = () => {
   return (
-    <>
+    <AdminWrapper>
       <Table
         columns={columns}
         data={demoData}
         Title={<TableHeader title="Registered Users" />}
       />
-    </>
+    </AdminWrapper>
   );
 };
 
