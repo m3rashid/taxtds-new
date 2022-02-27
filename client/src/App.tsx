@@ -4,11 +4,14 @@ import "react-toastify/dist/ReactToastify.css";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
+import { loadUser } from "./redux/actions/auth.action";
 import Main from "./pages/Main";
-import User from "./pages/User";
 import ServiceDetail from "./pages/ServiceDetail";
 import NotFound from "./pages/NotFound";
-import { loadUser } from "./redux/actions/auth.action";
+
+import User from "./pages/user";
+import CreateService from "./pages/user/create";
+import EditService from "./pages/user/edit";
 
 import ProfesssionNameTable from "./pages/admin/professionNameTable";
 import ServiceNameTable from "./pages/admin/serviceNameTable";
@@ -41,6 +44,8 @@ const App = () => {
           <Route path="/" element={<Main />} />
           <Route path="/user" element={<User />} />
           <Route path="/service/:id" element={<ServiceDetail />} />
+          <Route path="/service/create" element={<CreateService />} />
+          <Route path="/service/:id/edit" element={<EditService />} />
           <Route
             path="/admin/listed-rofessions"
             element={<ProfesssionNameTable />}
