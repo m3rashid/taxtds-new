@@ -1,5 +1,4 @@
 import React from "react";
-import Select from "react-select";
 import { useDispatch, useSelector } from "react-redux";
 import AlternateEmail from "@material-ui/icons/AlternateEmail";
 import VpnKey from "@material-ui/icons/VpnKey";
@@ -7,10 +6,10 @@ import Phone from "@material-ui/icons/Phone";
 import Person from "@material-ui/icons/Person";
 import Lock from "@material-ui/icons/Lock";
 import LocationCity from "@material-ui/icons/LocationCity";
-import LocationOn from "@material-ui/icons/LocationOn";
 
 import InputEl from "../atoms/Input";
 import ButtonEl from "../atoms/Button";
+import StateSelector from "../atoms/stateSelector";
 import {
   registerOne,
   registerTwo,
@@ -19,9 +18,14 @@ import {
 
 const titleStyle = "text-[white] text-center font-bold text-xl -mt-4";
 
-const SignupStepOne = () => {
+const SignupStepOne = ({
+  email,
+  setEmail,
+}: {
+  email: string;
+  setEmail: Function;
+}) => {
   const dispatch = useDispatch();
-  const [email, setEmail] = React.useState<string>("");
 
   const handleRegisterOne = () => {
     dispatch(registerOne({ email }));
@@ -63,12 +67,11 @@ const SignupStepOne = () => {
   );
 };
 
-const SignupStepTwo = () => {
-  const registerOneData = useSelector((state: any) => state.auth.registerOne);
+const SignupStepTwo = ({ email }: { email?: string }) => {
   const dispatch = useDispatch();
   const [data, setData] = React.useState({
     name: "",
-    email: registerOneData.email,
+    email: email || "",
     phone: "",
     experience: "",
     addressLineOne: "",
@@ -79,65 +82,11 @@ const SignupStepTwo = () => {
     otp: "",
   });
 
-  const StateUt = [
-    "Andhra Pradesh",
-    "Arunachal Pradesh",
-    "Assam",
-    "Bihar",
-    "Chhattisgarh",
-    "Goa",
-    "Gujarat",
-    "Haryana",
-    "Himachal Pradesh",
-    "Jharkhand",
-    "Karnataka",
-    "Kerala",
-    "Madhya Pradesh",
-    "Maharashtra",
-    "Manipur",
-    "Meghalaya",
-    "Mizoram",
-    "Nagaland",
-    "Odisha",
-    "Punjab",
-    "Rajasthan",
-    "Sikkim",
-    "Tamil Nadu",
-    "Telangana",
-    "Tripura",
-    "Uttarakhand",
-    "Uttar Pradesh",
-    "West Bengal",
-    "Andaman and Nicobar Islands",
-    "Chandigarh",
-    "Dadra and Nagar Haveli",
-    "Daman & Diu",
-    "Delhi",
-    "Jammu & Kashmir",
-    "Ladakh",
-    "Lakshadweep",
-    "Puducherry",
-  ];
-
-  const options = StateUt.sort().map((item) => {
-    return {
-      value: item,
-      label: item,
-    };
-  });
-
   const handleChange = (e: any) => {
     const { name, value } = e.target;
     setData((prev) => ({
       ...prev,
       [name]: value,
-    }));
-  };
-
-  const handleSelectChange = (option: any) => {
-    setData((prev) => ({
-      ...prev,
-      state: option.value,
     }));
   };
 
@@ -200,36 +149,7 @@ const SignupStepTwo = () => {
         placeholder="Experience in years"
         type="number"
       />
-      <div className="flex flex-row items-center w-full mb-[15px] border-x-4 border-buttonSuccess rounded-md shadow-md bg-[white]">
-        <LocationOn className="mr-2" />
-        <Select
-          className="w-full"
-          onChange={handleSelectChange}
-          placeholder="Select State"
-          options={options}
-          styles={{
-            control: (base) => ({
-              ...base,
-              border: "none",
-              boxShadow: "none",
-            }),
-            menuList: (base, state) => ({
-              ...base,
-              paddingRight: "8px",
-              paddingLeft: "8px",
-            }),
-            option: (base, state) => ({
-              ...base,
-              backgroundColor: state.isSelected ? "#D5EBF5" : "#fff",
-              borderRadius: "4px",
-              color: "#141F31",
-              ":hover": {
-                backgroundColor: "#fdf2d4",
-              },
-            }),
-          }}
-        />
-      </div>
+      <StateSelector setData={setData} />
       <InputEl
         name="password"
         value={data.password}
@@ -263,10 +183,20 @@ const SignupStepTwo = () => {
 };
 
 const Signup = () => {
+  const [email, setEmail] = React.useState<string>("");
+
   const stepOneDone = useSelector(
-    (state: any) => state.auth.registerOne.success
+    (state: any) => state.auth.registerOneSuccess
   );
-  return <>{!stepOneDone ? <SignupStepOne /> : <SignupStepTwo />}</>;
+  return (
+    <>
+      {!stepOneDone ? (
+        <SignupStepOne email={email} setEmail={setEmail} />
+      ) : (
+        <SignupStepTwo email={email} />
+      )}
+    </>
+  );
 };
 
 export default Signup;

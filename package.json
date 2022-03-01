@@ -21,6 +21,7 @@
     "mongoose": "^6.1.7",
     "multer": "^1.4.4",
     "nodemailer": "^6.7.2",
+    "react-image-crop": "^9.1.1",
     "redis": "^4.0.3"
   },
   "devDependencies": {

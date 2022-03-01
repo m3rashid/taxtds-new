@@ -12,10 +12,7 @@ import {
 } from "../constants";
 
 const initialState = {
-  registerOne: {
-    email: "",
-    success: false,
-  },
+  registerOneSuccess: false,
   token: localStorage.getItem("taxtds-token"),
   isAuthUser: false,
   isAuthAdmin: false,
@@ -41,19 +38,13 @@ const authReducer = (state = initialState, action: any) => {
     case REGISTER_ONE_SUCCESS:
       return {
         ...state,
-        registerOne: {
-          email: action.payload.email,
-          success: true,
-        },
+        registerOneSuccess: true,
       };
 
     case REGISTER_ONE_FAIL:
       return {
         ...state,
-        registerOne: {
-          email: "",
-          success: false,
-        },
+        registerOneSuccess: false,
       };
 
     case AUTH_ERROR:

@@ -18,6 +18,8 @@ import ServiceNameTable from "./pages/admin/serviceNameTable";
 import ServiceTable from "./pages/admin/ServiceTable";
 import UserTable from "./pages/admin/UserTable";
 
+// TODO move project to mantine
+
 const App = () => {
   const dispatch = useDispatch();
 
