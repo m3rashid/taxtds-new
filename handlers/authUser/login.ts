@@ -6,6 +6,7 @@ import { invalidData, resourceAbsent } from "../helpers";
 import User from "../../models/user";
 import { issueJWT } from "../../middlewares/jwt";
 import { comparePassword } from "../../utils/auth";
+import logger from "../../utils/logger";
 
 const loginSchema = Joi.object({
   email: Joi.string().email().required(),
@@ -21,7 +22,7 @@ const validateLoginRequest = async (
     await loginSchema.validateAsync({ ...req.body });
     next();
   } catch (err) {
-    console.log(err);
+    logger.error(err);
     return resourceAbsent(res);
   }
 };
@@ -43,7 +44,7 @@ router.post(
       const { token, expires } = issueJWT(newUser);
       return res.status(200).json({ token, expires, user: newUser });
     } catch (err) {
-      console.log(err);
+      logger.error(err);
       return resourceAbsent(res);
     }
   }

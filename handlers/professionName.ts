@@ -4,6 +4,7 @@ const router = express.Router();
 
 import ProfessionName from "../models/professionName";
 import { resourceAbsent, internalServerError } from "./helpers";
+import logger from "../utils/logger";
 
 const professionNameSchema = Joi.object({
   name: Joi.string().required(),
@@ -19,7 +20,7 @@ const validateProfessionNameRequest = async (
       ...req.body,
     });
     // TODO validate according to its value
-    console.log(value);
+    logger.debug(value);
     next();
   } catch (err) {
     return resourceAbsent(res);

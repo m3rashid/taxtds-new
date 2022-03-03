@@ -1,9 +1,11 @@
 import express, { Request, Response } from "express";
 const router = express.Router();
 import mongoose from "mongoose";
+
 import User from "../models/user";
 import Service from "../models/service";
 import checkAuth, { SecureRequest } from "../middlewares/jwt.auth";
+import logger from "../utils/logger";
 
 // TODO make a middleware for jwt signing and verification
 router.get("/user", checkAuth, async (req: SecureRequest, res: Response) => {
@@ -29,7 +31,7 @@ router.get("/user", checkAuth, async (req: SecureRequest, res: Response) => {
       message: "Successful",
     });
   } catch (err) {
-    console.log(err);
+    logger.error(err);
     return res.status(500).json({
       message: "Internal Server Error",
     });

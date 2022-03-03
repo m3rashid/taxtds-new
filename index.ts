@@ -8,6 +8,7 @@ import { login, register, getUser } from "./handlers/authUser";
 import user from "./handlers/user";
 import professionName from "./handlers/professionName";
 import review from "./handlers/review";
+import logger from "./utils/logger";
 // TOD merge all these into one (make better file structure)
 import {
   addService,
@@ -26,9 +27,9 @@ const connect = async () => {
     } else {
       await mongoose.connect("mongodb://localhost/taxtds");
     }
-    console.log("Mongoose is connected");
+    logger.info("Mongoose is connected");
   } catch (err) {
-    console.log(err);
+    logger.error(err);
   }
 };
 
@@ -59,5 +60,10 @@ app.listen(port, async () => {
     });
   });
 
-  console.log(`Server ready on: http://localhost:${port}`);
+  logger.info(`Server ready on: http://localhost:${port}`);
+  // logger.error("error");
+  // logger.warn("warn");
+  // logger.verbose("verbose");
+  // logger.debug("debug");
+  // logger.silly("silly");
 });

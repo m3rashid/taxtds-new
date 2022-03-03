@@ -62,13 +62,11 @@ const ServiceDetail = () => {
       <div className="slideshow"></div>
       <div className="min-h-[25vh] grid grid-cols-1 md:grid-cols-2 gap-[30px] mb-8 max-w-[1400px]">
         <div className="p-[10px] md:p-[15px]">
-          <div className="max-w-[600px] mb-[15px] p-0 shadow-md">
-            <img
-              className="w-full rounded-md"
-              src={demoService.avatar}
-              alt={demoService.name}
-            />
-          </div>
+          <img
+            className="max-w-[600px] mb-[15px] w-full rounded-md"
+            src={demoService.avatar}
+            alt={demoService.name}
+          />
           <div className="bg-[white] hover:bg-lightHover mb-[20px] p-[10px] rounded-md shadow-md">
             <h2 className="text-left mb-2 text-2xl font-bold">
               General Service Details
@@ -175,7 +173,7 @@ const ServiceDetail = () => {
         <div className="">
           <h2 className="text-center text-2xl font-bold">Write a review</h2>
           <div className="p-[10px] md:p-[15px]">
-            <div className="bg-[white] hover:bg-lightHover p-4 rounded-md shadow-md">
+            <div className="bg-[white] p-4 rounded-md shadow-md">
               {/* to remove the arrows, validate the input for the given range (0-10) */}
               <InputEl
                 Icon={<Person />}

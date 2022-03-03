@@ -2,11 +2,13 @@ import mongoose from "mongoose";
 import { createClient } from "redis";
 import util from "util";
 
+import logger from "./logger";
+
 const client = createClient({
   url: process.env.REDIS_URL || "redis://127.0.0.1:6379",
 });
 client.on("error", (err) => {
-  console.log("Redos error " + err);
+  logger.error("Redos error " + err);
 });
 client.get = util.promisify(client.get).bind(client);
 

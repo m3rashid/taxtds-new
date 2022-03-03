@@ -1,7 +1,9 @@
 import JWT from "jsonwebtoken";
 import { join } from "path";
 import { readFileSync } from "fs";
+
 import { IUser } from "../models/user";
+import logger from "../utils/logger";
 
 const privateKey = readFileSync(
   join(__dirname, "../utils/keys/private.pem"),
@@ -37,7 +39,7 @@ const verifyJWT = (token: string) => {
       payload: decoded,
     };
   } catch (err: any) {
-    console.log(err);
+    logger.error(err);
     return {
       valid: false,
       expired: err.message === "jwt expired",

@@ -7,6 +7,7 @@ import fs from "fs";
 import path from "path";
 import { v2 as cloudinary } from "cloudinary";
 import upload from "../utils/multer";
+import logger from "../../utils/logger";
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -64,7 +65,7 @@ router.get(
         message: "Service found",
       });
     } catch (err) {
-      console.log(err);
+      logger.error(err);
       return res.status(500).json({
         message: "Internal Server Error",
       });
@@ -97,7 +98,7 @@ router.post(
 
       // TODO implement add-service here
     } catch (err) {
-      console.log(err);
+      logger.error(err);
       return res.status(500).json({
         message: "Internal Server Error",
       });
@@ -137,7 +138,7 @@ router.post(
 
       // TODO delete the service
     } catch (err) {
-      console.log(err);
+      logger.error(err);
       return res.status(500).json({
         message: "Internal Server Error",
       });

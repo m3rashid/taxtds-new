@@ -9,6 +9,7 @@ import deleteUser from "../mailers/deleteUser";
 import deleteServiceByUser from "../mailers/deleteServiceByUser";
 import deleteServiceByAdmin from "../mailers/deleteServiceByAdmin";
 import custom from "../mailers/custom";
+import logger from "./logger";
 
 const transporter = nodemailer.createTransport({
   service: "gmail",
@@ -69,10 +70,10 @@ const Mail = (mailData: IParameters) => {
 
   transporter.sendMail(mailOptions, (err: any, info: any) => {
     if (err) {
-      console.log("Error in sending mail", err);
+      logger.error("Error in sending mail", err);
       return;
     }
-    console.log("Message sent", info);
+    logger.error("Message sent", info);
     return; // Optional as this needs to run asynchronous
   });
 };

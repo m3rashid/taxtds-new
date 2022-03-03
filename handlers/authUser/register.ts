@@ -12,6 +12,7 @@ import Otp from "../../models/otp";
 import User from "../../models/user";
 import { hashPassword } from "../../utils/auth";
 import { issueJWT } from "../../middlewares/jwt";
+import logger from "../../utils/logger";
 
 const registerOneSchema = Joi.object({
   email: Joi.string().email().required(),
@@ -26,7 +27,7 @@ const validateRegisterOneRequest = async (
     await registerOneSchema.validateAsync({ ...req.body });
     next();
   } catch (err) {
-    console.log(err);
+    logger.error(err);
     return notFound(res);
   }
 };
@@ -56,10 +57,10 @@ router.post(
         emailToSend = dbOtp.email;
       }
       // TODO send mail to the user with the OTP
-      console.log(emailToSend, otpToSend);
+      logger.info(emailToSend, otpToSend);
       return res.sendStatus(200);
     } catch (err) {
-      console.log(err);
+      logger.error(err);
       return internalServerError(res);
     }
   }
@@ -90,7 +91,7 @@ const validateRegisterTwoRequest = async (
     await registerTwoSchema.validateAsync({ ...req.body });
     next();
   } catch (err) {
-    console.log(err);
+    logger.error(err);
     return notFound(res);
   }
 };
@@ -113,7 +114,7 @@ router.post(
     } = req.body;
     try {
       const dbOtp = await Otp.findOne({ email, otp });
-      console.log({ dbOtp, otp: parseInt(otp) });
+      logger.info({ dbOtp, otp: parseInt(otp) });
       if (!dbOtp || parseInt(otp) !== dbOtp.otp) {
         return invalidData(res);
       }
@@ -137,7 +138,7 @@ router.post(
       const { token, expires } = issueJWT(newUser);
       res.status(200).json({ token, expires, user: newUser });
     } catch (err) {
-      console.log(err);
+      logger.error(err);
       return internalServerError(res);
     }
   }

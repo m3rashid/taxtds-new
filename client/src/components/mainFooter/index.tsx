@@ -10,8 +10,10 @@ const Footer = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 p-[10px] md:pt-[50px] md:pr-[10%] md:pb-0 md:pl-[10%] lg:pt-[30px] lg:pr-[4%] lg:pb-0 lg:pl-[4%]">
           <div className={container}>
             <div className="flex flex-col items-center">
-              <img className="" src="images/foot-logo.png" alt="logo" />
-              <p>Worlds's No. 1 Local Business Directory Website</p>
+              <img className="" src="/images/foot-logo.png" alt="logo" />
+              <p className="text-center">
+                Worlds's No. 1 Local Business Directory Website
+              </p>
             </div>
 
             <div className="text-center my-[20px] md:mt-[30px]">

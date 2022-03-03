@@ -5,3 +5,4 @@ generateKeyPair.js
 build
 bulk
 notes.txt
+*.log

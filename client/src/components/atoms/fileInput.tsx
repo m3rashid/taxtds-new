@@ -16,20 +16,20 @@ const FileInput = ({ title }: IProps) => {
   return (
     <>
       <div
-        className="bg-[white] p-4 mb-4 rounded-md shadow-md border-x-4 border-buttonSuccess flex flex-col items-center gap-8"
+        className="bg-[white] p-4 mb-4 rounded-md shadow-md border-x-4 border-buttonSuccess flex flex-col items-center gap-4"
         {...getRootProps()}
       >
         <input {...getInputProps()} />
         <p className="text-darkFgTwo">
-          {title ? title : "Select Avatar"}
+          {title ? title : "Select Photo"}
           <br />
           {isDragActive
             ? "Drop the files here ..."
             : "Drag and drop files here, or click to select files"}
         </p>
-        <div className="w-full h-full flex items-center justify-center pb-2">
+        <div className="w-full h-full flex items-center justify-center py-4 border-2 rounded-md border-dashed border-darkFgTwo">
           <AddPhotoAlternate
-            className="text-darkFgTwo"
+            className="opacity-40"
             style={{ fontSize: "4rem" }}
           />
         </div>

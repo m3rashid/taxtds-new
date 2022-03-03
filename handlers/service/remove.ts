@@ -4,6 +4,7 @@ const router = express.Router();
 
 import { internalServerError } from "../helpers";
 import checkAuth, { SecureRequest } from "../../middlewares/jwt.auth";
+import logger from "../../utils/logger";
 
 const removeSchema = Joi.object({});
 
@@ -17,7 +18,7 @@ const validateRemoveServiceRequest = async (
       ...req.body,
     });
     // TODO validate according to its value
-    console.log(value);
+    logger.debug(value);
     next();
   } catch (err) {
     return internalServerError(res);

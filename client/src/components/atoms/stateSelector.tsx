@@ -30,7 +30,7 @@ const StateSelector = ({ data, setData }: IProps) => {
 
   return (
     <div className="flex flex-row items-center w-full mb-[15px] border-x-4 border-buttonSuccess rounded-md shadow-md bg-[white] pl-[8px]">
-      <LocationOn className="mr-2" />
+      <LocationOn />
       <Select
         className="w-full"
         onChange={handleSelectChange}

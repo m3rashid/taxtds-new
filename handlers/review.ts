@@ -4,6 +4,7 @@ const router = express.Router();
 
 import Review from "../models/review";
 import { resourceAbsent, internalServerError } from "./helpers";
+import logger from "../utils/logger";
 
 const reviewSchema = Joi.object({
   name: Joi.string(),
@@ -20,7 +21,7 @@ const validateReviewRequest = async (
   try {
     const value = await reviewSchema.validateAsync({ ...req.body });
     // TODO validate according to its value
-    console.log(value);
+    logger.debug(value);
     next();
   } catch (err) {
     return resourceAbsent(res);
