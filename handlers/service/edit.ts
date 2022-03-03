@@ -14,11 +14,7 @@ const validateEditServiceRequest = async (
   next: NextFunction
 ) => {
   try {
-    const value = await editSchema.validateAsync({
-      ...req.body,
-    });
-    // TODO validate according to its value
-    logger.debug(value);
+    await editSchema.validateAsync({ ...req.body });
     next();
   } catch (err) {
     return internalServerError(res);

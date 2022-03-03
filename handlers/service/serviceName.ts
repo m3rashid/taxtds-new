@@ -16,11 +16,7 @@ const validateServiceNameRequest = async (
   next: NextFunction
 ) => {
   try {
-    const value = await serviceNameSchema.validateAsync({
-      ...req.body,
-    });
-    // TODO validate according to its value
-    logger.debug(value);
+    await serviceNameSchema.validateAsync({ ...req.body });
     next();
   } catch (err) {
     return resourceAbsent(res);
@@ -32,12 +28,10 @@ router.post(
   "/add-service",
   validateServiceNameRequest,
   async (req: Request, res: Response) => {
-    const { name } = req.body;
-    // check if the same name exists in the database or not
-    const service = new ServiceName({ name });
+    const service = new ServiceName({ name: req.body.name });
     try {
       await service.save();
-      res.send("reached");
+      res.sendStatus(200);
     } catch (err) {
       return internalServerError(res);
     }

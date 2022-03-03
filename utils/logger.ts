@@ -9,11 +9,11 @@ winston.addColors({
   silly: "bold magenta",
 });
 const colorizer = winston.format.colorize();
-
 const customFormat = winston.format.combine(
   winston.format.timestamp({ format: "YYYY-MM-DD HH:mm:ss" }),
+  winston.format.align(),
   winston.format.printf((info) => {
-    return `${info.timestamp}:: [${colorizer.colorize(
+    return `${info.timestamp} :: [${colorizer.colorize(
       info.level,
       info.level.toUpperCase()
     )}] ${info.message}`;

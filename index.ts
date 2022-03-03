@@ -3,6 +3,8 @@ config();
 import express, { Request, Response } from "express";
 import mongoose from "mongoose";
 import cors from "cors";
+import winston from "winston";
+import expressWinston from "express-winston";
 
 import { login, register, getUser } from "./handlers/authUser";
 import user from "./handlers/user";
@@ -37,6 +39,29 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+const colorizer = winston.format.colorize();
+app.use(
+  expressWinston.logger({
+    transports: [new winston.transports.Console()],
+    format: winston.format.combine(
+      winston.format.timestamp({ format: "YYYY-MM-DD HH:mm:ss" }),
+      winston.format.align(),
+      winston.format.printf((info) => {
+        return `${info.timestamp} :: [${colorizer.colorize(
+          info.level,
+          info.level.toUpperCase()
+        )}] ${info.message}\n[${colorizer.colorize(
+          info.level,
+          "RESPONSE"
+        )}]:: ${JSON.stringify(info.meta.res)}\n`;
+      })
+    ),
+    meta: true,
+    expressFormat: true,
+    colorize: true,
+  })
+);
+
 const port = process.env.PORT || 5000;
 app.listen(port, async () => {
   await connect();
@@ -59,11 +84,5 @@ app.listen(port, async () => {
       message: "This page does not exist",
     });
   });
-
   logger.info(`Server ready on: http://localhost:${port}`);
-  // logger.error("error");
-  // logger.warn("warn");
-  // logger.verbose("verbose");
-  // logger.debug("debug");
-  // logger.silly("silly");
 });

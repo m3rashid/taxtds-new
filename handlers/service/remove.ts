@@ -14,11 +14,7 @@ const validateRemoveServiceRequest = async (
   next: NextFunction
 ) => {
   try {
-    const value = await removeSchema.validateAsync({
-      ...req.body,
-    });
-    // TODO validate according to its value
-    logger.debug(value);
+    await removeSchema.validateAsync({ ...req.body });
     next();
   } catch (err) {
     return internalServerError(res);
