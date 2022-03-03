@@ -4,6 +4,7 @@ import thunk from "redux-thunk";
 import authReducer from "./auth.reducer";
 import errorReducer from "./error.reducer";
 import serviceReducer from "./services.reducer";
+import configReducer from "./config.reducer";
 
 declare global {
   interface Window {
@@ -17,6 +18,7 @@ const reducers = combineReducers({
   auth: authReducer,
   error: errorReducer,
   service: serviceReducer,
+  config: configReducer,
 });
 
 const store = createStore(reducers, composeEnhancers(applyMiddleware(thunk)));

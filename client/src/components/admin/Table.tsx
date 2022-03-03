@@ -74,8 +74,6 @@ const Table = ({ columns, data, Title }: ITableProps) => {
         data={data}
         title={Title}
         options={{
-          pageSizeOptions: [5, 10, 20, 50],
-          debounceInterval: 1000,
           headerStyle: {
             backgroundColor: "#141F31",
             position: "sticky",
@@ -84,13 +82,12 @@ const Table = ({ columns, data, Title }: ITableProps) => {
             color: "#ffffff",
             fontWeight: "bold",
           },
+          debounceInterval: 1000,
+          pageSizeOptions: [5, 10, 20, 50],
+          maxBodyHeight: window.innerHeight - 320,
+          minBodyHeight: window.innerHeight - 320,
           rowStyle: (_: any, index: number) => {
-            if (index % 2) {
-              return {
-                backgroundColor: "#e5e7eb",
-              };
-            }
-            return {};
+            return index % 2 ? { backgroundColor: "#e5e7eb" } : {};
           },
         }}
         style={{

@@ -34,3 +34,6 @@ export const RESET_PASSWORD_SUCCESS = "RESET_PASSWORD_SUCCESS";
 export const RESET_PASSWORD_FAIL = "RESET_PASSWORD_FAIL";
 
 export const SERVER_ROOT_URL = "http://localhost:5000";
+
+export const GET_CONFIG_SUCCESS = "GET_CONFIG_SUCCESS";
+export const GET_CONFIG_FAIL = "GET_CONFIG_FAIL";
