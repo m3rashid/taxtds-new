@@ -1,4 +1,4 @@
-import express, { Request, Response, NextFunction } from "express";
+import express from "express";
 import Joi from "joi";
 const router = express.Router();
 
@@ -14,9 +14,9 @@ const reviewSchema = Joi.object({
 });
 
 const validateReviewRequest = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
+  req: express.Request,
+  res: express.Response,
+  next: express.NextFunction
 ) => {
   try {
     const value = await reviewSchema.validateAsync({ ...req.body });
@@ -31,7 +31,7 @@ const validateReviewRequest = async (
 router.post(
   "/add-review",
   validateReviewRequest,
-  (Req: Request, res: Response) => {
+  (Req: express.Request, res: express.Response) => {
     res.send("reached");
   }
 );

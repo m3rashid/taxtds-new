@@ -1,4 +1,4 @@
-import express, { Request, Response, NextFunction } from "express";
+import express from "express";
 import Joi from "joi";
 const router = express.Router();
 
@@ -11,9 +11,9 @@ const professionNameSchema = Joi.object({
 });
 
 const validateProfessionNameRequest = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
+  req: express.Request,
+  res: express.Response,
+  next: express.NextFunction
 ) => {
   try {
     const value = await professionNameSchema.validateAsync({
@@ -31,7 +31,7 @@ const validateProfessionNameRequest = async (
 router.post(
   "/add-profession",
   validateProfessionNameRequest,
-  async (req: Request, res: Response) => {
+  async (req: express.Request, res: express.Response) => {
     const { name } = req.body;
     // check if the same name exists in the database or not
     const profession = new ProfessionName({ name });

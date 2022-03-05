@@ -1,17 +1,21 @@
-import express, { Response, NextFunction } from "express";
+import express from "express";
 import Joi from "joi";
 const router = express.Router();
 
 import { internalServerError } from "../helpers";
 import checkAuth, { SecureRequest } from "../../middlewares/jwt.auth";
 import logger from "../../utils/logger";
+import { addSchema } from "./add";
+import Service from "../../models/service";
 
-const editSchema = Joi.object({});
+export const editSchema = addSchema.keys({
+  _id: Joi.string().required(),
+});
 
 const validateEditServiceRequest = async (
   req: SecureRequest,
-  res: Response,
-  next: NextFunction
+  res: express.Response,
+  next: express.NextFunction
 ) => {
   try {
     await editSchema.validateAsync({ ...req.body });
@@ -25,8 +29,31 @@ router.post(
   "/service/edit/:serviceId",
   checkAuth,
   validateEditServiceRequest,
-  (req: SecureRequest, res: Response) => {
-    res.send("reached");
+  async (req: SecureRequest, res: express.Response) => {
+    // handle the image change workflow
+    const { avatar, gallery } = req.body;
+    try {
+      await Service.findByIdAndUpdate(req.params.serviceId, {
+        $set: {
+          brandName: req.body.brandName,
+          services: req.body.services,
+          addedBy: req.body.addedBy,
+          established: req.body.established,
+          tagline: req.body.tagline,
+          owner: req.body.owner,
+          addressLineOne: req.body.addressLineOne,
+          addressLineTwo: req.body.addressLineTwo,
+          state: req.body.state,
+          phone: req.body.phone,
+          email: req.body.email,
+        },
+      });
+      return res.status(200).json({
+        message: "Service updated successfully",
+      });
+    } catch (err) {
+      return internalServerError(res);
+    }
   }
 );
 

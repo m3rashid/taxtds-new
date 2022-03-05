@@ -1,4 +1,4 @@
-import express, { Request, Response, NextFunction } from "express";
+import express from "express";
 import Joi from "joi";
 const router = express.Router();
 
@@ -14,9 +14,9 @@ const loginSchema = Joi.object({
 });
 
 const validateLoginRequest = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
+  req: express.Request,
+  res: express.Response,
+  next: express.NextFunction
 ) => {
   try {
     await loginSchema.validateAsync({ ...req.body });
@@ -30,7 +30,7 @@ const validateLoginRequest = async (
 router.post(
   "/login",
   validateLoginRequest,
-  async (req: Request, res: Response) => {
+  async (req: express.Request, res: express.Response) => {
     const { email, password } = req.body;
     try {
       const newUser = await User.findOne({ email });

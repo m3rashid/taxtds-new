@@ -1,6 +1,7 @@
-import express, { Request, Response, NextFunction } from "express";
+import express from "express";
 import Joi from "joi";
-const router = express.Router();
+import { v2 as cloudinary } from "cloudinary";
+import path from "path";
 
 import {
   internalServerError,
@@ -13,15 +14,18 @@ import User from "../../models/user";
 import { hashPassword } from "../../utils/auth";
 import { issueJWT } from "../../middlewares/jwt";
 import logger from "../../utils/logger";
+import upload from "../../utils/multer";
+
+const router = express.Router();
 
 const registerOneSchema = Joi.object({
   email: Joi.string().email().required(),
 });
 
 const validateRegisterOneRequest = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
+  req: express.Request,
+  res: express.Response,
+  next: express.NextFunction
 ) => {
   try {
     await registerOneSchema.validateAsync({ ...req.body });
@@ -35,7 +39,7 @@ const validateRegisterOneRequest = async (
 router.post(
   "/register-one",
   validateRegisterOneRequest,
-  async (req: Request, res: Response) => {
+  async (req: express.Request, res: express.Response) => {
     const { email } = req.body;
     try {
       const user = await User.findOne({ email });
@@ -76,42 +80,40 @@ const registerTwoSchema = Joi.object({
   addressLineTwo: Joi.string().min(3).max(50).allow(""),
   state: Joi.string().min(3).max(30).required(),
   // get avatar from some secure source
-  avatar: Joi.binary().encoding("base64"),
+  avatar: Joi.binary(),
   professions: Joi.array().items(Joi.string()),
   password: Joi.string(),
   confirmPassword: Joi.ref("password"),
 }).with("password", "confirmPassword");
 
 const validateRegisterTwoRequest = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
+  req: express.Request,
+  res: express.Response,
+  next: express.NextFunction
 ) => {
   try {
-    await registerTwoSchema.validateAsync({ ...req.body });
+    const value = await registerTwoSchema.validateAsync({ ...req.body });
+    console.log(value);
     next();
   } catch (err) {
-    logger.error(err);
+    console.log(err);
     return notFound(res);
   }
 };
 
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+  secure: true,
+});
+
 router.post(
   "/register-two",
+  upload.fields([{ name: "avatar", maxCount: 1 }]),
   validateRegisterTwoRequest,
-  async (req: Request, res: Response) => {
-    const {
-      email,
-      name,
-      otp,
-      phone,
-      experience,
-      addressLineOne,
-      addressLineTwo,
-      state,
-      professions,
-      password,
-    } = req.body;
+  async (req: express.Request, res: express.Response) => {
+    const { email, otp } = req.body;
     try {
       const dbOtp = await Otp.findOne({ email, otp });
       logger.info({ dbOtp, otp: parseInt(otp) });
@@ -122,21 +124,21 @@ router.post(
       if (user) {
         return alreadyPresent(res);
       }
-      const hash = await hashPassword(password);
+      const hash = await hashPassword(req.body.password);
       const newUser = new User({
         email,
-        name,
-        phone,
-        experience,
-        addressLineOne,
-        addressLineTwo,
-        state,
-        professions,
+        name: req.body.name,
+        phone: req.body.phone,
+        experience: req.body.experience,
+        addressLineOne: req.body.addressLineOne,
+        addressLineTwo: req.body.addressLineTwo,
+        state: req.body.state,
+        professions: req.body.professions,
         password: hash,
       });
       await newUser.save();
       const { token, expires } = issueJWT(newUser);
-      res.status(200).json({ token, expires, user: newUser });
+      return res.status(200).json({ token, expires, user: newUser });
     } catch (err) {
       logger.error(err);
       return internalServerError(res);

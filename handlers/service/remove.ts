@@ -6,7 +6,8 @@ import { internalServerError } from "../helpers";
 import checkAuth, { SecureRequest } from "../../middlewares/jwt.auth";
 import logger from "../../utils/logger";
 
-const removeSchema = Joi.object({});
+import Service from "../../models/service";
+import { editSchema } from "./edit";
 
 const validateRemoveServiceRequest = async (
   req: SecureRequest,
@@ -14,7 +15,7 @@ const validateRemoveServiceRequest = async (
   next: NextFunction
 ) => {
   try {
-    await removeSchema.validateAsync({ ...req.body });
+    await editSchema.validateAsync({ ...req.body });
     next();
   } catch (err) {
     return internalServerError(res);
@@ -25,8 +26,19 @@ router.post(
   "/service/remove/:serviceId",
   checkAuth,
   validateRemoveServiceRequest,
-  (req: SecureRequest, res: Response) => {
-    res.send("reached");
+  async (req: SecureRequest, res: Response) => {
+    try {
+      await Service.findByIdAndUpdate(req.params.serviceId, {
+        $set: {
+          deleted: true,
+        },
+      });
+      return res.status(200).json({
+        message: "Service removed successfully",
+      });
+    } catch (err) {
+      return internalServerError(res);
+    }
   }
 );
 

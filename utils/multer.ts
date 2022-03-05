@@ -1,5 +1,4 @@
 import multer from "multer";
-import fs from "fs";
 import path from "path";
 
 let storage = multer.diskStorage({
@@ -12,4 +11,5 @@ let storage = multer.diskStorage({
   },
 });
 
-export default multer({ storage: storage });
+const upload = multer({ storage: storage });
+export default upload;
