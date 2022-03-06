@@ -65,7 +65,7 @@ router.get(
         message: "Service found",
       });
     } catch (err) {
-      logger.error(err);
+      logger.error(JSON.stringify(err));
       return res.status(500).json({
         message: "Internal Server Error",
       });
@@ -98,7 +98,7 @@ router.post(
 
       // TODO implement add-service here
     } catch (err) {
-      logger.error(err);
+      logger.error(JSON.stringify(err));
       return res.status(500).json({
         message: "Internal Server Error",
       });
@@ -138,7 +138,7 @@ router.post(
 
       // TODO delete the service
     } catch (err) {
-      logger.error(err);
+      logger.error(JSON.stringify(err));
       return res.status(500).json({
         message: "Internal Server Error",
       });

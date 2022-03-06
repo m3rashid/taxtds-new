@@ -31,7 +31,7 @@ router.get("/user", checkAuth, async (req: SecureRequest, res: Response) => {
       message: "Successful",
     });
   } catch (err) {
-    logger.error(err);
+    logger.error(JSON.stringify(err));
     return res.status(500).json({
       message: "Internal Server Error",
     });

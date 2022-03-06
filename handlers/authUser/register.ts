@@ -31,7 +31,7 @@ const validateRegisterOneRequest = async (
     await registerOneSchema.validateAsync({ ...req.body });
     next();
   } catch (err) {
-    logger.error(err);
+    logger.error(JSON.stringify(err));
     return notFound(res);
   }
 };
@@ -64,7 +64,7 @@ router.post(
       logger.info(emailToSend, otpToSend);
       return res.sendStatus(200);
     } catch (err) {
-      logger.error(err);
+      logger.error(JSON.stringify(err));
       return internalServerError(res);
     }
   }
@@ -140,7 +140,7 @@ router.post(
       const { token, expires } = issueJWT(newUser);
       return res.status(200).json({ token, expires, user: newUser });
     } catch (err) {
-      logger.error(err);
+      logger.error(JSON.stringify(err));
       return internalServerError(res);
     }
   }

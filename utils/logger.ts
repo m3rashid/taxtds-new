@@ -33,6 +33,7 @@ const logger = winston.createLogger({
   transports: [
     new winston.transports.Console({ level: "silly", format: customFormat }),
     new winston.transports.File({ filename: "taxtds.log", level: "info" }),
+    new winston.transports.File({ filename: "error.log", level: "error" }),
   ],
 });
 

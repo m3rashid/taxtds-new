@@ -22,7 +22,7 @@ const validateLoginRequest = async (
     await loginSchema.validateAsync({ ...req.body });
     next();
   } catch (err) {
-    logger.error(err);
+    logger.error(JSON.stringify(err));
     return resourceAbsent(res);
   }
 };
@@ -44,7 +44,7 @@ router.post(
       const { token, expires } = issueJWT(newUser);
       return res.status(200).json({ token, expires, user: newUser });
     } catch (err) {
-      logger.error(err);
+      logger.error(JSON.stringify(err));
       return resourceAbsent(res);
     }
   }

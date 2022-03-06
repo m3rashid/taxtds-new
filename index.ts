@@ -31,7 +31,7 @@ const connect = async () => {
     }
     logger.info("Mongoose is connected");
   } catch (err) {
-    logger.error(err);
+    logger.error(JSON.stringify(err));
   }
 };
 

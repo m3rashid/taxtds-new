@@ -55,7 +55,7 @@ const uploadFiles = async (file: Express.Multer.File) => {
     let data = await cloudinary.uploader.upload(filePath);
     return data;
   } catch (err) {
-    logger.error(err);
+    logger.error(JSON.stringify(err));
   }
 };
 
@@ -92,7 +92,7 @@ router.post(
         service,
       });
     } catch (err) {
-      logger.error(err);
+      logger.error(JSON.stringify(err));
       return internalServerError(res);
     }
   }
