@@ -20,8 +20,7 @@ const validateReviewRequest = async (
 ) => {
   try {
     const value = await reviewSchema.validateAsync({ ...req.body });
-    // TODO validate according to its value
-    logger.debug(value);
+    logger.debug(JSON.stringify(value));
     next();
   } catch (err) {
     return resourceAbsent(res);

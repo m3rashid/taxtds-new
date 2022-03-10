@@ -19,10 +19,11 @@ const validateLoginRequest = async (
   next: express.NextFunction
 ) => {
   try {
-    await loginSchema.validateAsync({ ...req.body });
+    const value = await loginSchema.validateAsync({ ...req.body });
+    logger.debug(JSON.stringify(value));
     next();
   } catch (err) {
-    logger.error(JSON.stringify(err));
+    logger.debug(JSON.stringify(err));
     return resourceAbsent(res);
   }
 };
@@ -34,13 +35,11 @@ router.post(
     const { email, password } = req.body;
     try {
       const newUser = await User.findOne({ email });
-      if (!newUser) {
-        return resourceAbsent(res);
-      }
+      if (!newUser) return resourceAbsent(res);
+
       const match = await comparePassword(password, newUser.password);
-      if (!match) {
-        return invalidData(res);
-      }
+      if (!match) return invalidData(res);
+
       const { token, expires } = issueJWT(newUser);
       return res.status(200).json({ token, expires, user: newUser });
     } catch (err) {

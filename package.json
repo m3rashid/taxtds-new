@@ -1,13 +1,38 @@
 {
   "name": "taxtds-server",
   "version": "1.0.0",
-  "main": "build/index.js",
-  "author": "MD Rashid Hussain",
   "license": "MIT",
+  "description": "TAX TDS API server",
+  "author": "MD Rashid Hussain",
+  "main": "build/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/m3rashid/taxtds-new.git"
+  },
+  "bugs": {
+    "url": "https://github.com/m3rashid/taxtds-new/issues"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": "eslint --cache --fix"
+  },
+  "engines": {
+    "node": ">=14.x"
+  },
   "scripts": {
     "start": "ts-node index.ts",
     "dev": "ts-node-dev --respawn index.ts",
-    "build": "tsc"
+    "build": "tsc",
+    "prepare": "husky install",
+    "check:format": "prettier --check .",
+    "check:types": "tsc --pretty --noEmit",
+    "check:lint": "eslint . --ext .ts --ext .js",
+    "format": "prettier --write .",
+    "check:all": "yarn check:format && yarn check:lint && yarn check:types && yarn build"
   },
   "dependencies": {
     "bcrypt": "^5.0.1",
@@ -33,6 +58,14 @@
     "@types/multer": "^1.4.7",
     "@types/node": "^16.11.24",
     "@types/nodemailer": "^6.4.4",
+    "@typescript-eslint/eslint-plugin": "^5.14.0",
+    "@typescript-eslint/parser": "^5.14.0",
+    "eslint": "^8.10.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-config-prettier": "^8.5.0",
+    "husky": "^7.0.4",
+    "lint-staged": "^12.3.5",
+    "prettier": "^2.5.1",
     "ts-node": "^10.4.0",
     "ts-node-dev": "^1.1.8",
     "typescript": "^4.5.5"

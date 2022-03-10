@@ -50,7 +50,6 @@ export interface IUser extends mongoose.Document {
   addressLineOne: string;
   addressLineTwo?: string;
   state: string;
-  avatar: string;
   professions: any;
   deleted?: boolean;
   createdAt?: any;
@@ -67,7 +66,6 @@ const userSchema = new mongoose.Schema(
     addressLineOne: { type: String, required: [true, "Address is required"] },
     addressLineTwo: { type: String },
     state: { type: String, enum: StateUt },
-    avatar: { type: String },
     professions: { type: [mongoose.Schema.Types.ObjectId], ref: "Profession" },
     deleted: { type: Boolean, default: false },
   },

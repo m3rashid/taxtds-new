@@ -70,10 +70,10 @@ const Mail = (mailData: IParameters) => {
 
   transporter.sendMail(mailOptions, (err: any, info: any) => {
     if (err) {
-      logger.error("Error in sending mail", JSON.stringify(err));
+      logger.error("Error in sending mail" + JSON.stringify(err));
       return;
     }
-    logger.error("Message sent", JSON.stringify(info));
+    logger.error("Message sent" + JSON.stringify(info));
     return; // Optional as this needs to run asynchronous
   });
 };

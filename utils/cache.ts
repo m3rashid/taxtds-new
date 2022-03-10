@@ -8,7 +8,7 @@ const client = createClient({
   url: process.env.REDIS_URL || "redis://127.0.0.1:6379",
 });
 client.on("error", (err) => {
-  logger.error("Redos error " + JSON.stringify(err));
+  logger.error("Redis error " + JSON.stringify(err));
 });
 client.get = util.promisify(client.get).bind(client);
 

@@ -1,0 +1,10 @@
+.env
+node_modules/
+pnpm-lock.yaml
+package.json
+tsconfig.json
+README.md
+LISCENCE
+build
+.husky/
+.vscode/

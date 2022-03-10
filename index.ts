@@ -66,8 +66,6 @@ const port = process.env.PORT || 5000;
 app.listen(port, async () => {
   await connect();
 
-  // refactor the routes
-  //  TODO add the rate limiters
   app.use("/user", /* authRateLimiter,*/ register);
   app.use("/user", /* authRateLimiter,*/ login);
   app.use("/user", /* authRateLimiter,*/ getUser);
@@ -79,10 +77,5 @@ app.listen(port, async () => {
   app.use("/service", /* authRateLimiter,*/ removeService);
   app.use("/service-name", /*authRateLimiter,*/ serviceName);
 
-  app.all("*", (req: Request, res: Response) => {
-    res.status(200).json({
-      message: "This page does not exist",
-    });
-  });
   logger.info(`Server ready on: http://localhost:${port}`);
 });
