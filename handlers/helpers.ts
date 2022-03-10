@@ -1,10 +1,10 @@
 import logger from "../utils/logger";
 
-import { Request, Response } from "express";
+import { Response } from "express";
 
-import User from "../models/user";
-import Service from "../models/service";
-import Otp from "../models/otp";
+// import User from "../models/user";
+// import Service from "../models/service";
+// import Otp from "../models/otp";
 
 export const internalServerError = (res: Response) => {
   logger.error("Internal Server Error");

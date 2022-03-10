@@ -1,6 +1,6 @@
 import { config } from "dotenv";
 config();
-import express, { Request, Response } from "express";
+import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
 import winston from "winston";
@@ -19,7 +19,7 @@ import {
   serviceName,
 } from "./handlers/service";
 
-import { authRateLimiter, regularRateLimiter } from "./utils/rateLimiters";
+// import { authRateLimiter, regularRateLimiter } from "./utils/rateLimiters";
 
 const connect = async () => {
   try {
@@ -70,12 +70,12 @@ app.listen(port, async () => {
   app.use("/user", /* authRateLimiter,*/ login);
   app.use("/user", /* authRateLimiter,*/ getUser);
   app.use("/user", /* regularRateLimiter,*/ user);
-  app.use("/profession-name", /*regularRateLimiter,*/ professionName);
-  app.use("/review", /*regularRateLimiter,*/ review);
+  app.use("/profession-name", /* regularRateLimiter,*/ professionName);
+  app.use("/review", /* regularRateLimiter,*/ review);
   app.use("/service", /* authRateLimiter,*/ addService);
   app.use("/service", /* authRateLimiter,*/ editService);
   app.use("/service", /* authRateLimiter,*/ removeService);
-  app.use("/service-name", /*authRateLimiter,*/ serviceName);
+  app.use("/service-name", /* authRateLimiter,*/ serviceName);
 
   logger.info(`Server ready on: http://localhost:${port}`);
 });

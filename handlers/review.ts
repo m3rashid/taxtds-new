@@ -1,9 +1,14 @@
-import express from "express";
+import {
+  Request,
+  Response,
+  NextFunction,
+  Router as expressRouter,
+} from "express";
 import Joi from "joi";
-const router = express.Router();
+const router = expressRouter();
 
-import Review from "../models/review";
-import { resourceAbsent, internalServerError } from "./helpers";
+// import Review from "../models/review";
+import { resourceAbsent /* internalServerError */ } from "./helpers";
 import logger from "../utils/logger";
 
 const reviewSchema = Joi.object({
@@ -14,9 +19,9 @@ const reviewSchema = Joi.object({
 });
 
 const validateReviewRequest = async (
-  req: express.Request,
-  res: express.Response,
-  next: express.NextFunction
+  req: Request,
+  res: Response,
+  next: NextFunction
 ) => {
   try {
     const value = await reviewSchema.validateAsync({ ...req.body });
@@ -30,7 +35,7 @@ const validateReviewRequest = async (
 router.post(
   "/add-review",
   validateReviewRequest,
-  (Req: express.Request, res: express.Response) => {
+  (Req: Request, res: Response) => {
     res.send("reached");
   }
 );

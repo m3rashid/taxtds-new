@@ -1,6 +1,11 @@
-import express from "express";
+import {
+  Request,
+  Response,
+  NextFunction,
+  Router as expressRouter,
+} from "express";
 import Joi from "joi";
-const router = express.Router();
+const router = expressRouter();
 
 import ProfessionName from "../models/professionName";
 import { resourceAbsent, internalServerError } from "./helpers";
@@ -11,9 +16,9 @@ const professionNameSchema = Joi.object({
 });
 
 const validateProfessionNameRequest = async (
-  req: express.Request,
-  res: express.Response,
-  next: express.NextFunction
+  req: Request,
+  res: Response,
+  next: NextFunction
 ) => {
   try {
     const value = await professionNameSchema.validateAsync({
@@ -31,7 +36,7 @@ const validateProfessionNameRequest = async (
 router.post(
   "/add-profession",
   validateProfessionNameRequest,
-  async (req: express.Request, res: express.Response) => {
+  async (req: Request, res: Response) => {
     const { name } = req.body;
     // check if the same name exists in the database or not
     const profession = new ProfessionName({ name });

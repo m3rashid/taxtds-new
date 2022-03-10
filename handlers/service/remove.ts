@@ -1,10 +1,10 @@
-import express, { Response, NextFunction } from "express";
-import Joi from "joi";
-const router = express.Router();
+import { Response, NextFunction, Router as expressRouter } from "express";
+// import Joi from "joi";
+const router = expressRouter();
 
 import { internalServerError } from "../helpers";
 import checkAuth, { SecureRequest } from "../../middlewares/jwt.auth";
-import logger from "../../utils/logger";
+// import logger from "../../utils/logger";
 
 import Service from "../../models/service";
 import { editSchema } from "./edit";

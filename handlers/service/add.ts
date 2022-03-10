@@ -1,7 +1,7 @@
-import express from "express";
+import { Response, NextFunction, Router as expressRouter } from "express";
 import Joi from "joi";
 import { v2 as cloudinary } from "cloudinary";
-import path from "path";
+// import path from "path";
 
 import { internalServerError } from "../helpers";
 import checkAuth, { SecureRequest } from "../../middlewares/jwt.auth";
@@ -9,7 +9,7 @@ import logger from "../../utils/logger";
 import Service from "../../models/service";
 import upload from "../../utils/multer";
 
-const router = express.Router();
+const router = expressRouter();
 
 export const addSchema = Joi.object({
   brandName: Joi.string().required(),
@@ -31,8 +31,8 @@ export const addSchema = Joi.object({
 
 const validateAddServiceRequest = async (
   req: SecureRequest,
-  res: express.Response,
-  next: express.NextFunction
+  res: Response,
+  next: NextFunction
 ) => {
   try {
     await addSchema.validateAsync({ ...req.body });
@@ -49,15 +49,15 @@ cloudinary.config({
   secure: true,
 });
 
-const uploadFiles = async (file: Express.Multer.File) => {
-  try {
-    let filePath = path.resolve(__dirname, `../../uploads/${file.filename}`);
-    let data = await cloudinary.uploader.upload(filePath);
-    return data;
-  } catch (err) {
-    logger.error(JSON.stringify(err));
-  }
-};
+// const uploadFiles = async (file: Express.Multer.File) => {
+//   try {
+//     let filePath = path.resolve(__dirname, `../../uploads/${file.filename}`);
+//     let data = await cloudinary.uploader.upload(filePath);
+//     return data;
+//   } catch (err) {
+//     logger.error(JSON.stringify(err));
+//   }
+// };
 
 router.post(
   "/service/add",
@@ -67,8 +67,8 @@ router.post(
     { name: "gallery", maxCount: 3 },
   ]),
   validateAddServiceRequest,
-  async (req: SecureRequest, res: express.Response) => {
-    const { avatar, gallery } = req.body;
+  async (req: SecureRequest, res: Response) => {
+    // const { avatar, gallery } = req.body;
     try {
       const service = new Service({
         brandName: req.body.brandName,

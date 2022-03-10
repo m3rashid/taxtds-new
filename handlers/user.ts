@@ -1,6 +1,6 @@
-import express, { Request, Response } from "express";
-const router = express.Router();
-import mongoose from "mongoose";
+import { Response, Router as expressRouter } from "express";
+const router = expressRouter();
+// import mongoose from "mongoose";
 
 import User from "../models/user";
 import Service from "../models/service";

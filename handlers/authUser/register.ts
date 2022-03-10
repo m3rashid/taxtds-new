@@ -1,4 +1,9 @@
-import express from "express";
+import {
+  Request,
+  Response,
+  NextFunction,
+  Router as expressRouter,
+} from "express";
 import Joi from "joi";
 
 import {
@@ -13,16 +18,16 @@ import { hashPassword } from "../../utils/auth";
 import { issueJWT } from "../../middlewares/jwt";
 import logger from "../../utils/logger";
 
-const router = express.Router();
+const router = expressRouter();
 
 const registerOneSchema = Joi.object({
   email: Joi.string().email().required(),
 });
 
 const validateRegisterOneRequest = async (
-  req: express.Request,
-  res: express.Response,
-  next: express.NextFunction
+  req: Request,
+  res: Response,
+  next: NextFunction
 ) => {
   try {
     const value = await registerOneSchema.validateAsync({ ...req.body });
@@ -37,13 +42,14 @@ const validateRegisterOneRequest = async (
 router.post(
   "/register-one",
   validateRegisterOneRequest,
-  async (req: express.Request, res: express.Response) => {
+  async (req: Request, res: Response) => {
     const { email } = req.body;
     try {
       const user = await User.findOne({ email });
       if (user) return alreadyPresent(res);
 
-      let otpToSend: number, emailToSend: string;
+      let otpToSend: number;
+      let emailToSend: string;
       const savedOtp = await Otp.findOne({ email });
       if (savedOtp) {
         otpToSend = savedOtp.otp;
@@ -82,9 +88,9 @@ const registerTwoSchema = Joi.object({
 }).with("password", "confirmPassword");
 
 const validateRegisterTwoRequest = async (
-  req: express.Request,
-  res: express.Response,
-  next: express.NextFunction
+  req: Request,
+  res: Response,
+  next: NextFunction
 ) => {
   try {
     const value = await registerTwoSchema.validateAsync({ ...req.body });
@@ -99,7 +105,7 @@ const validateRegisterTwoRequest = async (
 router.post(
   "/register-two",
   validateRegisterTwoRequest,
-  async (req: express.Request, res: express.Response) => {
+  async (req: Request, res: Response) => {
     const { email, otp } = req.body;
     try {
       const dbOtp = await Otp.findOne({ email, otp });

@@ -1,10 +1,10 @@
-import express from "express";
+import { Response, NextFunction, Router as expressRouter } from "express";
 import Joi from "joi";
-const router = express.Router();
+const router = expressRouter();
 
 import { internalServerError } from "../helpers";
 import checkAuth, { SecureRequest } from "../../middlewares/jwt.auth";
-import logger from "../../utils/logger";
+// import logger from "../../utils/logger";
 import { addSchema } from "./add";
 import Service from "../../models/service";
 
@@ -14,8 +14,8 @@ export const editSchema = addSchema.keys({
 
 const validateEditServiceRequest = async (
   req: SecureRequest,
-  res: express.Response,
-  next: express.NextFunction
+  res: Response,
+  next: NextFunction
 ) => {
   try {
     await editSchema.validateAsync({ ...req.body });
@@ -29,9 +29,9 @@ router.post(
   "/service/edit/:serviceId",
   checkAuth,
   validateEditServiceRequest,
-  async (req: SecureRequest, res: express.Response) => {
+  async (req: SecureRequest, res: Response) => {
     // handle the image change workflow
-    const { avatar, gallery } = req.body;
+    // const { avatar, gallery } = req.body;
     try {
       await Service.findByIdAndUpdate(req.params.serviceId, {
         $set: {

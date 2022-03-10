@@ -1,19 +1,24 @@
-import express from "express";
+import {
+  Request,
+  Response,
+  NextFunction,
+  Router as expressRouter,
+} from "express";
 import Joi from "joi";
-const router = express.Router();
+const router = expressRouter();
 
 import ServiceName from "../../models/serviceName";
 import { resourceAbsent, internalServerError } from "../helpers";
-import logger from "../../utils/logger";
+// import logger from "../../utils/logger";
 
 const serviceNameSchema = Joi.object({
   name: Joi.string().required(),
 });
 
 const validateServiceNameRequest = async (
-  req: express.Request,
-  res: express.Response,
-  next: express.NextFunction
+  req: Request,
+  res: Response,
+  next: NextFunction
 ) => {
   try {
     await serviceNameSchema.validateAsync({ ...req.body });
@@ -27,7 +32,7 @@ const validateServiceNameRequest = async (
 router.post(
   "/add-service",
   validateServiceNameRequest,
-  async (req: express.Request, res: express.Response) => {
+  async (req: Request, res: Response) => {
     const service = new ServiceName({ name: req.body.name });
     try {
       await service.save();

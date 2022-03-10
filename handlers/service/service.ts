@@ -1,10 +1,10 @@
-import express, { Request, Response } from "express";
-const router = express.Router();
+import { Response, Router as expressRouter } from "express";
+const router = expressRouter();
 import User from "../../models/user";
 import Service from "../../models/service";
 import checkAuth, { SecureRequest } from "../../middlewares/jwt.auth";
-import fs from "fs";
-import path from "path";
+// import fs from "fs";
+// import path from "path";
 import { v2 as cloudinary } from "cloudinary";
 import upload from "../../utils/multer";
 import logger from "../../utils/logger";
