@@ -8,8 +8,9 @@ winston.addColors({
   verbose: "bold blue",
   silly: "bold magenta",
 });
+
 const colorizer = winston.format.colorize();
-const customFormat = winston.format.combine(
+const consoleFormat = winston.format.combine(
   winston.format.timestamp({ format: "YYYY-MM-DD HH:mm:ss" }),
   winston.format.align(),
   winston.format.printf((info) => {
@@ -29,11 +30,8 @@ const logger = winston.createLogger({
     verbose: 4,
     silly: 5,
   },
-  format: customFormat,
   transports: [
-    new winston.transports.Console({ level: "silly", format: customFormat }),
-    new winston.transports.File({ filename: "taxtds.log", level: "info" }),
-    new winston.transports.File({ filename: "error.log", level: "error" }),
+    new winston.transports.Console({ level: "silly", format: consoleFormat }),
   ],
 });
 
