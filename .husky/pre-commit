@@ -4,19 +4,19 @@
 echo '🏗️👷 Styling, testing and building your project before committing'
 
 # Check Prettier standards
-yarn check:format || (
+pnpm check:format || (
   echo '🤢🤮🤢🤮 Its VERY RAW 🤢🤮🤢🤮 \nPrettier Check Failed. Run npm run format, add changes and try commit again.';
   false;
 )
 
 # Check ESLint Standards
-yarn check:lint || (
+pnpm check:lint || (
   echo '😤🏀👋😤 ESLint Check Failed ! 😤🏀👋😤 \nMake the required changes listed above, add changes and try to commit again.'
   false; 
 )
 
 # Check tsconfig standards
-yarn check:types || (
+pnpm check:types || (
   echo '🤡😂❌🤡 Failed Type check. 🤡😂❌🤡 \nMake the changes required above.'
   false;
 )
@@ -25,7 +25,7 @@ yarn check:types || (
 echo '🤔🤔🤔🤔... Alright.... 🤔🤔🤔🤔
 Code looks good to me... Trying to build now'
 
-yarn build || (
+pnpm build || (
   echo '❌👷🔨❌ Build failed ❌👷🔨❌ \nView the errors above to see why.'
   false;
 )

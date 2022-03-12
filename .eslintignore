@@ -1,9 +1,18 @@
 .env
-node_modules/
-yarn.lock
-*.md
+node_modules
+client/node_modules
+
+pnpm-lock.yaml
+client/pnpm-lock.yaml
+
 package.json
+client/package.json
+
+*.md
+
 tsconfig.json
+client/tsconfig.json
+
 README.md
 LISCENCE
 build
@@ -11,8 +20,7 @@ build
 .vscode/
 *.log
 *.txt
-tsconfig.json
 
-postcss.config.js
-tailwind.config.js
+client/postcss.config.js
+client/tailwind.config.js
 bulk
