@@ -12,8 +12,9 @@ const fileFormat = winston.format.combine(
     }\n[RESPONSE]:: ${JSON.stringify(
       info.meta.res
     )}\n[HEADERS]:: ${JSON.stringify(info.meta.req.headers)}${
-      Object.keys(info.meta.req.query).length &&
-      `\n[QUERY]:: ${JSON.stringify(info.meta.req.query)}`
+      Object.keys(info.meta.req.query).length
+        ? `\n[QUERY]:: ${JSON.stringify(info.meta.req.query)}`
+        : ""
     }\n`;
   })
 );
