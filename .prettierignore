@@ -2,8 +2,8 @@
 node_modules
 client/node_modules
 
-pnpm-lock.yaml
-client/pnpm-lock.yaml
+yarn.lock
+client/yarn.lock
 
 package.json
 client/package.json
