@@ -1,6 +1,5 @@
 import React from "react";
-import Visibility from "@material-ui/icons/Visibility";
-import VisibilityOff from "@material-ui/icons/VisibilityOff";
+import { MdVisibility, MdVisibilityOff } from "react-icons/md";
 
 interface IInputElProps {
   Icon: any;
@@ -51,9 +50,9 @@ const InputEl = ({
       />
       {type === "password" ? (
         passwordType === "password" ? (
-          <VisibilityOff className="m-[8px]" onClick={showPassword} />
+          <MdVisibilityOff className="m-[8px]" onClick={showPassword} />
         ) : (
-          <Visibility className="m-[8px]" onClick={showPassword} />
+          <MdVisibility className="m-[8px]" onClick={showPassword} />
         )
       ) : null}
     </div>

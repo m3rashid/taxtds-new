@@ -1,6 +1,6 @@
 import React from "react";
 import Select from "react-select";
-import HomeWork from "@material-ui/icons/HomeWork";
+import { MdHomeWork } from "react-icons/md";
 
 interface IProps {
   data?: any;
@@ -30,7 +30,7 @@ const ServiceSelector = ({ data, setData }: IProps) => {
 
   return (
     <div className="flex flex-row items-center w-full mb-[15px] border-x-4 border-buttonSuccess rounded-md shadow-md bg-[white] pl-[8px]">
-      <HomeWork />
+      <MdHomeWork />
       <Select
         className="w-full"
         onChange={handleSelectChange}

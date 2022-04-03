@@ -1,7 +1,9 @@
-import Person from "@material-ui/icons/Person";
-import RateReview from "@material-ui/icons/RateReview";
-import ThumbsUpDown from "@material-ui/icons/ThumbsUpDown";
-import Grade from "@material-ui/icons/Grade";
+import {
+  MdPerson,
+  MdRateReview,
+  MdThumbsUpDown,
+  MdGrade,
+} from "react-icons/md";
 
 import Header from "../components/customHeader";
 import Footer from "../components/mainFooter";
@@ -139,7 +141,7 @@ const ServiceDetail = () => {
                       <div className="bg-[white] hover:bg-lightHover rounded-md shadow-md gap-3 p-3 w-full max-w-[400px]">
                         <div className="flex items-center w-full gap-6 mb-2">
                           <div className="p-2 bg-accentTwo rounded-full">
-                            <Person fontSize="large" />
+                            <MdPerson fontSize="large" />
                           </div>
                           <div className="">
                             <p className="font-semibold">
@@ -176,7 +178,7 @@ const ServiceDetail = () => {
             <div className="bg-[white] p-4 rounded-md shadow-md">
               {/* to remove the arrows, validate the input for the given range (0-10) */}
               <InputEl
-                Icon={<Person />}
+                Icon={<MdPerson />}
                 name="name"
                 onChange={() => {}}
                 placeholder="Name"
@@ -184,7 +186,7 @@ const ServiceDetail = () => {
                 value=""
               />
               <InputEl
-                Icon={<Grade />}
+                Icon={<MdGrade />}
                 name="rating"
                 onChange={() => {}}
                 type="number"
@@ -194,7 +196,7 @@ const ServiceDetail = () => {
                 value=""
               />
               <InputEl
-                Icon={<RateReview />}
+                Icon={<MdRateReview />}
                 name="review"
                 onChange={() => {}}
                 placeholder="Review"
@@ -202,7 +204,7 @@ const ServiceDetail = () => {
                 value=""
               />
               <ButtonEl
-                Icon={<ThumbsUpDown />}
+                Icon={<MdThumbsUpDown />}
                 label="Post Review"
                 callback={() => {}}
               />

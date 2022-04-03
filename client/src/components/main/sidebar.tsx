@@ -1,5 +1,5 @@
 import React from "react";
-import ArrowDropDownCircle from "@material-ui/icons/ArrowDropDownCircle";
+import { MdArrowDropDownCircle } from "react-icons/md";
 
 const services = [
   { name: "Registration Services" },
@@ -146,7 +146,7 @@ const Sidebar = () => {
             Listed Services
           </p>
           <div className="md:hidden" onClick={() => setOpen(!open)}>
-            <ArrowDropDownCircle className="hover:text-accentTwo" />
+            <MdArrowDropDownCircle className="hover:text-accentTwo" />
           </div>
         </li>
         {services.map(({ name }: { name: string }, index: number) => {

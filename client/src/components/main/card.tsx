@@ -1,7 +1,4 @@
-import Email from "@material-ui/icons/Email";
-import Phone from "@material-ui/icons/Phone";
-import AttachMoney from "@material-ui/icons/AttachMoney";
-import Info from "@material-ui/icons/Info";
+import { MdEmail, MdPhone, MdAttachMoney, MdInfo } from "react-icons/md";
 
 import ButtonEl from "../atoms/Button";
 import ButtonLink from "../atoms/ButtonLink";
@@ -63,11 +60,11 @@ const Card = ({
               State: <span className="font-semibold">{state}</span>
             </p>
             <p className="font-semibold flex items-center gap-2">
-              <Phone />
+              <MdPhone />
               <span className="font-semibold">{phone}</span>
             </p>
             <p className="font-semibold flex items-center gap-2">
-              <Email />
+              <MdEmail />
               <span className="font-semibold">{email}</span>
             </p>
           </div>
@@ -75,13 +72,13 @@ const Card = ({
         <div className="flex flex-row gap-2 flex-wrap">
           <ButtonLink
             bgColor="bg-accentTwo"
-            Icon={<Info />}
+            Icon={<MdInfo />}
             label="Show Details"
             to={`/service/${id}`}
           />
-          <ButtonEl Icon={<Phone />} label="Call Now" callback={() => {}} />
+          <ButtonEl Icon={<MdPhone />} label="Call Now" callback={() => {}} />
           <ButtonEl
-            Icon={<AttachMoney />}
+            Icon={<MdAttachMoney />}
             bgColor="bg-buttonDanger"
             textColor="text-[white]"
             label="Get Quotes"

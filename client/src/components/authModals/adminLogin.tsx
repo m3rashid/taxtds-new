@@ -1,6 +1,4 @@
-import VpnKey from "@material-ui/icons/VpnKey";
-import Person from "@material-ui/icons/Person";
-import Lock from "@material-ui/icons/Lock";
+import { MdVpnKey, MdPerson, MdLock } from "react-icons/md";
 
 import InputEl from "../atoms/Input";
 import ButtonEl from "../atoms/Button";
@@ -28,7 +26,7 @@ const AdminLogin = () => {
         name="username"
         value={data.username}
         onChange={handleChange}
-        Icon={<Person />}
+        Icon={<MdPerson />}
         type="text"
         placeholder="Admin username"
       />
@@ -36,12 +34,12 @@ const AdminLogin = () => {
         name="password"
         value={data.password}
         onChange={handleChange}
-        Icon={<VpnKey />}
+        Icon={<MdVpnKey />}
         type="password"
         placeholder="Admin password"
       />
       <div className="flex flex-col w-full">
-        <ButtonEl Icon={<Lock />} label="Admin Login" callback={loginAdmin} />
+        <ButtonEl Icon={<MdLock />} label="Admin Login" callback={loginAdmin} />
       </div>
     </>
   );

@@ -1,6 +1,4 @@
-import VpnKey from "@material-ui/icons/VpnKey";
-import Person from "@material-ui/icons/Person";
-import Lock from "@material-ui/icons/Lock";
+import { MdVpnKey, MdPerson, MdLock } from "react-icons/md";
 import { useDispatch } from "react-redux";
 
 import InputEl from "../atoms/Input";
@@ -33,7 +31,7 @@ const Login = () => {
         name="email"
         value={data.email}
         onChange={handleChange}
-        Icon={<Person />}
+        Icon={<MdPerson />}
         type="text"
         placeholder="Enter email"
       />
@@ -41,12 +39,12 @@ const Login = () => {
         name="password"
         value={data.password}
         onChange={handleChange}
-        Icon={<VpnKey />}
+        Icon={<MdVpnKey />}
         type="password"
         placeholder="Enter password"
       />
       <div className="flex flex-col w-full">
-        <ButtonEl Icon={<Lock />} label="Login" callback={loginUser} />
+        <ButtonEl Icon={<MdLock />} label="Login" callback={loginUser} />
       </div>
     </>
   );

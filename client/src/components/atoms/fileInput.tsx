@@ -1,6 +1,6 @@
 import React from "react";
 import { useDropzone } from "react-dropzone";
-import AddPhotoAlternate from "@material-ui/icons/AddPhotoAlternate";
+import { MdAddPhotoAlternate } from "react-icons/md";
 
 interface IProps {
   title?: string;
@@ -28,7 +28,7 @@ const FileInput = ({ title }: IProps) => {
             : "Drag and drop files here, or click to select files"}
         </p>
         <div className="w-full h-full flex items-center justify-center py-4 border-2 rounded-md border-dashed border-darkFgTwo">
-          <AddPhotoAlternate
+          <MdAddPhotoAlternate
             className="opacity-40"
             style={{ fontSize: "4rem" }}
           />

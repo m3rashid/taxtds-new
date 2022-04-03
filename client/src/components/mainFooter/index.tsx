@@ -24,7 +24,7 @@ const Footer = () => {
                 India's 1st professionals Hub
               </p>
 
-              <div className="pt-[10px]">
+              <div className="flex items-center justify-center">
                 {socials.map((item) => (
                   <a
                     key={"social" + item.key}

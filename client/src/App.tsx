@@ -13,13 +13,6 @@ import User from "./pages/user";
 import CreateService from "./pages/user/create";
 import EditService from "./pages/user/edit";
 
-import ProfesssionNameTable from "./pages/admin/professionNameTable";
-import ServiceNameTable from "./pages/admin/serviceNameTable";
-import ServiceTable from "./pages/admin/ServiceTable";
-import UserTable from "./pages/admin/UserTable";
-
-// TODO move project to mantine
-
 const App = () => {
   const dispatch = useDispatch();
 
@@ -48,16 +41,10 @@ const App = () => {
           <Route path="/service/:id" element={<ServiceDetail />} />
           <Route path="/service/create" element={<CreateService />} />
           <Route path="/service/:id/edit" element={<EditService />} />
-          <Route
-            path="/admin/listed-rofessions"
-            element={<ProfesssionNameTable />}
-          />
-          <Route
-            path="/admin/list-services-names"
-            element={<ServiceNameTable />}
-          />
-          <Route path="/admin/listed-services" element={<ServiceTable />} />
-          <Route path="/admin/listed-users" element={<UserTable />} />
+          {/* <Route path="/admin/listed-rofessions" element={} />
+          <Route path="/admin/list-services-names" element={} />
+          <Route path="/admin/listed-services" element={} />
+          <Route path="/admin/listed-users" element={} /> */}
           <Route
             path="/admin"
             element={<Navigate to="/admin/listed-services" />}

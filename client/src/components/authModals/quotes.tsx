@@ -1,7 +1,4 @@
-import AlternateEmail from "@material-ui/icons/AlternateEmail";
-import Person from "@material-ui/icons/Person";
-import Phone from "@material-ui/icons/Phone";
-import Help from "@material-ui/icons/Help";
+import { MdPerson, MdAlternateEmail, MdPhone, MdHelp } from "react-icons/md";
 
 import InputEl from "../atoms/Input";
 import ButtonEl from "../atoms/Button";
@@ -31,7 +28,7 @@ const Quotes = () => {
         name="org"
         value={data.org}
         onChange={handleChange}
-        Icon={<Person />}
+        Icon={<MdPerson />}
         type="text"
         placeholder="Your Organisation Name"
       />
@@ -39,7 +36,7 @@ const Quotes = () => {
         name="email"
         value={data.email}
         onChange={handleChange}
-        Icon={<AlternateEmail />}
+        Icon={<MdAlternateEmail />}
         type="email"
         placeholder="Your email"
       />
@@ -47,7 +44,7 @@ const Quotes = () => {
         name="phone"
         value={data.phone}
         onChange={handleChange}
-        Icon={<Phone />}
+        Icon={<MdPhone />}
         type="tel"
         placeholder="Your Phone"
       />
@@ -60,7 +57,7 @@ const Quotes = () => {
         placeholder="Enter your query to be asked"
       />
       <div className="flex flex-col w-full">
-        <ButtonEl Icon={<Help />} label="Get Quotes" callback={getQuotes} />
+        <ButtonEl Icon={<MdHelp />} label="Get Quotes" callback={getQuotes} />
       </div>
     </>
   );

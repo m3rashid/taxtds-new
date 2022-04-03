@@ -1,11 +1,13 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import AlternateEmail from "@material-ui/icons/AlternateEmail";
-import VpnKey from "@material-ui/icons/VpnKey";
-import Phone from "@material-ui/icons/Phone";
-import Person from "@material-ui/icons/Person";
-import Lock from "@material-ui/icons/Lock";
-import LocationCity from "@material-ui/icons/LocationCity";
+import {
+  MdLocationCity,
+  MdPhone,
+  MdAlternateEmail,
+  MdVpnKey,
+  MdPerson,
+  MdLock,
+} from "react-icons/md";
 
 import InputEl from "../atoms/Input";
 import ButtonEl from "../atoms/Button";
@@ -47,18 +49,18 @@ const SignupStepOne = ({
         onChange={(e: any) => {
           setEmail(e.target.value);
         }}
-        Icon={<AlternateEmail />}
+        Icon={<MdAlternateEmail />}
         type="email"
         placeholder="Enter your Email"
       />
       <div className="flex flex-col w-full">
         <ButtonEl
-          Icon={<Lock />}
+          Icon={<MdLock />}
           label="Verify email"
           callback={handleRegisterOne}
         />
         <ButtonEl
-          Icon={<Lock />}
+          Icon={<MdLock />}
           label="Already verified ?"
           callback={alreadyVerified}
         />
@@ -105,7 +107,7 @@ const SignupStepTwo = ({ email }: { email?: string }) => {
         name="name"
         value={data.name}
         onChange={handleChange}
-        Icon={<Person />}
+        Icon={<MdPerson />}
         type="text"
         placeholder="Enter your name"
       />
@@ -113,7 +115,7 @@ const SignupStepTwo = ({ email }: { email?: string }) => {
         name="email"
         value={data.email}
         onChange={handleChange}
-        Icon={<AlternateEmail />}
+        Icon={<MdAlternateEmail />}
         type="email"
         placeholder="Enter your Email"
       />
@@ -121,7 +123,7 @@ const SignupStepTwo = ({ email }: { email?: string }) => {
         name="phone"
         value={data.phone}
         onChange={handleChange}
-        Icon={<Phone />}
+        Icon={<MdPhone />}
         placeholder="Enter Phone Number"
         type="text"
       />
@@ -129,7 +131,7 @@ const SignupStepTwo = ({ email }: { email?: string }) => {
         name="addressLineOne"
         value={data.addressLineOne}
         onChange={handleChange}
-        Icon={<LocationCity />}
+        Icon={<MdLocationCity />}
         placeholder="Address Line One"
         type="text"
       />
@@ -137,7 +139,7 @@ const SignupStepTwo = ({ email }: { email?: string }) => {
         name="addressLineTwo"
         value={data.addressLineTwo}
         onChange={handleChange}
-        Icon={<LocationCity />}
+        Icon={<MdLocationCity />}
         placeholder="Address Line Two"
         type="text"
       />
@@ -145,7 +147,7 @@ const SignupStepTwo = ({ email }: { email?: string }) => {
         name="experience"
         value={data.experience}
         onChange={handleChange}
-        Icon={<LocationCity />}
+        Icon={<MdLocationCity />}
         placeholder="Experience in years"
         type="number"
       />
@@ -154,7 +156,7 @@ const SignupStepTwo = ({ email }: { email?: string }) => {
         name="password"
         value={data.password}
         onChange={handleChange}
-        Icon={<VpnKey />}
+        Icon={<MdVpnKey />}
         type="password"
         placeholder="Choose a password"
       />
@@ -162,7 +164,7 @@ const SignupStepTwo = ({ email }: { email?: string }) => {
         name="confirmPassword"
         value={data.confirmPassword}
         onChange={handleChange}
-        Icon={<VpnKey />}
+        Icon={<MdVpnKey />}
         type="password"
         placeholder="Confirm password"
       />
@@ -170,13 +172,13 @@ const SignupStepTwo = ({ email }: { email?: string }) => {
         name="otp"
         value={data.otp}
         onChange={handleChange}
-        Icon={<VpnKey />}
+        Icon={<MdVpnKey />}
         type="password"
         placeholder="OTP"
       />
       <div className="flex flex-col w-full">
-        <ButtonEl Icon={<Lock />} label="SignUp" callback={signupUser} />
-        <ButtonEl Icon={<Lock />} label="Go Back" callback={goBack} />
+        <ButtonEl Icon={<MdLock />} label="SignUp" callback={signupUser} />
+        <ButtonEl Icon={<MdLock />} label="Go Back" callback={goBack} />
       </div>
     </>
   );

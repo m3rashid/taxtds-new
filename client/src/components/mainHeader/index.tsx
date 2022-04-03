@@ -1,9 +1,6 @@
 import React from "react";
-import Search from "@material-ui/icons/Search";
-import Person from "@material-ui/icons/Person";
-import Help from "@material-ui/icons/Help";
-import Lock from "@material-ui/icons/Lock";
 import { useSelector } from "react-redux";
+import { MdPerson, MdLock, MdHelp, MdSearch } from "react-icons/md";
 
 import data from "./data";
 import AuthModals from "../authModals";
@@ -38,14 +35,14 @@ const Header = () => {
           </div>
 
           <button className="h-[30px] w-[40px] md:h-[40px] md:w-[60px] bg-accentTwo rounded-sm">
-            <Search />
+            <MdSearch />
           </button>
         </div>
 
         <div className="ml-0 md:ml-[50px] md:mt-2 lg:ml-[30px] xl:ml-[200px] cursor-pointer flex gap-2">
           <TopLink
             name="Quotes"
-            Icon={<Help />}
+            Icon={<MdHelp />}
             callback={() => setModalShow("quotes")}
           />
 
@@ -53,30 +50,30 @@ const Header = () => {
             <>
               <TopLink
                 name="Login"
-                Icon={<Lock />}
+                Icon={<MdLock />}
                 callback={() => setModalShow("login")}
               />
               <TopLink
                 name="Signup"
-                Icon={<Lock />}
+                Icon={<MdLock />}
                 callback={() => setModalShow("signup")}
               />
               <TopLink
                 name="Admin"
-                Icon={<Lock />}
+                Icon={<MdLock />}
                 callback={() => setModalShow("admin")}
               />
             </>
           ) : isAuthUser ? (
             <TopLink
               name="Profile"
-              Icon={<Person />}
+              Icon={<MdPerson />}
               callback={() => navigate("/user")}
             />
           ) : (
             <TopLink
               name="Admin"
-              Icon={<Person />}
+              Icon={<MdPerson />}
               callback={() => navigate("/admin")}
             />
           )}

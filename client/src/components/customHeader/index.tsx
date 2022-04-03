@@ -1,7 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
-import ExitToApp from "@material-ui/icons/ExitToApp";
-import Home from "@material-ui/icons/Home";
 import { useDispatch } from "react-redux";
+import { MdExitToApp, MdHome } from "react-icons/md";
 
 import { logout } from "../../redux/actions/auth.action";
 
@@ -33,13 +32,13 @@ const Header = ({ greeting, subtitle, person = true }: IProps) => {
               className="flex items-center gap-2 cursor-pointer"
               onClick={handleLogout}
             >
-              <ExitToApp />
+              <MdExitToApp />
               <p className="font-semibold">Logout</p>
             </div>
           ) : null}
           <Link to="/">
             <div className="flex items-center gap-2 hover:text-lightHover">
-              <Home />
+              <MdHome />
               <p className="font-semibold">Home</p>
             </div>
           </Link>

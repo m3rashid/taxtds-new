@@ -1,38 +1,40 @@
-import Facebook from "@material-ui/icons/Facebook";
-import Twitter from "@material-ui/icons/Twitter";
-import LinkedIn from "@material-ui/icons/LinkedIn";
-import YouTube from "@material-ui/icons/YouTube";
-import WhatsApp from "@material-ui/icons/WhatsApp";
+import {
+  FaWhatsappSquare,
+  FaFacebookSquare,
+  FaYoutubeSquare,
+  FaLinkedinIn,
+  FaTwitterSquare,
+} from "react-icons/fa";
 
 const socials = [
   {
     key: "1",
     href: "https://www.facebook.com/taxtdscom",
-    Icon: Facebook,
+    Icon: FaFacebookSquare,
     color: "#4267b2",
   },
   {
     key: "2",
     href: "https://twitter.com/taxtds_com",
-    Icon: Twitter,
+    Icon: FaTwitterSquare,
     color: "#1da1f2",
   },
   {
     key: "3",
     href: "https://www.linkedin.com/in/tax-tds-183601224/",
-    Icon: LinkedIn,
+    Icon: FaLinkedinIn,
     color: "#2867b2",
   },
   {
     key: "4",
     href: "https://www.youtube.com/channel/UCbCa3ZWUjLkyzk8WSj-GwXQ",
-    Icon: YouTube,
+    Icon: FaYoutubeSquare,
     color: "#ff0000",
   },
   {
     key: "5",
     href: "https://wa.me/918285565503",
-    Icon: WhatsApp,
+    Icon: FaWhatsappSquare,
     color: "#25d366",
   },
 ];

@@ -1,6 +1,6 @@
 import React from "react";
 import Select from "react-select";
-import LocationOn from "@material-ui/icons/LocationOn";
+import { MdLocationOn } from "react-icons/md";
 
 import StateUt from "../../data/state";
 
@@ -30,7 +30,7 @@ const StateSelector = ({ data, setData }: IProps) => {
 
   return (
     <div className="flex flex-row items-center w-full mb-[15px] border-x-4 border-buttonSuccess rounded-md shadow-md bg-[white] pl-[8px]">
-      <LocationOn />
+      <MdLocationOn />
       <Select
         className="w-full"
         onChange={handleSelectChange}
