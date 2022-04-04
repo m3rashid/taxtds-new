@@ -3,5 +3,4 @@ node_modules
 keys
 generateKeyPair.js
 build
-notes.txt
 *.log

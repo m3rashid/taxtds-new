@@ -1,0 +1,3 @@
+===== Production setup =====
+START="pm2 start build/index.js -i 0",
+STOP="pm2 delete index"
