@@ -74,7 +74,7 @@ const Card = ({
             bgColor="bg-accentTwo"
             Icon={<MdInfo />}
             label="Show Details"
-            to={`/service/${id}`}
+            to={`/listings/${id}`}
           />
           <ButtonEl Icon={<MdPhone />} label="Call Now" callback={() => {}} />
           <ButtonEl

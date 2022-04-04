@@ -1,3 +1,5 @@
+import React from "react";
+
 interface IProps {
   data: number | string;
   label: string;

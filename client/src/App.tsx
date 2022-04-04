@@ -6,12 +6,17 @@ import { useDispatch } from "react-redux";
 
 import { loadUser } from "./redux/actions/auth.action";
 import Main from "./pages/Main";
-import ServiceDetail from "./pages/ServiceDetail";
+import ListingDetail from "./pages/listingDetail";
 import NotFound from "./pages/NotFound";
 
 import User from "./pages/user";
 import CreateService from "./pages/user/create";
 import EditService from "./pages/user/edit";
+
+import { Listings } from "./pages/admin/listings";
+import { Professions } from "./pages/admin/professions";
+import { Services } from "./pages/admin/services";
+import { Users } from "./pages/admin/users";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -24,7 +29,7 @@ const App = () => {
     <BrowserRouter>
       <div className="flex flex-col items-center justify-center">
         <ToastContainer
-          position="top-right"
+          position="bottom-right"
           autoClose={5000}
           hideProgressBar={false}
           newestOnTop={false}
@@ -38,17 +43,20 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Main />} />
           <Route path="/user" element={<User />} />
-          <Route path="/service/:id" element={<ServiceDetail />} />
-          <Route path="/service/create" element={<CreateService />} />
-          <Route path="/service/:id/edit" element={<EditService />} />
-          {/* <Route path="/admin/listed-rofessions" element={} />
-          <Route path="/admin/list-services-names" element={} />
-          <Route path="/admin/listed-services" element={} />
-          <Route path="/admin/listed-users" element={} /> */}
-          <Route
-            path="/admin"
-            element={<Navigate to="/admin/listed-services" />}
-          />
+          <Route path="/listings">
+            <Route path="create" element={<CreateService />} />
+            <Route path=":id">
+              <Route path="" element={<ListingDetail />} />
+              <Route path="edit" element={<EditService />} />
+            </Route>
+          </Route>
+          <Route path="/admin">
+            <Route path="" element={<Navigate to="/admin/listings" />} />
+            <Route path="professions" element={<Professions />} />
+            <Route path="services" element={<Services />} />
+            <Route path="listings" element={<Listings />} />
+            <Route path="users" element={<Users />} />
+          </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>
       </div>

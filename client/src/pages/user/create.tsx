@@ -1,10 +1,10 @@
 import React from "react";
-import { MdBrandingWatermark } from "react-icons/md";
+import { MdBrandingWatermark, MdHomeWork, MdLocationOn } from "react-icons/md";
 import UserWrapper from "../../components/user/wrapper";
 import InputEl from "../../components/atoms/Input";
-import ServiceSelector from "../../components/atoms/serviceSelector";
-import StateSelector from "../../components/atoms/stateSelector";
 import FileInput from "../../components/atoms/fileInput";
+import { ReactSelect } from "../../components/atoms/reactSelect";
+import StateUt from "../../data/state";
 
 const CreateService = () => {
   const [data, setData] = React.useState({
@@ -46,7 +46,14 @@ const CreateService = () => {
           <FileInput />
         </div>
         <div className="w-full min-w-[280px]">
-          <ServiceSelector setData={setData} />
+          <ReactSelect
+            setData={setData}
+            Icon={<MdHomeWork />}
+            placeholder="Select Service"
+            options={[]}
+            value={data.services}
+          />
+
           {/* File input for gallery */}
           <InputEl
             Icon={<MdBrandingWatermark />}
@@ -88,7 +95,13 @@ const CreateService = () => {
             value={data.addressLineTwo}
             placeholder="Address line two"
           />
-          <StateSelector setData={setData} />
+          <ReactSelect
+            setData={setData}
+            Icon={<MdLocationOn />}
+            placeholder="Select State"
+            options={StateUt}
+            value={data.state}
+          />
           <InputEl
             Icon={<MdBrandingWatermark />}
             name="phone"

@@ -7,16 +7,18 @@ import {
   MdVpnKey,
   MdPerson,
   MdLock,
+  MdLocationOn,
 } from "react-icons/md";
 
 import InputEl from "../atoms/Input";
 import ButtonEl from "../atoms/Button";
-import StateSelector from "../atoms/stateSelector";
 import {
   registerOne,
   registerTwo,
   registerOneAlreadyDone,
 } from "../../redux/actions/auth.action";
+import { ReactSelect } from "../atoms/reactSelect";
+import StateUt from "../../data/state";
 
 const titleStyle = "text-[white] text-center font-bold text-xl -mt-4";
 
@@ -151,7 +153,13 @@ const SignupStepTwo = ({ email }: { email?: string }) => {
         placeholder="Experience in years"
         type="number"
       />
-      <StateSelector setData={setData} />
+      <ReactSelect
+        setData={setData}
+        Icon={<MdLocationOn />}
+        placeholder="Select State"
+        options={StateUt}
+        value={data.state}
+      />
       <InputEl
         name="password"
         value={data.password}

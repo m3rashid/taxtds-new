@@ -11,16 +11,16 @@ const AdminWrapper = ({ children }: any) => {
     <div className="w-full">
       <Header greeting="Hello Admin" />
       <div className="bg-accentTwo w-full -mt-4 shadow-md p-3 flex gap-4 flex-wrap items-center justify-center">
-        <Link className={linkStyles} to="/admin/listed-rofessions">
+        <Link className={linkStyles} to="/admin/professions">
           Professions
         </Link>
-        <Link className={linkStyles} to="/admin/list-services-names">
+        <Link className={linkStyles} to="/admin/services">
           Service Names
         </Link>
-        <Link className={linkStyles} to="/admin/listed-services">
+        <Link className={linkStyles} to="/admin/listings">
           Listed Serices
         </Link>
-        <Link className={linkStyles} to="/admin/listed-users">
+        <Link className={linkStyles} to="/admin/users">
           Listed Users
         </Link>
       </div>

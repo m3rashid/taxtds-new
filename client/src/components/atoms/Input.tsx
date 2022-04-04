@@ -2,7 +2,7 @@ import React from "react";
 import { MdVisibility, MdVisibilityOff } from "react-icons/md";
 
 interface IInputElProps {
-  Icon: any;
+  Icon?: any;
   type: string;
   name: string;
   value: string;
@@ -10,6 +10,7 @@ interface IInputElProps {
   min?: number;
   max?: number;
   placeholder?: string;
+  border?: boolean;
 }
 
 const InputEl = ({
@@ -21,6 +22,7 @@ const InputEl = ({
   value,
   onChange,
   placeholder,
+  border = true,
 }: IInputElProps) => {
   const [passwordType, setpasswordType] = React.useState("password");
   const showPassword = (e: any) => {
@@ -33,7 +35,9 @@ const InputEl = ({
 
   return (
     <div
-      className={`flex flex-row items-center w-full border-x-4 border-buttonSuccess bg-[white] mb-[15px] pl-[8px] h-[35px] rounded-md shadow-md`}
+      className={`flex flex-row items-center w-full bg-[white] mb-[15px] pl-[8px] h-[35px] rounded-md shadow-md ${
+        border && "border-x-4 border-buttonSuccess"
+      }`}
     >
       {Icon}
       <input

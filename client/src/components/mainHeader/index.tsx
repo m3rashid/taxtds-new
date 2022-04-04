@@ -87,6 +87,7 @@ const Header = () => {
               <a
                 className="font-semibold"
                 href={`/professions?profession=${thing.urlSlug}`}
+                onClick={(e) => e.preventDefault()}
               >
                 {thing.name}
               </a>

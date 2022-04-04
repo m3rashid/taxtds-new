@@ -51,7 +51,7 @@ const demoService = {
   featured: false,
 };
 
-const ServiceDetail = () => {
+const ListingDetail = () => {
   // TODO handle OG tags
   document.title = `Taxtds - ${demoService.name}`;
   return (
@@ -217,4 +217,4 @@ const ServiceDetail = () => {
   );
 };
 
-export default ServiceDetail;
+export default ListingDetail;
