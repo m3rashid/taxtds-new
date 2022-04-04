@@ -44,11 +44,12 @@ const App = () => {
           <Route path="/" element={<Main />} />
           <Route path="/user" element={<User />} />
           <Route path="/listings">
-            <Route path="create" element={<CreateService />} />
             <Route path=":id">
               <Route path="" element={<ListingDetail />} />
               <Route path="edit" element={<EditService />} />
             </Route>
+            <Route path="" element={<Navigate to="/" />} />
+            <Route path="create" element={<CreateService />} />
           </Route>
           <Route path="/admin">
             <Route path="" element={<Navigate to="/admin/listings" />} />
