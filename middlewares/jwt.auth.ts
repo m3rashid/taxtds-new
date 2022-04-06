@@ -1,14 +1,9 @@
 import { Request, Response, NextFunction } from "express";
-import { JwtPayload } from "jsonwebtoken";
 
 import { verifyJWT } from "./jwt";
-import { unauthorizedResponse } from "../handlers/helpers";
+import { unauthorizedResponse } from "../controllers/helpers";
 
-export interface SecureRequest extends Request {
-  user?: string | JwtPayload;
-}
-
-const checkAuth = (req: SecureRequest, res: Response, next: NextFunction) => {
+const checkAuth = (req: Request, res: Response, next: NextFunction) => {
   const token = req.headers["authorization"];
   if (!token) {
     return unauthorizedResponse(res);

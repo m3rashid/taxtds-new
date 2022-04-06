@@ -1,14 +1,14 @@
-import { Response, Router as expressRouter } from "express";
+import { Request, Response, Router as expressRouter } from "express";
 const router = expressRouter();
 // import mongoose from "mongoose";
 
 import User from "../models/user";
 import Service from "../models/service";
-import checkAuth, { SecureRequest } from "../middlewares/jwt.auth";
+import checkAuth from "../middlewares/jwt.auth";
 import logger from "../utils/logger";
 
 // TODO make a middleware for jwt signing and verification
-router.get("/user", checkAuth, async (req: SecureRequest, res: Response) => {
+router.get("/user", checkAuth, async (req: Request, res: Response) => {
   const userId = req.user;
   if (!userId) {
     return res.status(400).json({
