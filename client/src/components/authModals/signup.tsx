@@ -1,5 +1,4 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
 import {
   MdLocationCity,
   MdPhone,
@@ -12,11 +11,6 @@ import {
 
 import InputEl from "../atoms/Input";
 import ButtonEl from "../atoms/Button";
-import {
-  registerOne,
-  registerTwo,
-  registerOneAlreadyDone,
-} from "../../redux/actions/auth.action";
 import { ReactSelect } from "../atoms/reactSelect";
 import StateUt from "../../data/state";
 
@@ -29,15 +23,9 @@ const SignupStepOne = ({
   email: string;
   setEmail: Function;
 }) => {
-  const dispatch = useDispatch();
+  const handleRegisterOne = () => {};
 
-  const handleRegisterOne = () => {
-    dispatch(registerOne({ email }));
-  };
-
-  const alreadyVerified = () => {
-    dispatch(registerOneAlreadyDone(true));
-  };
+  const alreadyVerified = () => {};
 
   return (
     <>
@@ -72,7 +60,6 @@ const SignupStepOne = ({
 };
 
 const SignupStepTwo = ({ email }: { email?: string }) => {
-  const dispatch = useDispatch();
   const [data, setData] = React.useState({
     name: "",
     email: email || "",
@@ -94,13 +81,9 @@ const SignupStepTwo = ({ email }: { email?: string }) => {
     }));
   };
 
-  const goBack = () => {
-    dispatch(registerOneAlreadyDone(false));
-  };
+  const goBack = () => {};
 
-  const signupUser = () => {
-    dispatch(registerTwo(data));
-  };
+  const signupUser = () => {};
 
   return (
     <>
@@ -195,9 +178,7 @@ const SignupStepTwo = ({ email }: { email?: string }) => {
 const Signup = () => {
   const [email, setEmail] = React.useState<string>("");
 
-  const stepOneDone = useSelector(
-    (state: any) => state.auth.registerOneSuccess
-  );
+  const stepOneDone = false;
   return (
     <>
       {!stepOneDone ? (

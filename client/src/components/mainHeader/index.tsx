@@ -1,5 +1,4 @@
 import React from "react";
-import { useSelector } from "react-redux";
 import { MdPerson, MdLock, MdHelp, MdSearch } from "react-icons/md";
 
 import data from "./data";
@@ -14,7 +13,8 @@ const Header = () => {
     setModalShow("");
   };
 
-  const { isAuthUser, isAuthAdmin } = useSelector((state: any) => state.auth);
+  const isAuthUser = false;
+  const isAuthAdmin = false;
 
   return (
     <header className="w-screen">
@@ -34,8 +34,8 @@ const Header = () => {
             />
           </div>
 
-          <button className="h-[30px] w-[40px] md:h-[40px] md:w-[60px] bg-accentTwo rounded-sm">
-            <MdSearch />
+          <button className="h-[30px] w-[40px] md:h-[40px] md:w-[60px] bg-accentTwo rounded-sm flex items-center justify-center">
+            <MdSearch size={30} />
           </button>
         </div>
 

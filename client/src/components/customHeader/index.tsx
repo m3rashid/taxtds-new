@@ -1,8 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
 import { MdExitToApp, MdHome } from "react-icons/md";
-
-import { logout } from "../../redux/actions/auth.action";
 
 interface IProps {
   greeting: string;
@@ -11,11 +8,10 @@ interface IProps {
 }
 
 const Header = ({ greeting, subtitle, person = true }: IProps) => {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    dispatch(logout());
+    // handle logout
     navigate("/");
   };
 

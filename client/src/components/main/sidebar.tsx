@@ -146,7 +146,7 @@ const Sidebar = () => {
             Listed Services
           </p>
           <div className="md:hidden" onClick={() => setOpen(!open)}>
-            <MdArrowDropDownCircle className="hover:text-accentTwo" />
+            <MdArrowDropDownCircle className="hover:text-accentTwo" size={26} />
           </div>
         </li>
         {services.map(({ name }: { name: string }, index: number) => {

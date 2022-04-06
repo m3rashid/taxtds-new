@@ -1,10 +1,8 @@
 import { MdVpnKey, MdPerson, MdLock } from "react-icons/md";
-import { useDispatch } from "react-redux";
 
 import InputEl from "../atoms/Input";
 import ButtonEl from "../atoms/Button";
 import React from "react";
-import { login } from "../../redux/actions/auth.action";
 
 const Login = () => {
   const [data, setData] = React.useState({
@@ -20,10 +18,7 @@ const Login = () => {
     }));
   };
 
-  const dispatch = useDispatch();
-  const loginUser = () => {
-    dispatch(login(data));
-  };
+  const loginUser = () => {};
 
   return (
     <>

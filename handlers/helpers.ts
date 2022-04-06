@@ -6,44 +6,31 @@ import { Response } from "express";
 // import Service from "../models/service";
 // import Otp from "../models/otp";
 
-export const internalServerError = (res: Response) => {
-  logger.error("Internal Server Error");
-  return res.status(500).json({
-    message: "Internal Server Error",
+const createResponse = (
+  errorMessage: string | any,
+  res: Response,
+  stausCode?: number
+) => {
+  logger.error(errorMessage);
+  return res.status(stausCode || 500).json({
+    message: errorMessage,
   });
 };
 
-export const notFound = (res: Response) => {
-  logger.warn("Resource Not Found");
-  return res.status(404).json({
-    message: "Resource Not Found",
-  });
-};
+export const internalServerError = (res: Response) =>
+  createResponse("Internal Server Error", res);
 
-export const unauthorizedResponse = (res: Response) => {
-  logger.warn("Unauthorized Request");
-  return res.status(401).json({
-    message: "Unauthorized Request",
-  });
-};
+export const notFound = (res: Response) =>
+  createResponse("Resource Not Found", res, 404);
 
-export const resourceAbsent = (res: Response) => {
-  logger.warn("Resource absent");
-  return res.status(400).json({
-    message: "Resource absent",
-  });
-};
+export const unauthorizedResponse = (res: Response) =>
+  createResponse("Unauthorized Request", res, 401);
 
-export const alreadyPresent = (res: Response) => {
-  logger.error("Resource already exists");
-  return res.status(400).json({
-    message: "Resource already exists",
-  });
-};
+export const resourceAbsent = (res: Response) =>
+  createResponse("Resource Absent", res, 400);
 
-export const invalidData = (res: Response) => {
-  logger.error("Invalid data");
-  return res.status(400).json({
-    message: "Invalid data",
-  });
-};
+export const alreadyPresent = (res: Response) =>
+  createResponse("Resource Already Present", res, 409);
+
+export const invalidData = (res: Response) =>
+  createResponse("Invalid Data", res, 400);

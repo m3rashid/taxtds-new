@@ -47,7 +47,7 @@ export const ReactSelect: React.FC<IProps> = ({
   border = true,
   value,
   single,
-  suffix,
+  suffix = "",
   prefix = "",
 }) => {
   const filterOptions = React.useMemo(

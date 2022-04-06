@@ -2,9 +2,7 @@ import React from "react";
 import { ToastContainer, Bounce } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
 
-import { loadUser } from "./redux/actions/auth.action";
 import Main from "./pages/Main";
 import ListingDetail from "./pages/listingDetail";
 import NotFound from "./pages/NotFound";
@@ -19,12 +17,6 @@ import { Services } from "./pages/admin/services";
 import { Users } from "./pages/admin/users";
 
 const App = () => {
-  const dispatch = useDispatch();
-
-  React.useEffect(() => {
-    dispatch(loadUser());
-  }, [dispatch]);
-
   return (
     <BrowserRouter>
       <div className="flex flex-col items-center justify-center">
