@@ -1,10 +1,50 @@
 import React from "react";
 import { MdPerson, MdLock, MdHelp, MdSearch } from "react-icons/md";
-
-import data from "./data";
-import AuthModals from "../authModals";
-import { TopLink, Input } from "./helper";
 import { useNavigate } from "react-router-dom";
+
+import AuthModals from "./authModals";
+
+const data = [
+  { id: 1, name: "Chartered Accountant", urlSlug: "CA" },
+  { id: 2, name: "Cost Accountant", urlSlug: "CMA" },
+  { id: 3, name: "Company Secretory", urlSlug: "CS" },
+  { id: 4, name: "All Professionals", urlSlug: "all" },
+];
+
+interface IPropsTopLink {
+  name: string;
+  Icon: any;
+  callback: React.MouseEventHandler;
+}
+
+const TopLink: React.FC<IPropsTopLink> = ({ name, Icon, callback }) => {
+  return (
+    <div
+      className="flex items-center gap-1 text-lightBgOne m-[5px] hover:text-lightHover"
+      onClick={callback}
+    >
+      {Icon}
+      <p>{name}</p>
+    </div>
+  );
+};
+
+interface IPropsInput {
+  classes?: string;
+  placeholder: string;
+  name: string;
+}
+
+const Input: React.FC<IPropsInput> = ({ classes, placeholder, name }) => {
+  return (
+    <input
+      className={`h-[30px] md:h-[40px] py-[8px] px-[10px] md:p-[10px] focus:outline-none rounded-sm ${classes}`}
+      type="text"
+      placeholder={placeholder}
+      name={name}
+    />
+  );
+};
 
 const Header = () => {
   const navigate = useNavigate();

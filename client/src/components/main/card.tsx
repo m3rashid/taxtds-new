@@ -9,13 +9,11 @@ const Tag = ({
   textColor = "text-[white]",
 }) => {
   return (
-    <>
-      <div
-        className={`absolute top-6 -right-10 h-10 w-[165px] ${bgColor} ${textColor} rotate-45 flex items-center justify-center font-bold`}
-      >
-        {label}
-      </div>
-    </>
+    <div
+      className={`absolute top-6 -right-10 h-10 w-[165px] ${bgColor} ${textColor} rotate-45 flex items-center justify-center font-bold`}
+    >
+      {label}
+    </div>
   );
 };
 
