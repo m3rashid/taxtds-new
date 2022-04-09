@@ -1,12 +1,11 @@
 import axios from "axios";
 import { toast } from "react-toastify";
 
-import { tokenHeader, SERVER_ROOT_URL, hasToken, IActions } from "./helpers";
+import { tokenHeader, SERVER_ROOT_URL, IActions } from "./helpers";
 
-const useuser = (values: any, actions: IActions) => {
+const useUser = (values: any, actions: IActions) => {
   const action = async () => {
     const body = JSON.stringify(values);
-    if (!hasToken) return;
     try {
       const res = await axios.post(
         `${SERVER_ROOT_URL}/${actions.endpoint}`,
@@ -21,7 +20,7 @@ const useuser = (values: any, actions: IActions) => {
     }
   };
 
-  return action;
+  return { action };
 };
 
-export default useuser;
+export default useUser;

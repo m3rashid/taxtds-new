@@ -3,6 +3,8 @@ import { MdPerson, MdLock, MdHelp, MdSearch } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 
 import AuthModals from "./authModals";
+import { authState } from "../store/auth";
+import { useRecoilValue } from "recoil";
 
 const data = [
   { id: 1, name: "Chartered Accountant", urlSlug: "CA" },
@@ -47,14 +49,15 @@ const Input: React.FC<IPropsInput> = ({ classes, placeholder, name }) => {
 };
 
 const Header = () => {
+  const { isAuthenticated, who, user } = useRecoilValue(authState);
   const navigate = useNavigate();
   const [modalShow, setModalShow] = React.useState<string>("");
   const setModalTrigger = () => {
     setModalShow("");
   };
 
-  const isAuthUser = false;
-  const isAuthAdmin = false;
+  const isAuthUser = isAuthenticated && who === "user";
+  const isAuthAdmin = isAuthenticated && who === "admin";
 
   return (
     <header className="w-screen">
@@ -108,7 +111,7 @@ const Header = () => {
             <TopLink
               name="Profile"
               Icon={<MdPerson />}
-              callback={() => navigate("/user")}
+              callback={() => navigate(`/user/${user._id}`)}
             />
           ) : (
             <TopLink

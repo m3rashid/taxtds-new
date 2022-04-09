@@ -1,4 +1,5 @@
 import { atom } from "recoil";
+import { JWT_AUTH, LAST_LOGIN } from "../hooks/helpers";
 
 import { IAuthState, IUserData } from "./interfaces";
 
@@ -7,7 +8,9 @@ export const authState = atom<IAuthState>({
   default: {
     isAuthenticated: false,
     authType: "",
-    token: "",
+    token: window.localStorage.getItem(JWT_AUTH) || "",
+    who:
+      (window.localStorage.getItem(LAST_LOGIN) as "admin" | "user") || "user",
     user: {},
   },
 });

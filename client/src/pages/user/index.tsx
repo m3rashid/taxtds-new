@@ -34,7 +34,7 @@ const demoServices = [
 const username = "Demouser";
 const User = () => {
   return (
-    <UserWrapper name="Demouser" username={username}>
+    <UserWrapper>
       <div className="flex flex-col md:flex-row flex-shrink-0 gap-4 p-4 md:w-full max-w-[1600px] mb-4">
         <React.Suspense fallback={<Loader />}>
           {demoServices.map(
@@ -60,6 +60,7 @@ const User = () => {
                 phone={phone}
                 email={email}
                 featured={featured}
+                isUserPage={true}
               />
             )
           )}

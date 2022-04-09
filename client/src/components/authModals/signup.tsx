@@ -16,6 +16,7 @@ import StateUt from "../../data/state";
 import useAuth from "../../hooks/useAuth";
 import { authState } from "../../store/auth";
 import { useSetRecoilState } from "recoil";
+import { IActions } from "../../hooks/helpers";
 
 const titleStyle = "text-[white] text-center font-bold text-xl -mt-4";
 
@@ -111,7 +112,7 @@ const SignupStepTwo = ({
 
   const signupUser = () => {
     const { handleAuth } = useAuth();
-    const actions = {
+    const actions: IActions = {
       endpoint: "/user/register-two",
       pendingMessage: "Register in progress",
       successMessage: "Registration successful, start listing your services",

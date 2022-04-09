@@ -1,4 +1,10 @@
-import { MdEmail, MdPhone, MdAttachMoney, MdInfo } from "react-icons/md";
+import {
+  MdEmail,
+  MdPhone,
+  MdAttachMoney,
+  MdInfo,
+  MdEdit,
+} from "react-icons/md";
 
 import ButtonEl from "../atoms/Button";
 import ButtonLink from "../atoms/ButtonLink";
@@ -26,7 +32,8 @@ interface IProps {
   state: string;
   phone: string;
   email: string;
-  featured: boolean;
+  featured?: boolean;
+  isUserPage?: boolean;
 }
 
 const Card = ({
@@ -38,7 +45,8 @@ const Card = ({
   state,
   phone,
   email,
-  featured,
+  featured = false,
+  isUserPage = false,
 }: IProps) => {
   return (
     <>
@@ -82,6 +90,13 @@ const Card = ({
             label="Get Quotes"
             callback={() => {}}
           />
+          {isUserPage && (
+            <ButtonLink
+              Icon={<MdEdit />}
+              label="Edit"
+              to={`/user/:userId/${id}/edit`}
+            />
+          )}
         </div>
       </div>
     </>

@@ -5,6 +5,8 @@ import Login from "./login";
 import Signup from "./signup";
 import AdminLogin from "./adminLogin";
 import Quotes from "./quotes";
+import { authState } from "../../store/auth";
+import { useRecoilValue } from "recoil";
 
 const AuthModals = ({
   trigger,
@@ -13,7 +15,7 @@ const AuthModals = ({
   trigger: string;
   setTrigger: any;
 }) => {
-  const isAuthUser = false;
+  const { isAuthenticated } = useRecoilValue(authState);
 
   const initialState = React.useMemo(() => {
     return {
@@ -53,7 +55,7 @@ const AuthModals = ({
   if (show === initialState) {
     return null;
   }
-  if (isAuthUser) {
+  if (isAuthenticated) {
     setShow(initialState);
   }
 

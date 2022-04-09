@@ -15,8 +15,18 @@ import { Listings } from "./pages/admin/listings";
 import { Professions } from "./pages/admin/professions";
 import { Services } from "./pages/admin/services";
 import { Users } from "./pages/admin/users";
+import useAuth from "./hooks/useAuth";
+import { useSetRecoilState } from "recoil";
+import { authState } from "./store/auth";
 
 const App = () => {
+  const { getUser } = useAuth();
+  const setRecoilState = useSetRecoilState(authState);
+
+  React.useEffect(() => {
+    getUser(setRecoilState);
+  }, []);
+
   return (
     <BrowserRouter>
       <div className="flex flex-col items-center justify-center">
@@ -34,14 +44,14 @@ const App = () => {
         />
         <Routes>
           <Route path="/" element={<Main />} />
-          <Route path="/user" element={<User />} />
-          <Route path="/listings">
-            <Route path=":id">
-              <Route path="" element={<ListingDetail />} />
-              <Route path="edit" element={<EditService />} />
-            </Route>
-            <Route path="" element={<Navigate to="/" />} />
+          <Route path="/user/:userId">
+            <Route path="" element={<User />} />
             <Route path="create" element={<CreateService />} />
+            <Route path=":listingId/edit" element={<EditService />} />
+          </Route>
+          <Route path="/listings">
+            <Route path="" element={<Navigate to="/" />} />
+            <Route path=":id" element={<ListingDetail />} />
           </Route>
           <Route path="/admin">
             <Route path="" element={<Navigate to="/admin/listings" />} />

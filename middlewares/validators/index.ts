@@ -24,9 +24,9 @@ export const checkLogin = validateRequest(loginSchema);
 export const checkRegisterOne = validateRequest(registerOneSchema);
 export const checkRegisterTwo = validateRequest(registerTwoSchema);
 
-export const checkAddService = validateRequest(addSchema);
+export const checkAddListing = validateRequest(addSchema);
 export const checkEditService = validateRequest(editSchema);
 export const checkRemoveService = validateRequest(removeSchema);
-export const checkAddServiceName = validateRequest(serviceNameSchema);
-export const checkAddProfessionName = validateRequest(professionNameSchema);
+export const checkAddService = validateRequest(serviceNameSchema);
+export const checkAddProfession = validateRequest(professionNameSchema);
 export const checkAddReview = validateRequest(reviewSchema);

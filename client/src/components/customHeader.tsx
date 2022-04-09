@@ -1,5 +1,8 @@
 import { Link, useNavigate } from "react-router-dom";
 import { MdExitToApp, MdHome } from "react-icons/md";
+import useAuth from "../hooks/useAuth";
+import { useSetRecoilState } from "recoil";
+import { authState } from "../store/auth";
 
 interface IProps {
   greeting: string;
@@ -8,10 +11,12 @@ interface IProps {
 }
 
 const Header = ({ greeting, subtitle, person = true }: IProps) => {
+  const setRecoilState = useSetRecoilState(authState);
   const navigate = useNavigate();
+  const { handleLogout: logout } = useAuth();
 
   const handleLogout = () => {
-    // handle logout
+    logout(setRecoilState);
     navigate("/");
   };
 

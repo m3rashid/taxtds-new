@@ -3,7 +3,7 @@ const router = expressRouter();
 // import mongoose from "mongoose";
 
 import User from "../models/user";
-import Service from "../models/service";
+import Listing from "../models/listing";
 import checkAuth from "../middlewares/jwt.auth";
 import logger from "../utils/logger";
 
@@ -23,7 +23,7 @@ router.get("/user", checkAuth, async (req: Request, res: Response) => {
       });
     }
 
-    const userServices = await Service.find({ addedBy: userId });
+    const userServices = await Listing.find({ addedBy: userId });
 
     return res.status(200).json({
       user: user,

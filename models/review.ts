@@ -5,7 +5,7 @@ export interface IReview {
   name: string;
   rating: number;
   comment?: string;
-  service: any;
+  listing: any;
   createdAt?: any;
   updatedAt?: any;
 }
@@ -20,7 +20,7 @@ const reviewSchema = new mongoose.Schema(
       max: 10,
     },
     comment: { type: String },
-    service: { type: mongoose.Schema.Types.ObjectId, ref: "Service" },
+    listing: { type: mongoose.Schema.Types.ObjectId, ref: "Listing" },
   },
   { timestamps: true }
 );

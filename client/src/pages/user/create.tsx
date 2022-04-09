@@ -32,7 +32,7 @@ const CreateService = () => {
   };
 
   return (
-    <UserWrapper name="Demo User" username="demouser">
+    <UserWrapper>
       <div className="flex flex-col md:flex-row gap-4 p-4 sm:p-0 w-full max-w-[1600px] mb-4">
         <div className="w-full min-w-[280px]">
           <InputEl

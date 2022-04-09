@@ -6,6 +6,7 @@ import ButtonEl from "../atoms/Button";
 import useAuth from "../../hooks/useAuth";
 import { useSetRecoilState } from "recoil";
 import { authState } from "../../store/auth";
+import { IActions } from "../../hooks/helpers";
 
 const Login = () => {
   const setRecoilState = useSetRecoilState(authState);
@@ -24,7 +25,7 @@ const Login = () => {
 
   const loginUser = () => {
     const { handleAuth } = useAuth();
-    const actions = {
+    const actions: IActions = {
       endpoint: "/user/login",
       pendingMessage: "Logging you in...",
       successMessage: "Successfully logged in ...",

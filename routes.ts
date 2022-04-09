@@ -7,17 +7,14 @@ import {
   registerTwo,
   getUser,
 } from "./controllers/authUser";
-// TOD merge all these into one (make better file structure)
-
 import {
-  add,
-  addServiceName,
-  deleteOne,
-  edit,
-  editOne,
-  getOne,
+  addListing,
+  addService,
+  deleteListing,
+  editListing,
+  getOneListing,
   remove,
-  addProfessionName,
+  addProfession,
   addReview,
 } from "./controllers/service";
 import checkAuth from "./middlewares/jwt.auth";
@@ -25,13 +22,14 @@ import {
   checkLogin,
   checkRegisterOne,
   checkRegisterTwo,
-  checkAddService,
   checkEditService,
   checkRemoveService,
-  checkAddServiceName,
-  checkAddProfessionName,
+  checkAddService,
+  checkAddProfession,
   checkAddReview,
+  checkAddListing,
 } from "./middlewares/validators";
+import upload from "./utils/multer";
 
 const router = express.Router();
 
@@ -44,7 +42,9 @@ const use =
 // </endpoint> <rateLimit> <validator> <auth> <controller>
 router.post(
   "/",
-  use((_: Request, res: Response) => res.json({ message: "Server is OK" }))
+  use((_: Request, res: Response) => {
+    return res.json({ message: "Server is OK" });
+  })
 );
 router.post("/user", /* authRateLimiter, */ checkAuth, use(getUser));
 router.post(
@@ -64,6 +64,13 @@ router.post(
   // authRateLimiter,
   use(checkLogin),
   use(login)
+);
+
+router.post(
+  "/listing/create",
+  checkAuth,
+  use(checkAddListing),
+  use(addListing)
 );
 
 // Demo

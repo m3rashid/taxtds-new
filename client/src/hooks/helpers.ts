@@ -1,5 +1,17 @@
 import { AxiosRequestConfig } from "axios";
 
+export interface IActions {
+  endpoint: string;
+  pendingMessage?: string;
+  successMessage?: string;
+  failureMessage?: string;
+  who?: "user" | "admin";
+}
+
+export const SERVER_ROOT_URL = "http://localhost:5000";
+export const JWT_AUTH = "jwtAuth";
+export const LAST_LOGIN = "lastLogin";
+
 export const defaultHeader: AxiosRequestConfig<string> = {
   headers: {
     "Content-type": "application/json",
@@ -9,20 +21,6 @@ export const defaultHeader: AxiosRequestConfig<string> = {
 export const tokenHeader: AxiosRequestConfig<string> = {
   headers: {
     ...defaultHeader.headers,
-    Authorization: localStorage.getItem("token") || false,
+    Authorization: localStorage.getItem(JWT_AUTH) || "",
   },
 };
-
-export interface IActions {
-  endpoint: string;
-  pendingMessage?: string;
-  successMessage?: string;
-  failureMessage?: string;
-}
-
-export const hasToken = () => {
-  const token = localStorage.getItem("token");
-  return token ? true : false;
-};
-
-export const SERVER_ROOT_URL = "http://localhost:5000";

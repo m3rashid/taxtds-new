@@ -1,11 +1,10 @@
 import { Request, Response } from "express";
 import { v2 as cloudinary } from "cloudinary";
 
-import Service from "../models/service";
+import Listing from "../models/listing";
 import User from "../models/user";
-import ServiceName from "../models/serviceName";
-import ProfessionName from "../models/professionName";
-
+import Service from "../models/service";
+import Profession from "../models/profession";
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
@@ -23,9 +22,9 @@ cloudinary.config({
 //   }
 // };
 
-export const add = async (req: Request, res: Response) => {
+export const addListing = async (req: Request, res: Response) => {
   // const { avatar, gallery } = req.body;
-  const service = new Service({
+  const service = new Listing({
     brandName: req.body.brandName,
     // handle the image upload workflow
     // avatar,
@@ -48,10 +47,18 @@ export const add = async (req: Request, res: Response) => {
   });
 };
 
-export const edit = async (req: Request, res: Response) => {
+export const editListing = async (req: Request, res: Response) => {
+  const user = await User.findById(req.user);
+  if (!user) throw new Error("UnAuthorized user");
+
+  const serviceId = req.params.serviceId;
+  if (!serviceId) throw new Error("Bad Request");
+
+  const service = await Listing.findById(serviceId);
+  if (!service) throw new Error("No Services Found");
   // handle the image change workflow
   // const { avatar, gallery } = req.body;
-  await Service.findByIdAndUpdate(req.params.serviceId, {
+  await Listing.findByIdAndUpdate(req.params.serviceId, {
     $set: {
       brandName: req.body.brandName,
       services: req.body.services,
@@ -72,7 +79,7 @@ export const edit = async (req: Request, res: Response) => {
 };
 
 export const remove = async (req: Request, res: Response) => {
-  await Service.findByIdAndUpdate(req.params.serviceId, {
+  await Listing.findByIdAndUpdate(req.params.serviceId, {
     $set: { deleted: true },
   });
   return res.status(200).json({
@@ -82,14 +89,14 @@ export const remove = async (req: Request, res: Response) => {
 
 // some are old and some are new, check usage
 
-export const getOne = async (req: Request, res: Response) => {
+export const getOneListing = async (req: Request, res: Response) => {
   const userId = req.user;
   if (!userId) throw new Error("UnAuthorized user");
 
   const serviceId = req.params.serviceId;
   if (!serviceId) throw new Error("Bad Request");
 
-  const service = await Service.findById(serviceId);
+  const service = await Listing.findOne({ _id: serviceId, deleted: false });
   if (!service) throw new Error("No service found");
 
   return res.status(200).json({
@@ -98,27 +105,14 @@ export const getOne = async (req: Request, res: Response) => {
   });
 };
 
-export const editOne = async (req: Request, res: Response) => {
+export const deleteListing = async (req: Request, res: Response) => {
   const userId = req.user;
   if (!userId) throw new Error("UnAuthorized user");
 
   const serviceId = req.params.serviceId;
   if (!serviceId) throw new Error("Bad Request");
 
-  const service = await Service.findById(serviceId);
-  if (!service) throw new Error("No Services Found");
-
-  // TODO implement add-service here
-};
-
-export const deleteOne = async (req: Request, res: Response) => {
-  const userId = req.user;
-  if (!userId) throw new Error("UnAuthorized user");
-
-  const serviceId = req.params.serviceId;
-  if (!serviceId) throw new Error("Bad Request");
-
-  const service = await Service.findById(serviceId);
+  const service = await Listing.findById(serviceId);
   if (!service) throw new Error("No Services Found");
 
   const user = await User.findById(service.addedBy);
@@ -127,16 +121,16 @@ export const deleteOne = async (req: Request, res: Response) => {
   // TODO delete the service
 };
 
-export const addServiceName = async (req: Request, res: Response) => {
-  const service = new ServiceName({ name: req.body.name });
+export const addService = async (req: Request, res: Response) => {
+  const service = new Service({ name: req.body.name });
   await service.save();
   res.sendStatus(200);
 };
 
-export const addProfessionName = async (req: Request, res: Response) => {
+export const addProfession = async (req: Request, res: Response) => {
   const { name } = req.body;
   // TODO check if the same name exists in the database or not
-  const profession = new ProfessionName({ name });
+  const profession = new Profession({ name });
   await profession.save();
   res.send("reached");
 };

@@ -4,6 +4,7 @@ import InputEl from "../atoms/Input";
 import ButtonEl from "../atoms/Button";
 import React from "react";
 import useAuth from "../../hooks/useAuth";
+import { IActions } from "../../hooks/helpers";
 
 const AdminLogin = () => {
   const { handleAuth } = useAuth();
@@ -22,11 +23,12 @@ const AdminLogin = () => {
   };
 
   const loginAdmin = () => {
-    const actions = {
+    const actions: IActions = {
       endpoint: "",
       pendingMessage: "",
       successMessage: "",
       failureMessage: "",
+      who: "admin",
     };
     // handleAuth(data, actions);
   };

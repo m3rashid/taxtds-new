@@ -68,10 +68,9 @@ const Main = () => {
               email,
               featured,
             }) => (
-              <React.Suspense fallback={<Loader />}>
+              <React.Suspense key={id} fallback={<Loader />}>
                 <Card
                   id={id}
-                  key={id}
                   name={name}
                   tagline={tagline}
                   owner={owner}

@@ -3,6 +3,7 @@ export interface IAuthState {
   authType: string;
   token: string;
   user: any;
+  who: "user" | "admin";
 }
 
 export interface IUserData {

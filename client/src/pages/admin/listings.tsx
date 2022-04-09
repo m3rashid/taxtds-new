@@ -10,11 +10,12 @@ import {
 const Table = React.lazy(() => import("../../components/admin/table"));
 import AdminWrapper from "../../components/admin/wrapper";
 import ButtonEl from "../../components/atoms/Button";
+import ButtonLink from "../../components/atoms/ButtonLink";
 import { Loader } from "../../components/atoms/loader";
 
 const demoData = [
   {
-    id: 1,
+    _id: 1,
     avatar: "/images/carousel/1.jpg",
     name: "Listing 1",
     phone: "1234567890",
@@ -22,7 +23,7 @@ const demoData = [
     featured: true,
   },
   {
-    id: 2,
+    _id: 2,
     avatar: "/images/carousel/2.jpg",
     name: "Listing 2",
     phone: "1234567890",
@@ -30,7 +31,7 @@ const demoData = [
     featured: true,
   },
   {
-    id: 3,
+    _id: 3,
     avatar: "/images/carousel/3.jpg",
     name: "Listing 3",
     phone: "1234567890",
@@ -38,7 +39,7 @@ const demoData = [
     featured: false,
   },
   {
-    id: 4,
+    _id: 4,
     avatar: "/images/carousel/4.jpg",
     name: "Listing 4",
     phone: "1234567890",
@@ -46,7 +47,7 @@ const demoData = [
     featured: false,
   },
   {
-    id: 5,
+    _id: 5,
     avatar: "/images/carousel/5.jpg",
     name: "Listing 5",
     phone: "1234567890",
@@ -61,9 +62,9 @@ export const Listings: React.FC<IProps> = () => {
   const columns = React.useMemo(
     () => [
       {
-        Header: "ID",
-        accessor: "id",
-        Cell: (props: any) => <>{props.row.original.id}</>,
+        Header: "Name",
+        accessor: "name",
+        Cell: (props: any) => <>{props.row.original.name}</>,
       },
       {
         Header: "Avatar",
@@ -71,11 +72,6 @@ export const Listings: React.FC<IProps> = () => {
         Cell: (props: any) => (
           <img className="h-16 w-16" src={props.row.original.avatar} />
         ),
-      },
-      {
-        Header: "Name",
-        accessor: "name",
-        Cell: (props: any) => <>{props.row.original.name}</>,
       },
       {
         Header: "Phone",
@@ -97,10 +93,11 @@ export const Listings: React.FC<IProps> = () => {
         accessor: "",
         Cell: (props: any) => (
           <div className="flex gap-4">
-            <ButtonEl
+            <ButtonLink
               label="Details"
               Icon={<MdInfoOutline />}
-              bgColor="bg-blue-200"
+              bgColor="bg-accentTwo"
+              to={`/listings/${props.row.original._id}`}
             />
             <ButtonEl
               label="Send Email"
