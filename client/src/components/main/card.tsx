@@ -6,7 +6,7 @@ import ButtonLink from "../atoms/ButtonLink";
 const Tag = ({
   label = "featured",
   bgColor = "bg-accentOne",
-  textColor = "text-[white]",
+  textColor = "text-white",
 }) => {
   return (
     <div

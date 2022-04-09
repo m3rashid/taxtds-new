@@ -24,6 +24,7 @@ export const reactSelectStyleOptions = {
 };
 
 interface IProps {
+  name: string;
   Icon?: any;
   className?: string;
   placeholder?: string;
@@ -38,6 +39,7 @@ interface IProps {
 }
 
 export const ReactSelect: React.FC<IProps> = ({
+  name,
   Icon,
   className,
   placeholder,
@@ -67,7 +69,7 @@ export const ReactSelect: React.FC<IProps> = ({
     } else {
       setData((prev: any) => ({
         ...prev,
-        [value]: option.value,
+        [name]: option.value,
       }));
     }
   };
@@ -80,6 +82,7 @@ export const ReactSelect: React.FC<IProps> = ({
     >
       {Icon && Icon}
       <Select
+        name={name}
         className={`w-full ${className}`}
         placeholder={placeholder}
         options={filterOptions}

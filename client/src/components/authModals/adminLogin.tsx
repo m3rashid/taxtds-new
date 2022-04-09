@@ -3,8 +3,11 @@ import { MdVpnKey, MdPerson, MdLock } from "react-icons/md";
 import InputEl from "../atoms/Input";
 import ButtonEl from "../atoms/Button";
 import React from "react";
+import useAuth from "../../hooks/useAuth";
 
 const AdminLogin = () => {
+  const { handleAuth } = useAuth();
+
   const [data, setData] = React.useState({
     username: "",
     password: "",
@@ -18,7 +21,15 @@ const AdminLogin = () => {
     }));
   };
 
-  const loginAdmin = () => {};
+  const loginAdmin = () => {
+    const actions = {
+      endpoint: "",
+      pendingMessage: "",
+      successMessage: "",
+      failureMessage: "",
+    };
+    // handleAuth(data, actions);
+  };
 
   return (
     <>

@@ -1,4 +1,6 @@
+import React from "react";
 import { MdError } from "react-icons/md";
+
 import Header from "../components/mainHeader";
 import Footer from "../components/mainFooter";
 

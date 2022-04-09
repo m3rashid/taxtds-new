@@ -1,3 +1,4 @@
+import React from "react";
 import {
   MdPerson,
   MdRateReview,
@@ -9,6 +10,7 @@ import Header from "../components/customHeader";
 import Footer from "../components/mainFooter";
 import InputEl from "../components/atoms/Input";
 import ButtonEl from "../components/atoms/Button";
+import { Loader } from "../components/atoms/loader";
 
 const demoService = {
   id: 1,
@@ -125,51 +127,55 @@ const ListingDetail = () => {
             Reviews from customers
           </h2>
           <div className="p-[10px] md:p-[15px]">
-            {demoService.reviews.length !== 0 ? (
-              <div className="flex gap-3 flex-col items-center">
-                {demoService.reviews.map(
-                  ({
-                    name,
-                    rating,
-                    review,
-                  }: {
-                    name: string;
-                    rating: number;
-                    review: string;
-                  }) => {
-                    return (
-                      <div className="bg-[white] hover:bg-lightHover rounded-md shadow-md gap-3 p-3 w-full max-w-[400px]">
-                        <div className="flex items-center w-full gap-6 mb-2">
-                          <div className="p-2 bg-accentTwo rounded-full">
-                            <MdPerson fontSize="large" />
+            <React.Suspense fallback={<Loader />}>
+              {demoService.reviews.length !== 0 ? (
+                <div className="flex gap-3 flex-col items-center">
+                  {demoService.reviews.map(
+                    ({
+                      name,
+                      rating,
+                      review,
+                    }: {
+                      name: string;
+                      rating: number;
+                      review: string;
+                    }) => {
+                      return (
+                        <div className="bg-[white] hover:bg-lightHover rounded-md shadow-md gap-3 p-3 w-full max-w-[400px]">
+                          <div className="flex items-center w-full gap-6 mb-2">
+                            <div className="p-2 bg-accentTwo rounded-full">
+                              <MdPerson fontSize="large" />
+                            </div>
+                            <div className="">
+                              <p className="font-semibold">
+                                Name:
+                                <span className="font-bold"> {name}</span>
+                              </p>
+                              <p className="font-semibold">
+                                Rating:
+                                <span className="font-bold"> {rating}</span>
+                              </p>
+                            </div>
                           </div>
                           <div className="">
                             <p className="font-semibold">
-                              Name:
-                              <span className="font-bold"> {name}</span>
-                            </p>
-                            <p className="font-semibold">
-                              Rating:
-                              <span className="font-bold"> {rating}</span>
+                              Review:
+                              <span className="font-medium">
+                                &nbsp; {review}
+                              </span>
                             </p>
                           </div>
                         </div>
-                        <div className="">
-                          <p className="font-semibold">
-                            Review:
-                            <span className="font-medium">&nbsp; {review}</span>
-                          </p>
-                        </div>
-                      </div>
-                    );
-                  }
-                )}
-              </div>
-            ) : (
-              <div className="bg-[white] hover:bg-lightHover rounded-md shadow-md gap-3 p-3 w-full">
-                <p className="">No rating/reviews yet</p>
-              </div>
-            )}
+                      );
+                    }
+                  )}
+                </div>
+              ) : (
+                <div className="bg-[white] hover:bg-lightHover rounded-md shadow-md gap-3 p-3 w-full">
+                  <p className="">No rating/reviews yet</p>
+                </div>
+              )}
+            </React.Suspense>
           </div>
         </div>
         <div className="">

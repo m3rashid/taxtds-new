@@ -47,6 +47,7 @@ const CreateService = () => {
         </div>
         <div className="w-full min-w-[280px]">
           <ReactSelect
+            name="services"
             setData={setData}
             Icon={<MdHomeWork />}
             placeholder="Select Service"
@@ -96,6 +97,7 @@ const CreateService = () => {
             placeholder="Address line two"
           />
           <ReactSelect
+            name="state"
             setData={setData}
             Icon={<MdLocationOn />}
             placeholder="Select State"

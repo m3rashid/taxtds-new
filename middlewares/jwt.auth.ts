@@ -1,7 +1,12 @@
 import { Request, Response, NextFunction } from "express";
 
 import { verifyJWT } from "./jwt";
-import { unauthorizedResponse } from "../controllers/helpers";
+
+const unauthorizedResponse = (res: Response) => {
+  return res.status(401).json({
+    message: "Unauthorized",
+  });
+};
 
 const checkAuth = (req: Request, res: Response, next: NextFunction) => {
   const token = req.headers["authorization"];

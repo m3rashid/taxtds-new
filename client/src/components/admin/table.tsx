@@ -25,7 +25,7 @@ interface IProps {
   title: string;
 }
 
-export const Table: React.FC<IProps> = ({ columns, data, title }) => {
+const Table: React.FC<IProps> = ({ columns, data, title }) => {
   const {
     getTableProps,
     getTableBodyProps,
@@ -171,6 +171,7 @@ export const Table: React.FC<IProps> = ({ columns, data, title }) => {
               Page {pageIndex + 1} of {pageOptions.length}
             </span>
             <ReactSelect
+              name=""
               border={false}
               options={[5, 10, 20]}
               placeholder={`${pageSize} items`}
@@ -231,3 +232,5 @@ export const Table: React.FC<IProps> = ({ columns, data, title }) => {
     </div>
   );
 };
+
+export default Table;

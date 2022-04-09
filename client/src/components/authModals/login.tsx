@@ -1,10 +1,14 @@
+import React from "react";
 import { MdVpnKey, MdPerson, MdLock } from "react-icons/md";
 
 import InputEl from "../atoms/Input";
 import ButtonEl from "../atoms/Button";
-import React from "react";
+import useAuth from "../../hooks/useAuth";
+import { useSetRecoilState } from "recoil";
+import { authState } from "../../store/auth";
 
 const Login = () => {
+  const setRecoilState = useSetRecoilState(authState);
   const [data, setData] = React.useState({
     email: "",
     password: "",
@@ -18,7 +22,16 @@ const Login = () => {
     }));
   };
 
-  const loginUser = () => {};
+  const loginUser = () => {
+    const { handleAuth } = useAuth();
+    const actions = {
+      endpoint: "/user/login",
+      pendingMessage: "Logging you in...",
+      successMessage: "Successfully logged in ...",
+      failureMessage: "Could not log you in, please try again later",
+    };
+    handleAuth(data, actions, setRecoilState);
+  };
 
   return (
     <>

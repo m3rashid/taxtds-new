@@ -1,7 +1,15 @@
 import React from "react";
-import { Table } from "../../components/admin/table";
+import {
+  MdDelete,
+  MdEmail,
+  MdInfoOutline,
+  MdOutlineReadMore,
+} from "react-icons/md";
+const Table = React.lazy(() => import("../../components/admin/table"));
 
 import AdminWrapper from "../../components/admin/wrapper";
+import ButtonEl from "../../components/atoms/Button";
+import { Loader } from "../../components/atoms/loader";
 
 const demoData = [
   {
@@ -41,10 +49,53 @@ interface IProps {}
 export const Users: React.FC<IProps> = () => {
   const columns = React.useMemo(
     () => [
-      { Header: "ID", accessor: "id" },
-      { Header: "Name", accessor: "name" },
-      { Header: "Email", accessor: "email" },
-      { Header: "", accessor: "avatar" },
+      {
+        Header: "ID",
+        accessor: "id",
+        Cell: (props: any) => <>{props.row.original.id}</>,
+      },
+      {
+        Header: "Avatar",
+        accessor: "avatar",
+        Cell: (props: any) => (
+          <img className="h-16 w-16" src={props.row.original.avatar} />
+        ),
+      },
+      {
+        Header: "Name",
+        accessor: "name",
+        Cell: (props: any) => <>{props.row.original.name}</>,
+      },
+      {
+        Header: "Email",
+        accessor: "email",
+        Cell: (props: any) => <>{props.row.original.email}</>,
+      },
+      {
+        Header: "Actions",
+        accessor: "",
+        Cell: (props: any) => (
+          <div className="flex gap-4">
+            <ButtonEl
+              label="Details"
+              Icon={<MdInfoOutline />}
+              bgColor="bg-blue-200"
+            />
+            <ButtonEl
+              label="Send Email"
+              Icon={<MdEmail />}
+              bgColor="bg-blue-200"
+            />
+            <ButtonEl label="Show Listings" Icon={<MdOutlineReadMore />} />
+            <ButtonEl
+              label="Delete"
+              Icon={<MdDelete />}
+              bgColor="bg-rose-500"
+              textColor="text-white"
+            />
+          </div>
+        ),
+      },
     ],
     []
   );
@@ -58,7 +109,9 @@ export const Users: React.FC<IProps> = () => {
 
   return (
     <AdminWrapper>
-      <Table columns={columns} data={demoData} title="Listed Users" />
+      <React.Suspense fallback={<Loader />}>
+        <Table columns={columns} data={demoData} title="Listed Users" />
+      </React.Suspense>
     </AdminWrapper>
   );
 };

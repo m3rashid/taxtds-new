@@ -7,7 +7,7 @@ interface IProps {
 }
 
 const FileInput = ({ title }: IProps) => {
-  const onDrop = React.useCallback((acceptedFiles) => {
+  const onDrop = React.useCallback((acceptedFiles: any) => {
     // do something with the files
   }, []);
 

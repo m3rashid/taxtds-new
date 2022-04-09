@@ -13,19 +13,36 @@ import InputEl from "../atoms/Input";
 import ButtonEl from "../atoms/Button";
 import { ReactSelect } from "../atoms/reactSelect";
 import StateUt from "../../data/state";
+import useAuth from "../../hooks/useAuth";
+import { authState } from "../../store/auth";
+import { useSetRecoilState } from "recoil";
 
 const titleStyle = "text-[white] text-center font-bold text-xl -mt-4";
 
 const SignupStepOne = ({
   email,
   setEmail,
+  setStepOneDone,
 }: {
   email: string;
   setEmail: Function;
+  setStepOneDone: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
-  const handleRegisterOne = () => {};
+  const setRecoilState = useSetRecoilState(authState);
+  const handleRegisterOne = () => {
+    const { handleAuth } = useAuth();
+    const actions = {
+      endpoint: "/user/register-one",
+      pendingMessage: "Request in progress",
+      successMessage: "Check your Email for the OTP",
+      failureMessage: "An error occured, please try again later",
+    };
+    handleAuth({ email }, actions, setRecoilState);
+  };
 
-  const alreadyVerified = () => {};
+  const alreadyVerified = () => {
+    setStepOneDone(true);
+  };
 
   return (
     <>
@@ -59,7 +76,14 @@ const SignupStepOne = ({
   );
 };
 
-const SignupStepTwo = ({ email }: { email?: string }) => {
+const SignupStepTwo = ({
+  email,
+  setStepOneDone,
+}: {
+  email?: string;
+  setStepOneDone: React.Dispatch<React.SetStateAction<boolean>>;
+}) => {
+  const setRecoilState = useSetRecoilState(authState);
   const [data, setData] = React.useState({
     name: "",
     email: email || "",
@@ -81,9 +105,20 @@ const SignupStepTwo = ({ email }: { email?: string }) => {
     }));
   };
 
-  const goBack = () => {};
+  const goBack = () => {
+    setStepOneDone(false);
+  };
 
-  const signupUser = () => {};
+  const signupUser = () => {
+    const { handleAuth } = useAuth();
+    const actions = {
+      endpoint: "/user/register-two",
+      pendingMessage: "Register in progress",
+      successMessage: "Registration successful, start listing your services",
+      failureMessage: "An error occured, please try again later",
+    };
+    handleAuth(data, actions, setRecoilState);
+  };
 
   return (
     <>
@@ -137,6 +172,7 @@ const SignupStepTwo = ({ email }: { email?: string }) => {
         type="number"
       />
       <ReactSelect
+        name="state"
         setData={setData}
         Icon={<MdLocationOn />}
         placeholder="Select State"
@@ -177,14 +213,18 @@ const SignupStepTwo = ({ email }: { email?: string }) => {
 
 const Signup = () => {
   const [email, setEmail] = React.useState<string>("");
+  const [stepOneDone, setStepOneDone] = React.useState<boolean>(false);
 
-  const stepOneDone = false;
   return (
     <>
       {!stepOneDone ? (
-        <SignupStepOne email={email} setEmail={setEmail} />
+        <SignupStepOne
+          email={email}
+          setEmail={setEmail}
+          setStepOneDone={setStepOneDone}
+        />
       ) : (
-        <SignupStepTwo email={email} />
+        <SignupStepTwo email={email} setStepOneDone={setStepOneDone} />
       )}
     </>
   );

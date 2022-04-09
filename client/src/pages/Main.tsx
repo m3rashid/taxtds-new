@@ -1,7 +1,10 @@
+import React from "react";
+
 import Header from "../components/mainHeader";
 import Footer from "../components/mainFooter";
-import Sidebar from "../components/main/sidebar";
-import Card from "../components/main/card";
+import { Loader } from "../components/atoms/loader";
+const Sidebar = React.lazy(() => import("../components/main/sidebar"));
+const Card = React.lazy(() => import("../components/main/card"));
 
 const demoData = [
   {
@@ -47,7 +50,9 @@ const Main = () => {
       <Header />
       <div className="flex flex-col md:flex-row max-w-[1400px] lg:min-w-[1200px] justify-center items-start mb-4">
         <div className="mb-4 md:mb-0 flex justify-center">
-          <Sidebar />
+          <React.Suspense fallback={<Loader />}>
+            <Sidebar />
+          </React.Suspense>
         </div>
         <div className="flex flex-col items-center gap-4">
           {/* TODO show the featured services at the top */}
@@ -63,18 +68,20 @@ const Main = () => {
               email,
               featured,
             }) => (
-              <Card
-                id={id}
-                key={id}
-                name={name}
-                tagline={tagline}
-                owner={owner}
-                avatar={avatar}
-                state={state}
-                phone={phone}
-                email={email}
-                featured={featured}
-              />
+              <React.Suspense fallback={<Loader />}>
+                <Card
+                  id={id}
+                  key={id}
+                  name={name}
+                  tagline={tagline}
+                  owner={owner}
+                  avatar={avatar}
+                  state={state}
+                  phone={phone}
+                  email={email}
+                  featured={featured}
+                />
+              </React.Suspense>
             )
           )}
         </div>

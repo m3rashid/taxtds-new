@@ -1,7 +1,10 @@
 import React from "react";
-import { Table } from "../../components/admin/table";
+import { MdDelete, MdEdit } from "react-icons/md";
+const Table = React.lazy(() => import("../../components/admin/table"));
 
 import AdminWrapper from "../../components/admin/wrapper";
+import ButtonEl from "../../components/atoms/Button";
+import { Loader } from "../../components/atoms/loader";
 
 const demoData = [
   { id: 1, name: "Registration Services" },
@@ -31,8 +34,31 @@ interface IProps {}
 export const Services: React.FC<IProps> = () => {
   const columns = React.useMemo(
     () => [
-      { Header: "ID", accessor: "id" },
-      { Header: "Name", accessor: "name" },
+      {
+        Header: "ID",
+        accessor: "id",
+        Cell: (props: any) => <>{props.row.original.id}</>,
+      },
+      {
+        Header: "Name",
+        accessor: "name",
+        Cell: (props: any) => <>{props.row.original.name}</>,
+      },
+      {
+        Header: "Actions",
+        accessor: "actions",
+        Cell: () => (
+          <div className="flex gap-4">
+            <ButtonEl label="Edit" Icon={<MdEdit />} bgColor="bg-blue-200" />
+            <ButtonEl
+              label="Delete"
+              Icon={<MdDelete />}
+              bgColor="bg-rose-500"
+              textColor="text-white"
+            />
+          </div>
+        ),
+      },
     ],
     []
   );
@@ -45,7 +71,9 @@ export const Services: React.FC<IProps> = () => {
 
   return (
     <AdminWrapper>
-      <Table columns={columns} data={demoData} title="Listed Services" />
+      <React.Suspense fallback={<Loader />}>
+        <Table columns={columns} data={demoData} title="Listed Services" />
+      </React.Suspense>
     </AdminWrapper>
   );
 };

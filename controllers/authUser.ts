@@ -1,10 +1,11 @@
 import { Response, Request } from "express";
+
 import { issueJWT } from "../middlewares/jwt";
 import Otp from "../models/otp";
 import User from "../models/user";
 import { comparePassword, hashPassword } from "../utils/auth";
-
 import logger from "../utils/logger";
+// import "../utils/cache";
 
 export const getUser = async (req: Request, res: Response) => {
   const user = await User.findOne({ _id: req.user });
@@ -15,14 +16,14 @@ export const getUser = async (req: Request, res: Response) => {
 
 export const login = async (req: Request, res: Response) => {
   const { email, password } = req.body;
-  const newUser = await User.findOne({ email });
-  if (!newUser) throw new Error("Resource Absent");
+  const oldUser = await User.findOne({ email });
+  if (!oldUser) throw new Error("User not found");
 
-  const match = await comparePassword(password, newUser.password);
+  const match = await comparePassword(password, oldUser.password);
   if (!match) throw new Error("Credentials Invalid");
 
-  const { token, expires } = issueJWT(newUser);
-  return res.status(200).json({ token, expires, user: newUser });
+  const { token, expires } = issueJWT(oldUser);
+  return res.status(200).json({ token, expires, user: oldUser });
 };
 
 export const registerOne = async (req: Request, res: Response) => {
@@ -60,7 +61,7 @@ export const registerTwo = async (req: Request, res: Response) => {
   const user = await User.findOne({ email });
   if (user) throw new Error("Resource Already Present");
 
-  const hash = await hashPassword(req.body.password);
+  const hash: string = await hashPassword(req.body.password);
   const newUser = new User({
     email,
     name: req.body.name,
