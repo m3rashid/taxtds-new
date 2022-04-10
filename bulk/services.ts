@@ -1,4 +1,4 @@
-const serviceNames = [
+const services = [
   { name: "Registration Services" },
   { name: "Company Compliance" },
   { name: "Tax Filling" },

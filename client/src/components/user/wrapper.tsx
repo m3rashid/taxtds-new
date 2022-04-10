@@ -7,14 +7,14 @@ import Header from "../customHeader";
 import Footer from "../mainFooter";
 
 const UserWrapper = ({ children }: { children: React.ReactNode }) => {
-  const { isAuthenticated, user, who } = useRecoilValue(authState);
+  const { isAuthenticated, user, role } = useRecoilValue(authState);
   const location = useLocation();
   const navigate = useNavigate();
 
   const userId = location.pathname.split("/")[2];
 
   React.useEffect(() => {
-    if (!isAuthenticated || who !== "user" || userId != user._id) {
+    if (!isAuthenticated || role !== "USER" || userId != user._id) {
       return navigate("/");
     }
   }, []);

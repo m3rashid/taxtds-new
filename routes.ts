@@ -8,6 +8,7 @@ import {
   editListing,
   removeListing,
   getOneListing,
+  getAllListings,
 } from "./controllers/listing";
 import { getProfessions } from "./controllers/profession";
 import { addReview } from "./controllers/review";
@@ -56,7 +57,7 @@ router.post("/user/login" /* authRateLimiter, */, use(checkLogin), use(login));
 
 // listing
 router.post(
-  "/listing/create" /* regularRateLimiter, */,
+  "/listings/add" /* regularRateLimiter, */,
   checkAuth,
   use(checkAddListing),
   use(
@@ -68,20 +69,21 @@ router.post(
   use(addListing)
 );
 router.post(
-  "/listing/edit" /* regularRateLimiter, */,
+  "/listings/edit" /* regularRateLimiter, */,
   checkAuth,
   use(checkAddListing),
   use(editListing)
 );
 router.post(
-  "/listing/remove" /* regularRateLimiter, */,
+  "/listings/remove" /* regularRateLimiter, */,
   checkAuth,
   use(removeListing)
 );
-router.post("/listing/one" /* regularRateLimiter, */, use(getOneListing));
+router.post("/listings/one" /* regularRateLimiter, */, use(getOneListing));
+router.post("/listings/all" /* regularRateLimiter, */, use(getAllListings));
 
 // service
-router.post("/service/all" /* regularRateLimiter, */, use(getAllServices));
+router.post("/services/all" /* regularRateLimiter, */, use(getAllServices));
 
 // reviews
 router.post(
@@ -92,7 +94,7 @@ router.post(
 );
 
 // professions
-router.post("/professions" /* regularRateLimiter, */, use(getProfessions));
+router.post("/professions/all" /* regularRateLimiter, */, use(getProfessions));
 
 // Demo
 router.post("/get-quotes" /* regularRateLimiter, */, checkAuth, use(getQuotes));

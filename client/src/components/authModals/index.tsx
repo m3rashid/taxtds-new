@@ -3,7 +3,6 @@ import React from "react";
 import CloseEl from "../atoms/Close";
 import Login from "./login";
 import Signup from "./signup";
-import AdminLogin from "./adminLogin";
 import Quotes from "./quotes";
 import { authState } from "../../store/auth";
 import { useRecoilValue } from "recoil";
@@ -19,7 +18,6 @@ const AuthModals = ({
 
   const initialState = React.useMemo(() => {
     return {
-      adminLogin: false,
       userLogin: false,
       quotes: false,
       userSignup: false,
@@ -29,9 +27,6 @@ const AuthModals = ({
   const [show, setShow] = React.useState(initialState);
   React.useEffect(() => {
     switch (trigger) {
-      case "admin":
-        setShow({ ...initialState, adminLogin: true });
-        break;
       case "login":
         setShow({ ...initialState, userLogin: true });
         break;
@@ -88,7 +83,6 @@ const AuthModals = ({
             {show.userSignup && <Signup />}
             {show.userLogin && <Login />}
             {show.quotes && <Quotes />}
-            {show.adminLogin && <AdminLogin />}
           </div>
         </div>
       </div>

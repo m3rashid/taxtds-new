@@ -3,7 +3,6 @@ import Joi from "joi";
 import logger from "../utils/logger";
 
 import { loginSchema, registerOneSchema, registerTwoSchema } from "./auth";
-import { checkAdminLoginSchema, checkAdminRegisterSchema } from "./admin";
 import { deleteUserSchema, emailUserSchema } from "./user";
 import {
   addListingSchema,
@@ -44,10 +43,6 @@ export const checkAddListing = validateRequest(addListingSchema);
 export const checkAddReview = validateRequest(reviewSchema);
 
 /* admin  stuff */
-// admin
-export const checkAdminLogin = validateRequest(checkAdminLoginSchema);
-export const checkAdminRegister = validateRequest(checkAdminRegisterSchema);
-
 // listing
 export const checkDeleteListing = validateRequest(deleteListingSchema);
 export const checkFeatureUnfeatureListing = validateRequest(

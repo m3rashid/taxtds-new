@@ -5,7 +5,7 @@ export interface IActions {
   pendingMessage?: string;
   successMessage?: string;
   failureMessage?: string;
-  who?: "user" | "admin";
+  role?: "USER" | "ADMIN";
 }
 
 export const SERVER_ROOT_URL = "http://localhost:5000";

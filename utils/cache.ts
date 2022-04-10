@@ -1,11 +1,12 @@
 import mongoose from "mongoose";
-import redis from "redis";
+import { createClient } from "redis";
 
 import logger from "./logger";
 
-const client = redis.createClient({
+const client = createClient({
   url: process.env.REDIS_URL || "redis://127.0.0.1:6379",
 });
+client.connect();
 
 const exec = mongoose.Query.prototype.exec;
 type CacheOptions = { key?: string };

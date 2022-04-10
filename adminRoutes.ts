@@ -19,29 +19,18 @@ import {
   editProfession,
   deleteProfession,
 } from "./controllers/admin/profession";
-import { register, login } from "./controllers/admin/admin";
 import {
   checkEditService,
   checkDeleteService,
   checkAddService,
   checkAddProfession,
-  checkAdminLogin,
-  checkAdminRegister,
   checkDeleteListing,
   checkFeatureUnfeatureListing,
 } from "./validators";
 
 const router = express.Router();
 
-// admin routes
-router.post(
-  "/register" /* authRateLimiter, */,
-  use(checkAdminRegister),
-  use(register)
-);
-router.post("/login" /* authRateLimiter, */, use(checkAdminLogin), use(login));
-
-// user routes
+// user
 router.post("/user/email" /* regularRateLimiter, */, checkAuth, use(emailUser));
 router.post(
   "/user/delete" /* regularRateLimiter, */,

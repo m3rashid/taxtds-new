@@ -1,4 +1,5 @@
 import React from "react";
+import { useSetRecoilState } from "recoil";
 import { ToastContainer, Bounce } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
@@ -16,15 +17,21 @@ import { Professions } from "./pages/admin/professions";
 import { Services } from "./pages/admin/services";
 import { Users } from "./pages/admin/users";
 import useAuth from "./hooks/useAuth";
-import { useSetRecoilState } from "recoil";
 import { authState } from "./store/auth";
+import { professions, listings } from "./store/data";
+import useData from "./hooks/useData";
 
 const App = () => {
   const { getUser } = useAuth();
-  const setRecoilState = useSetRecoilState(authState);
+  const { getProfessions, getListings } = useData();
+  const setAuthState = useSetRecoilState(authState);
+  const setProfessions = useSetRecoilState(professions);
+  const setListings = useSetRecoilState(listings);
 
   React.useEffect(() => {
-    getUser(setRecoilState);
+    getUser(setAuthState);
+    getProfessions(setProfessions);
+    getListings(setListings);
   }, []);
 
   return (

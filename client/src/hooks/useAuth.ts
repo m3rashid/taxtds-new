@@ -42,7 +42,10 @@ const useAuth = () => {
         }
       );
       window.localStorage.setItem(JWT_AUTH, res.data.token);
-      window.localStorage.setItem(LAST_LOGIN, actions.who || "user");
+      window.localStorage.setItem(
+        LAST_LOGIN,
+        actions.role || res.data.user.role || "USER"
+      );
       toast.update(authToast, {
         render: res.data.message || actions.successMessage || "Success",
         type: "success",
@@ -52,10 +55,9 @@ const useAuth = () => {
       setRecoilState((prev) => ({
         ...prev,
         isAuthenticated: true,
-        authType: "user",
         token: res.data.token,
         user: res.data.user,
-        who: actions.who || "user",
+        role: actions.role || res.data.user.role || "USER",
       }));
     } catch (err: any) {
       window.localStorage.removeItem(JWT_AUTH);
@@ -70,11 +72,44 @@ const useAuth = () => {
       setRecoilState((prev) => ({
         ...prev,
         isAuthenticated: false,
-        authType: "",
         token: "",
-        who: "user",
+        role: "USER",
         user: {},
       }));
+    }
+  };
+
+  const handleRegister = async (values: any, actions: IActions) => {
+    const authToast = toast.loading(actions.pendingMessage);
+    const body = JSON.stringify(values);
+    try {
+      setTimeout(() => {
+        controller.abort();
+      }, 5000);
+
+      const res = await axios.post(
+        `${SERVER_ROOT_URL}${actions.endpoint}`,
+        body,
+        {
+          headers: defaultHeader.headers,
+          signal: controller.signal,
+          cancelToken: source.token,
+        }
+      );
+      toast.update(authToast, {
+        render: res.data.message || actions.successMessage || "Success",
+        type: "success",
+        isLoading: false,
+        autoClose: 5000,
+      });
+    } catch (err: any) {
+      toast.update(authToast, {
+        render:
+          err.response?.data?.message || actions.failureMessage || "Error",
+        type: "error",
+        isLoading: false,
+        autoClose: 5000,
+      });
     }
   };
 
@@ -84,9 +119,8 @@ const useAuth = () => {
     setRecoilState((prev) => ({
       ...prev,
       isAuthenticated: false,
-      authType: "",
       token: "",
-      who: "user",
+      role: "USER",
       user: {},
     }));
     toast.success("Logged out successfully");
@@ -107,24 +141,27 @@ const useAuth = () => {
       setRecoilState((prev) => ({
         ...prev,
         isAuthenticated: true,
-        authType: "user",
         token: res.data.token,
         user: res.data.user,
-        who: "user",
+        role: res.data.user.role || "USER",
       }));
     } catch (err: any) {
       setRecoilState((prev) => ({
         ...prev,
         isAuthenticated: false,
-        authType: "",
         token: "",
-        who: "user",
+        role: "USER",
         user: {},
       }));
     }
   };
 
-  return { handleAuth, handleLogout, getUser };
+  return {
+    handleAuth,
+    handleRegister,
+    handleLogout,
+    getUser,
+  };
 };
 
 export default useAuth;

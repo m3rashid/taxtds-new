@@ -49,15 +49,17 @@ const Input: React.FC<IPropsInput> = ({ classes, placeholder, name }) => {
 };
 
 const Header = () => {
-  const { isAuthenticated, who, user } = useRecoilValue(authState);
+  const { isAuthenticated, role, user } = useRecoilValue(authState);
   const navigate = useNavigate();
-  const [modalShow, setModalShow] = React.useState<string>("");
+  const [modalShow, setModalShow] = React.useState<
+    "login" | "signup" | "quotes" | ""
+  >("");
   const setModalTrigger = () => {
     setModalShow("");
   };
 
-  const isAuthUser = isAuthenticated && who === "user";
-  const isAuthAdmin = isAuthenticated && who === "admin";
+  const isAuthUser = isAuthenticated && role === "USER";
+  const isAuthAdmin = isAuthenticated && role === "ADMIN";
 
   return (
     <header className="w-screen">
@@ -83,14 +85,13 @@ const Header = () => {
         </div>
 
         <div className="ml-0 md:ml-[50px] md:mt-2 lg:ml-[30px] xl:ml-[200px] cursor-pointer flex gap-2">
-          <TopLink
-            name="Quotes"
-            Icon={<MdHelp />}
-            callback={() => setModalShow("quotes")}
-          />
-
           {!isAuthUser && !isAuthAdmin ? (
             <>
+              <TopLink
+                name="Quotes"
+                Icon={<MdHelp />}
+                callback={() => setModalShow("quotes")}
+              />
               <TopLink
                 name="Login"
                 Icon={<MdLock />}
@@ -101,21 +102,23 @@ const Header = () => {
                 Icon={<MdLock />}
                 callback={() => setModalShow("signup")}
               />
-              <TopLink
-                name="Admin"
-                Icon={<MdLock />}
-                callback={() => setModalShow("admin")}
-              />
             </>
           ) : isAuthUser ? (
-            <TopLink
-              name="Profile"
-              Icon={<MdPerson />}
-              callback={() => navigate(`/user/${user._id}`)}
-            />
+            <>
+              <TopLink
+                name="Quotes"
+                Icon={<MdHelp />}
+                callback={() => setModalShow("quotes")}
+              />
+              <TopLink
+                name="Profile"
+                Icon={<MdPerson />}
+                callback={() => navigate(`/user/${user._id}`)}
+              />
+            </>
           ) : (
             <TopLink
-              name="Admin"
+              name="Admin Panel"
               Icon={<MdPerson />}
               callback={() => navigate("/admin")}
             />

@@ -28,14 +28,18 @@ interface IProps {
   Icon?: any;
   className?: string;
   placeholder?: string;
-  options?: any;
+  options?: any[];
+  customOptions?: any[];
   data?: any;
-  setData: Function;
+  setData?: Function;
   border?: boolean;
   value: any;
   single?: boolean;
   suffix?: string;
   prefix?: string;
+  useDefaultFilter?: boolean;
+  handleChange?: Function;
+  isMulti?: boolean;
 }
 
 export const ReactSelect: React.FC<IProps> = ({
@@ -43,18 +47,22 @@ export const ReactSelect: React.FC<IProps> = ({
   Icon,
   className,
   placeholder,
-  options,
+  options = [],
+  customOptions = [],
   data,
-  setData,
+  setData = () => {},
   border = true,
   value,
   single,
   suffix = "",
   prefix = "",
+  useDefaultFilter = true,
+  handleChange = () => {},
+  isMulti = false,
 }) => {
   const filterOptions = React.useMemo(
     () =>
-      options.sort().map((item: string) => {
+      options?.sort().map((item) => {
         return {
           label: `${prefix} ${item} ${suffix}`,
           value: item,
@@ -85,9 +93,10 @@ export const ReactSelect: React.FC<IProps> = ({
         name={name}
         className={`w-full ${className}`}
         placeholder={placeholder}
-        options={filterOptions}
+        options={useDefaultFilter ? filterOptions : customOptions}
         styles={reactSelectStyleOptions}
-        onChange={handleSelectChange}
+        onChange={useDefaultFilter ? handleSelectChange : (handleChange as any)}
+        isMulti={isMulti}
       ></Select>
     </div>
   );

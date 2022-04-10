@@ -1,11 +1,20 @@
 export interface IAuthState {
   isAuthenticated: boolean;
-  authType: string;
   token: string;
   user: any;
-  who: "user" | "admin";
+  role: "USER" | "ADMIN" | null;
 }
 
 export interface IUserData {
   user: any;
+}
+
+export interface IService {
+  label: string;
+  value: string;
+}
+
+export interface IProfession {
+  label: string;
+  value: string;
 }
