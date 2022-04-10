@@ -1,24 +1,25 @@
 import { Request, Response } from "express";
 
 import Listing from "../../models/listing";
-import User from "../../models/user";
+import { clearHash } from "../../utils/cache";
 
 export const deleteListing = async (req: Request, res: Response) => {
-  const userId = req.user;
-  if (!userId) throw new Error("UnAuthorized user");
+  const { listingId } = req.body;
 
-  const serviceId = req.params.serviceId;
-  if (!serviceId) throw new Error("Bad Request");
-
-  const service = await Listing.findById(serviceId);
-  if (!service) throw new Error("No Services Found");
-
-  const user = await User.findById(service.addedBy);
-  if (!user || user._id !== userId) throw new Error("UnAuthorized user");
-
-  // TODO delete the service
+  await Listing.deleteOne({ _id: listingId });
+  clearHash("listings");
+  return res.status(200).json({ message: "Deleted listing successfully" });
 };
 
 export const featureUnfeatureListing = async (req: Request, res: Response) => {
-  res.send("done");
+  const { listingId, toFeature } = req.body;
+  const updatedListing = await Listing.findOneAndUpdate(
+    { _id: listingId },
+    { $set: { featured: toFeature } }
+  );
+  clearHash("listings");
+  return res.status(200).json({
+    message: `Listing ${toFeature ? "featured" : "unfeatured"} successfully`,
+    listing: updatedListing,
+  });
 };

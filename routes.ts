@@ -9,6 +9,7 @@ import {
   removeListing,
   getOneListing,
 } from "./controllers/listing";
+import { getProfessions } from "./controllers/profession";
 import { addReview } from "./controllers/review";
 import { getAllServices } from "./controllers/service";
 import checkAuth from "./middlewares/jwt.auth";
@@ -30,12 +31,16 @@ export const use =
   };
 
 // </endpoint> <rateLimit> <validator> <auth> <controller>
+
+// health check
 router.post(
   "/",
   use((_: Request, res: Response) => {
     return res.json({ message: "Server is OK" });
   })
 );
+
+// user authentication
 router.post("/user", /* authRateLimiter, */ checkAuth, use(getUser));
 router.post(
   "/user/register" /* authRateLimiter, */,
@@ -49,10 +54,17 @@ router.post(
 );
 router.post("/user/login" /* authRateLimiter, */, use(checkLogin), use(login));
 
+// listing
 router.post(
   "/listing/create" /* regularRateLimiter, */,
   checkAuth,
   use(checkAddListing),
+  use(
+    upload.fields([
+      { name: "avatar", maxCount: 1 },
+      { name: "gallery", maxCount: 3 },
+    ])
+  ),
   use(addListing)
 );
 router.post(
@@ -67,14 +79,21 @@ router.post(
   use(removeListing)
 );
 router.post("/listing/one" /* regularRateLimiter, */, use(getOneListing));
+
+// service
 router.post("/service/all" /* regularRateLimiter, */, use(getAllServices));
 
+// reviews
 router.post(
   "/review/add" /* regularRateLimiter, */,
   checkAuth,
   use(checkAddReview),
   use(addReview)
 );
+
+// professions
+router.post("/professions" /* regularRateLimiter, */, use(getProfessions));
+
 // Demo
 router.post("/get-quotes" /* regularRateLimiter, */, checkAuth, use(getQuotes));
 

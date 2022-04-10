@@ -19,7 +19,17 @@ export const addListingSchema = Joi.object({
 });
 
 export const editListingSchema = addListingSchema.keys({
-  _id: Joi.string().required(),
+  id: Joi.string().required(),
 });
 
-export const removeListingSchema = editListingSchema;
+export const getOneListingSchema = Joi.object({
+  listingId: Joi.string().required(),
+});
+
+export const removeListingSchema = getOneListingSchema;
+
+export const deleteListingSchema = getOneListingSchema;
+
+export const featureUnfeatureListingSchema = getOneListingSchema.keys({
+  toFeature: Joi.boolean().required(),
+});

@@ -4,14 +4,25 @@ import logger from "../utils/logger";
 
 import { loginSchema, registerOneSchema, registerTwoSchema } from "./auth";
 import { checkAdminLoginSchema, checkAdminRegisterSchema } from "./admin";
+import { deleteUserSchema, emailUserSchema } from "./user";
 import {
   addListingSchema,
+  deleteListingSchema,
   editListingSchema,
+  featureUnfeatureListingSchema,
   removeListingSchema,
 } from "./listing";
-import { professionSchema } from "./profession";
+import {
+  addProfessionSchema,
+  deleteProfessionSchema,
+  editProfessionSchema,
+} from "./profession";
 import { reviewSchema } from "./review";
-import { serviceSchema } from "./service";
+import {
+  addServiceSchema,
+  editServiceSchema,
+  deleteServiceSchema,
+} from "./service";
 
 const validateRequest =
   (schema: Joi.ObjectSchema) =>
@@ -29,17 +40,30 @@ export const checkRegisterTwo = validateRequest(registerTwoSchema);
 // listing
 export const checkAddListing = validateRequest(addListingSchema);
 
-// service
-export const checkAddService = validateRequest(serviceSchema);
-export const checkEditService = validateRequest(editListingSchema);
-export const checkDeleteService = validateRequest(removeListingSchema);
-
-// professtion
-export const checkAddProfession = validateRequest(professionSchema);
-
 // review
 export const checkAddReview = validateRequest(reviewSchema);
 
+/* admin  stuff */
 // admin
 export const checkAdminLogin = validateRequest(checkAdminLoginSchema);
 export const checkAdminRegister = validateRequest(checkAdminRegisterSchema);
+
+// listing
+export const checkDeleteListing = validateRequest(deleteListingSchema);
+export const checkFeatureUnfeatureListing = validateRequest(
+  featureUnfeatureListingSchema
+);
+
+// user
+export const checkDeleteuser = validateRequest(deleteUserSchema);
+export const checkEmailuser = validateRequest(emailUserSchema);
+
+// service
+export const checkAddService = validateRequest(addServiceSchema);
+export const checkEditService = validateRequest(editServiceSchema);
+export const checkDeleteService = validateRequest(deleteServiceSchema);
+
+// professtion
+export const checkAddProfession = validateRequest(addProfessionSchema);
+export const checkEditProfession = validateRequest(editProfessionSchema);
+export const checkDeleteProfession = validateRequest(deleteProfessionSchema);

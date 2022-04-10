@@ -8,11 +8,15 @@ export interface IReview {
   comment: string;
 }
 
+export interface Image {
+  url: string;
+  public_id: string;
+}
 export interface IListing extends mongoose.Document {
   _id?: string;
   brandName: string;
   avatar: string;
-  gallery: Array<string>;
+  gallery: Image[];
   services: any;
   addedBy: any;
   established: string;
@@ -32,9 +36,17 @@ export interface IListing extends mongoose.Document {
 const listingSchema = new mongoose.Schema(
   {
     brandName: { type: String, required: [true, "Brand must have a name"] },
-    avatar: { type: String, required: [true, "Avatar image is required"] },
+    avatar: {
+      url: { type: String, required: [true, "Avatar image is required"] },
+      public_id: { type: String, required: [true, "Avatar image is required"] },
+    },
     gallery: {
-      type: [String],
+      type: [
+        {
+          url: { type: String, required: true },
+          public_id: { type: String, required: true },
+        },
+      ],
       min: [1, "Images are required"],
       max: [3, "Too many images"],
     },

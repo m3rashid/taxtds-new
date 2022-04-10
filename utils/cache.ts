@@ -1,41 +1,49 @@
-// import mongoose from "mongoose";
-// import { createClient } from "redis";
+import mongoose from "mongoose";
+import redis from "redis";
 
-// import logger from "./logger";
+import logger from "./logger";
 
-// const client = createClient({
-//   url: process.env.REDIS_URL || "redis://127.0.0.1:6379",
-// });
+const client = redis.createClient({
+  url: process.env.REDIS_URL || "redis://127.0.0.1:6379",
+});
 
-// const exec = mongoose.Query.prototype.exec;
+const exec = mongoose.Query.prototype.exec;
+type CacheOptions = { key?: string };
 
-// mongoose.Query.prototype.exec = async function () {
-//   logger.info(JSON.stringify(this.getQuery()));
+mongoose.Query.prototype.exec = async function () {
+  logger.info(JSON.stringify(this.getQuery()));
 
-//   if (!this.useCache) {
-//     return exec.apply(this, args);
-//   }
+  if (!this.useCache) {
+    return exec.apply(this);
+  }
 
-//   const key = JSON.stringify(
-//     Object.assign({}, this.getQuery(), {
-//       // collection: add collection name here {figure it out}
-//     })
-//   );
+  const key = JSON.stringify({
+    ...this.getQuery(),
+    collection: this.model.collection.name,
+  });
 
-//   const cachedValue = await client.get(key);
-//   if (cachedValue) {
-//     const doc = JSON.parse(cachedValue);
-//     return Array.isArray(doc)
-//       ? doc.map((d) => new this.model(d))
-//       : new this.model(doc);
-//   }
+  const cachedValue = await client.hGet(this.hashKey, key);
 
-//   const result = await exec.apply(this, args);
-//   await client.set(key, JSON.stringify(result), "EX", 10);
-//   console.log(result);
-// };
+  if (cachedValue) {
+    logger.info(`REDIS: Returning cached value for ${key}`);
+    const doc = JSON.parse(cachedValue);
+    return Array.isArray(doc)
+      ? doc.map((d) => new this.model(d))
+      : new this.model(doc);
+  }
 
-// mongoose.Query.prototype.cache  = function () {
-//   this.useCache = true;
-//   return this;
-// };
+  const result = await exec.apply(this);
+  await client.hSet(this.hashKey, key, JSON.stringify(result));
+  logger.info(`REDIS: Returning fetched value from Database ${key}`);
+  return result;
+};
+
+export const clearHash = function (hashKey: string) {
+  client.del(JSON.stringify(hashKey));
+};
+
+mongoose.Query.prototype.cache = function (options: CacheOptions = {}) {
+  this.useCache = true;
+  this.hashKey = JSON.stringify(options.key || "");
+  return this;
+};

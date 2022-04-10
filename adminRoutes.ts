@@ -27,6 +27,8 @@ import {
   checkAddProfession,
   checkAdminLogin,
   checkAdminRegister,
+  checkDeleteListing,
+  checkFeatureUnfeatureListing,
 } from "./validators";
 
 const router = express.Router();
@@ -53,12 +55,14 @@ router.post(
   "/listing/delete" /* regularRateLimiter, */,
   checkAuth,
   use(checkAdmin),
+  use(checkDeleteListing),
   use(deleteListing)
 );
 router.post(
   "/listing/feature-unfeature" /* regularRateLimiter, */,
   checkAuth,
   use(checkAdmin),
+  use(checkFeatureUnfeatureListing),
   use(featureUnfeatureListing)
 );
 

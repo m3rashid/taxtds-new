@@ -14,5 +14,6 @@ export const getUser = async (req: Request, res: Response) => {
 };
 
 export const getQuotes = async (Req: Request, res: Response) => {
+  // email to admin about this
   res.send("reached");
 };
