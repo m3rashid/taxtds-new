@@ -7,12 +7,14 @@ import cors from "cors";
 import serverLogger from "./utils/serverLogger";
 import logger from "./utils/logger";
 import routes from "./routes";
+import adminRoutes from "./adminRoutes";
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(serverLogger);
 app.use(routes);
+app.use("/admin", adminRoutes);
 
 // Global error handler
 app.use((err: any, req: Request, res: Response, _: NextFunction) => {

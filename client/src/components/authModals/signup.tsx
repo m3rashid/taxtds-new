@@ -33,7 +33,7 @@ const SignupStepOne = ({
   const handleRegisterOne = () => {
     const { handleAuth } = useAuth();
     const actions = {
-      endpoint: "/user/register-one",
+      endpoint: "/user/register",
       pendingMessage: "Request in progress",
       successMessage: "Check your Email for the OTP",
       failureMessage: "An error occured, please try again later",
@@ -113,9 +113,10 @@ const SignupStepTwo = ({
   const signupUser = () => {
     const { handleAuth } = useAuth();
     const actions: IActions = {
-      endpoint: "/user/register-two",
-      pendingMessage: "Register in progress",
-      successMessage: "Registration successful, start listing your services",
+      endpoint: "/user/create-account",
+      pendingMessage: "Creating your account ...",
+      successMessage:
+        "Account Created Successfullu, start listing your services",
       failureMessage: "An error occured, please try again later",
     };
     handleAuth(data, actions, setRecoilState);

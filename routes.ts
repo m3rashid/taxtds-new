@@ -1,40 +1,30 @@
 import express, { Request, Response, NextFunction } from "express";
 // import { authRateLimiter, regularRateLimiter } from "./utils/rateLimiters";
 
-import {
-  login,
-  registerOne,
-  registerTwo,
-  getUser,
-} from "./controllers/authUser";
+import { getUser, getQuotes } from "./controllers/user";
+import { login, register, createAccount } from "./controllers/authUser";
 import {
   addListing,
-  addService,
-  deleteListing,
   editListing,
+  removeListing,
   getOneListing,
-  remove,
-  addProfession,
-  addReview,
-} from "./controllers/service";
+} from "./controllers/listing";
+import { addReview } from "./controllers/review";
+import { getAllServices } from "./controllers/service";
 import checkAuth from "./middlewares/jwt.auth";
 import {
   checkLogin,
   checkRegisterOne,
   checkRegisterTwo,
-  checkEditService,
-  checkRemoveService,
-  checkAddService,
-  checkAddProfession,
   checkAddReview,
   checkAddListing,
-} from "./middlewares/validators";
+} from "./validators";
 import upload from "./utils/multer";
 
 const router = express.Router();
 
 // Global error checker
-const use =
+export const use =
   (check: Function) => (req: Request, res: Response, next: NextFunction) => {
     Promise.resolve(check(req, res, next)).catch(next);
   };
@@ -48,32 +38,44 @@ router.post(
 );
 router.post("/user", /* authRateLimiter, */ checkAuth, use(getUser));
 router.post(
-  "/user/register-one",
-  // authRateLimiter,
+  "/user/register" /* authRateLimiter, */,
   use(checkRegisterOne),
-  use(registerOne)
+  use(register)
 );
 router.post(
-  "/user/register-two",
-  // authRateLimiter,
+  "/user/create-account" /* authRateLimiter, */,
   use(checkRegisterTwo),
-  use(registerTwo)
+  use(createAccount)
 );
-router.post(
-  "/user/login",
-  // authRateLimiter,
-  use(checkLogin),
-  use(login)
-);
+router.post("/user/login" /* authRateLimiter, */, use(checkLogin), use(login));
 
 router.post(
-  "/listing/create",
+  "/listing/create" /* regularRateLimiter, */,
   checkAuth,
   use(checkAddListing),
   use(addListing)
 );
+router.post(
+  "/listing/edit" /* regularRateLimiter, */,
+  checkAuth,
+  use(checkAddListing),
+  use(editListing)
+);
+router.post(
+  "/listing/remove" /* regularRateLimiter, */,
+  checkAuth,
+  use(removeListing)
+);
+router.post("/listing/one" /* regularRateLimiter, */, use(getOneListing));
+router.post("/service/all" /* regularRateLimiter, */, use(getAllServices));
 
+router.post(
+  "/review/add" /* regularRateLimiter, */,
+  checkAuth,
+  use(checkAddReview),
+  use(addReview)
+);
 // Demo
-router.post("/get-quotes", (req: Request, res: Response) => res.send("Quote"));
+router.post("/get-quotes" /* regularRateLimiter, */, checkAuth, use(getQuotes));
 
 export default router;

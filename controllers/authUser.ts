@@ -7,15 +7,6 @@ import { comparePassword, hashPassword } from "../utils/auth";
 import logger from "../utils/logger";
 // import "../utils/cache";
 
-export const getUser = async (req: Request, res: Response) => {
-  const user = await User.findOne({ _id: req.user });
-  if (!user) throw new Error(`User not found for id: ${req.user}`);
-  logger.info(`User found for id: ${req.user}`);
-
-  const { token, expires } = issueJWT(user);
-  return res.status(200).json({ token, expires, user });
-};
-
 export const login = async (req: Request, res: Response) => {
   const { email, password } = req.body;
   const oldUser = await User.findOne({ email });
@@ -28,7 +19,7 @@ export const login = async (req: Request, res: Response) => {
   return res.status(200).json({ token, expires, user: oldUser });
 };
 
-export const registerOne = async (req: Request, res: Response) => {
+export const register = async (req: Request, res: Response) => {
   const { email } = req.body;
   const user = await User.findOne({ email });
   if (user) throw new Error("Already Present");
@@ -53,7 +44,7 @@ export const registerOne = async (req: Request, res: Response) => {
   return res.sendStatus(200);
 };
 
-export const registerTwo = async (req: Request, res: Response) => {
+export const createAccount = async (req: Request, res: Response) => {
   const { email, otp } = req.body;
 
   const dbOtp = await Otp.findOne({ email, otp });
