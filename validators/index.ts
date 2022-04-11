@@ -22,6 +22,7 @@ import {
   editServiceSchema,
   deleteServiceSchema,
 } from "./service";
+import {changePasswordSchema, resetPasswordSchema, updateUserInfoSchema} from "./password";
 
 const validateRequest =
   (schema: Joi.ObjectSchema) =>
@@ -41,6 +42,12 @@ export const checkAddListing = validateRequest(addListingSchema);
 
 // review
 export const checkAddReview = validateRequest(reviewSchema);
+
+// passwords
+export const checkForgotPassword = validateRequest(registerOneSchema);
+export const checkResetPassword = validateRequest(resetPasswordSchema)
+export const checkChangePassword = validateRequest(changePasswordSchema)
+export const checkUpdateUserInfo = validateRequest(updateUserInfoSchema)
 
 /* admin  stuff */
 // listing

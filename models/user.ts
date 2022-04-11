@@ -1,3 +1,4 @@
+import { boolean } from "joi";
 import mongoose from "mongoose";
 
 export const StateUt = [
@@ -58,7 +59,11 @@ export interface IUser extends mongoose.Document {
 
 const userSchema = new mongoose.Schema(
   {
-    email: { type: String, required: [true, "Email is required"] },
+    email: {
+      type: String,
+      unique: true,
+      required: [true, "Email is required"],
+    },
     role: { type: String, enum: ["USER", "ADMIN"], default: "USER" },
     password: { type: String },
     phone: { type: String, required: [true, "Phone number is required"] },

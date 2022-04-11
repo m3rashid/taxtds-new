@@ -7,7 +7,7 @@ import {
 } from "react-icons/md";
 
 import Header from "../components/customHeader";
-import Footer from "../components/mainFooter";
+import Footer from "../components/main/footer";
 import InputEl from "../components/atoms/Input";
 import ButtonEl from "../components/atoms/Button";
 import { Loader } from "../components/atoms/loader";

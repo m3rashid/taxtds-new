@@ -5,7 +5,7 @@ import User from "../models/user";
 import logger from "../utils/logger";
 
 export const getUser = async (req: Request, res: Response) => {
-  const user = await User.findOne({ _id: req.user });
+  const user = await User.findOne({ _id: req.user, deleted: false });
   if (!user) throw new Error(`User not found for id: ${req.user}`);
   logger.info(`User found for id: ${req.user}`);
 
@@ -15,5 +15,5 @@ export const getUser = async (req: Request, res: Response) => {
 
 export const getQuotes = async (Req: Request, res: Response) => {
   // email to admin about this
-  res.send("reached");
+  res.status(200).json({ message: "Quotes" })
 };

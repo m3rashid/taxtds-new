@@ -6,6 +6,7 @@ import fs from "fs";
 import Listing, { Image, IListing } from "../models/listing";
 import logger from "../utils/logger";
 import { clearHash } from "../utils/cache";
+import {paginationConfig} from "./helpers";
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -44,7 +45,7 @@ export const addListing = async (req: Request, res: Response) => {
     avatar: { url: avatarUrl.secure_url, public_id: avatarUrl.public_id },
     gallery: galleryUrls,
     services: req.body.services,
-    addedBy: req.body.addedBy,
+    addedBy: req.user,
     established: req.body.established,
     tagline: req.body.tagline,
     owner: req.body.owner,
@@ -69,10 +70,9 @@ export const addListing = async (req: Request, res: Response) => {
 
 export const editListing = async (req: Request, res: Response) => {
   const { listingId } = req.body;
-  if (!listingId) throw new Error("Bad Request");
 
   const listing = await Listing.findById(listingId);
-  if (!listing) throw new Error("No Services Found");
+  if (!listing || listing.addedBy !== req.user) throw new Error("No Services Found");
   // handle the image change workflow
   await Listing.findByIdAndUpdate(listingId, {
     $set: {
@@ -95,18 +95,17 @@ export const editListing = async (req: Request, res: Response) => {
 
 export const removeListing = async (req: Request, res: Response) => {
   const { listingId } = req.body;
-  await Listing.findByIdAndUpdate(listingId, { $set: { deleted: true } });
+  await Listing.findOneAndUpdate({ _id: listingId, addedBy: req.user }, { $set: { deleted: true } });
   clearHash("listings");
   return res.status(200).json({ message: "Listing removed successfully" });
 };
 
 export const getAllListings = async (req: Request, res: Response) => {
-  const page = req.body.page || 0;
-  const limit = req.body.limit || 10;
+  const {page, limit} = paginationConfig(req);
   const listings = await Listing.find({ deleted: false })
     .sort({ createdAt: "desc" })
     .skip(page * limit)
-    .limit(10)
+    .limit(limit)
     .cache({ key: "listings" });
   return res.status(200).json({ listings });
 };
@@ -114,8 +113,12 @@ export const getAllListings = async (req: Request, res: Response) => {
 export const getOneListing = async (req: Request, res: Response) => {
   const { listingId } = req.body;
   const listing = await Listing.findOne({ _id: listingId, deleted: false })
-    .populate("addedBy", "services")
+    .populate("services", {
+      path: "addedBy",
+      populate: { path: "professions", model: "Profession" }
+    })
     .cache();
   if (!listing) throw new Error("No listing found");
   return res.status(200).json({ listing });
 };
+

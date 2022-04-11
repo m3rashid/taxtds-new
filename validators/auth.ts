@@ -19,6 +19,6 @@ export const registerTwoSchema = Joi.object({
   addressLineTwo: Joi.string().min(3).max(50).allow(""),
   state: Joi.string().min(3).max(30).required(),
   professions: Joi.array().items(Joi.string()),
-  password: Joi.string(),
+  password: Joi.string().required(),
   confirmPassword: Joi.ref("password"),
 }).with("password", "confirmPassword");

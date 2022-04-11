@@ -1,26 +1,34 @@
 import React from "react";
 
 import CloseEl from "../atoms/Close";
-import Login from "./login";
-import Signup from "./signup";
-import Quotes from "./quotes";
-import { authState } from "../../store/auth";
-import { useRecoilValue } from "recoil";
+const Login = React.lazy(() => import("./login"));
+const Signup = React.lazy(() => import("./signup"));
+const Quotes = React.lazy(() => import("./quotes"));
+const Search = React.lazy(() => import("./search"));
+const ChangePassword = React.lazy(() => import("./changePassword"));
+const ForgotPassword = React.lazy(() => import("./forgotPassword"));
+const ResetPassword = React.lazy(() => import("./resetPassword"));
+const Logout = React.lazy(() => import("./logout"));
+
+import { Loader } from "../atoms/loader";
 
 const AuthModals = ({
   trigger,
-  setTrigger,
+  setModalShow,
 }: {
   trigger: string;
-  setTrigger: any;
+  setModalShow: any;
 }) => {
-  const { isAuthenticated } = useRecoilValue(authState);
-
   const initialState = React.useMemo(() => {
     return {
-      userLogin: false,
+      login: false,
       quotes: false,
-      userSignup: false,
+      signup: false,
+      search: false,
+      change: false,
+      forgot: false,
+      reset: false,
+      logout: false,
     };
   }, []);
 
@@ -28,13 +36,28 @@ const AuthModals = ({
   React.useEffect(() => {
     switch (trigger) {
       case "login":
-        setShow({ ...initialState, userLogin: true });
+        setShow({ ...initialState, login: true });
         break;
       case "signup":
-        setShow({ ...initialState, userSignup: true });
+        setShow({ ...initialState, signup: true });
         break;
       case "quotes":
         setShow({ ...initialState, quotes: true });
+        break;
+      case "search":
+        setShow({ ...initialState, search: true });
+        break;
+      case "change":
+        setShow({ ...initialState, change: true });
+        break;
+      case "forgot":
+        setShow({ ...initialState, forgot: true });
+        break;
+      case "reset":
+        setShow({ ...initialState, reset: true });
+        break;
+      case "logout":
+        setShow({ ...initialState, logout: true });
         break;
       default:
         setShow(initialState);
@@ -44,14 +67,11 @@ const AuthModals = ({
 
   const closeCurrent = (e: any) => {
     setShow(initialState);
-    setTrigger();
+    setModalShow("");
   };
 
   if (show === initialState) {
     return null;
-  }
-  if (isAuthenticated) {
-    setShow(initialState);
   }
 
   document.addEventListener("keyup", (event) => {
@@ -73,16 +93,23 @@ const AuthModals = ({
         >
           <CloseEl callback={closeCurrent} />
           <div className="flex flex-col items-center bg-accentOne rounded-md px-[15px] pb-[25px] md:px-[25px] md:pb-[35px]">
-            <div className="relative -top-[3.5rem]">
-              <img
-                className="rounded-full h-28 border-8 border-accentTwo"
-                src="/favicon.ico"
-                alt=""
-              />
-            </div>
-            {show.userSignup && <Signup />}
-            {show.userLogin && <Login />}
-            {show.quotes && <Quotes />}
+            <React.Suspense fallback={<Loader />}>
+              <div className="relative -top-[3.5rem]">
+                <img
+                  className="rounded-full h-28 border-8 border-accentTwo"
+                  src="/favicon.ico"
+                  alt=""
+                />
+              </div>
+              {show.signup && <Signup setModal={closeCurrent} />}
+              {show.login && <Login setModal={closeCurrent} />}
+              {show.quotes && <Quotes setModal={closeCurrent} />}
+              {show.search && <Search setModal={closeCurrent} />}
+              {show.change && <ChangePassword setModal={closeCurrent} />}
+              {show.forgot && <ForgotPassword setModal={closeCurrent} />}
+              {show.reset && <ResetPassword setModal={closeCurrent} />}
+              {show.logout && <Logout setModal={closeCurrent} />}
+            </React.Suspense>
           </div>
         </div>
       </div>

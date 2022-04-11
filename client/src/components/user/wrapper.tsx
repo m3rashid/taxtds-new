@@ -4,7 +4,7 @@ import { useRecoilValue } from "recoil";
 import { authState } from "../../store/auth";
 
 import Header from "../customHeader";
-import Footer from "../mainFooter";
+import Footer from "../main/footer";
 
 const UserWrapper = ({ children }: { children: React.ReactNode }) => {
   const { isAuthenticated, user, role } = useRecoilValue(authState);

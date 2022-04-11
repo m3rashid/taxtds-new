@@ -78,12 +78,16 @@ const SignupStepOne = ({
   );
 };
 
-const SignupStepTwo = ({
-  email,
-  setStepOneDone,
-}: {
+interface ISignupStepTwoProps {
+  setModal: (e: any) => void;
   email?: string;
   setStepOneDone: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const SignupStepTwo: React.FC<ISignupStepTwoProps> = ({
+  email,
+  setStepOneDone,
+  setModal,
 }) => {
   const setRecoilState = useSetRecoilState(authState);
   const givenProfessions = useRecoilValue(professions);
@@ -131,6 +135,7 @@ const SignupStepTwo = ({
       failureMessage: "An error occured, please try again later",
     };
     handleAuth(data, actions, setRecoilState);
+    setModal("");
   };
 
   return (
@@ -236,7 +241,11 @@ const SignupStepTwo = ({
   );
 };
 
-const Signup = () => {
+interface IProps {
+  setModal: (e: any) => void;
+}
+
+const Signup: React.FC<IProps> = ({ setModal }) => {
   const [email, setEmail] = React.useState<string>("");
   const [stepOneDone, setStepOneDone] = React.useState<boolean>(false);
 
@@ -249,7 +258,11 @@ const Signup = () => {
           setStepOneDone={setStepOneDone}
         />
       ) : (
-        <SignupStepTwo email={email} setStepOneDone={setStepOneDone} />
+        <SignupStepTwo
+          email={email}
+          setStepOneDone={setStepOneDone}
+          setModal={setModal}
+        />
       )}
     </>
   );

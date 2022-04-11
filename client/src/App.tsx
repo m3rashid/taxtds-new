@@ -20,6 +20,7 @@ import useAuth from "./hooks/useAuth";
 import { authState } from "./store/auth";
 import { professions, listings } from "./store/data";
 import useData from "./hooks/useData";
+import UserDetail from "./pages/userDetail";
 
 const App = () => {
   const { getUser } = useAuth();
@@ -52,7 +53,8 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Main />} />
           <Route path="/user/:userId">
-            <Route path="" element={<User />} />
+            <Route path="" element={<UserDetail />} />
+            <Route path="home" element={<User />} />
             <Route path="create" element={<CreateService />} />
             <Route path=":listingId/edit" element={<EditService />} />
           </Route>

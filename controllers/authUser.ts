@@ -5,11 +5,10 @@ import Otp from "../models/otp";
 import User from "../models/user";
 import { comparePassword, hashPassword } from "../utils/auth";
 import logger from "../utils/logger";
-// import "../utils/cache";
 
 export const login = async (req: Request, res: Response) => {
   const { email, password } = req.body;
-  const oldUser = await User.findOne({ email });
+  const oldUser = await User.findOne({ email, deleted: false });
   if (!oldUser) throw new Error("User not found");
 
   const match = await comparePassword(password, oldUser.password);
@@ -41,7 +40,7 @@ export const register = async (req: Request, res: Response) => {
   }
   // TODO send mail to the user with the OTP
   logger.info(JSON.stringify({ emailToSend, otpToSend }));
-  return res.sendStatus(200);
+  return res.status(200).json({ message: "OTP sent to your email" });
 };
 
 export const createAccount = async (req: Request, res: Response) => {
@@ -50,9 +49,6 @@ export const createAccount = async (req: Request, res: Response) => {
   const dbOtp = await Otp.findOne({ email, otp });
   logger.info(JSON.stringify({ dbOtp, otp: parseInt(otp) }));
   if (!dbOtp || parseInt(otp) !== dbOtp.otp) throw new Error("Invalid OTP");
-
-  const user = await User.findOne({ email });
-  if (user) throw new Error("Resource Already Present");
 
   const hash: string = await hashPassword(req.body.password);
   const newUser = new User({
@@ -67,6 +63,7 @@ export const createAccount = async (req: Request, res: Response) => {
     password: hash,
   });
   await newUser.save();
+  await Otp.deleteOne({ email });
   const { token, expires } = issueJWT(newUser);
   return res.status(200).json({ token, expires, user: newUser });
 };

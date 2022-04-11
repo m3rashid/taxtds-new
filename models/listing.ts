@@ -2,12 +2,6 @@ import mongoose from "mongoose";
 
 import { StateUt } from "./user";
 
-export interface IReview {
-  name: string;
-  rating: number;
-  comment: string;
-}
-
 export interface Image {
   url: string;
   public_id: string;

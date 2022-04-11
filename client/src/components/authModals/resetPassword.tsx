@@ -1,22 +1,18 @@
 import React from "react";
-import { useSetRecoilState } from "recoil";
-import { MdVpnKey, MdLock, MdAlternateEmail } from "react-icons/md";
-
-import InputEl from "../atoms/Input";
+import { MdAlternateEmail, MdLock, MdVpnKey } from "react-icons/md";
 import ButtonEl from "../atoms/Button";
-import useAuth from "../../hooks/useAuth";
-import { authState } from "../../store/auth";
-import { IActions } from "../../hooks/helpers";
+import InputEl from "../atoms/Input";
 
 interface IProps {
   setModal: (e: any) => void;
 }
 
-const Login: React.FC<IProps> = ({ setModal }) => {
-  const setRecoilState = useSetRecoilState(authState);
+const ResetPassword: React.FC<IProps> = ({ setModal }) => {
   const [data, setData] = React.useState({
     email: "",
     password: "",
+    confirmPassword: "",
+    otp: "",
   });
 
   const handleChange = (e: any) => {
@@ -27,15 +23,7 @@ const Login: React.FC<IProps> = ({ setModal }) => {
     }));
   };
 
-  const loginUser = () => {
-    const { handleAuth } = useAuth();
-    const actions: IActions = {
-      endpoint: "/user/login",
-      pendingMessage: "Logging you in...",
-      successMessage: "Successfully logged in ...",
-      failureMessage: "Could not log you in, please try again later",
-    };
-    handleAuth(data, actions, setRecoilState);
+  const handleResetPassword = () => {
     setModal("");
   };
 
@@ -57,11 +45,31 @@ const Login: React.FC<IProps> = ({ setModal }) => {
         type="password"
         placeholder="Enter password"
       />
+      <InputEl
+        name="confirmPassword"
+        value={data.confirmPassword}
+        onChange={handleChange}
+        Icon={<MdVpnKey />}
+        type="password"
+        placeholder="Confirm password"
+      />
+      <InputEl
+        name="otp"
+        value={data.otp}
+        onChange={handleChange}
+        Icon={<MdVpnKey />}
+        type="password"
+        placeholder="OTP"
+      />
       <div className="flex flex-col w-full">
-        <ButtonEl Icon={<MdLock />} label="Login" callback={loginUser} />
+        <ButtonEl
+          Icon={<MdLock />}
+          label="Reset Password"
+          callback={handleResetPassword}
+        />
       </div>
     </>
   );
 };
 
-export default Login;
+export default ResetPassword;

@@ -19,7 +19,7 @@ const reviewSchema = new mongoose.Schema(
       min: 0,
       max: 10,
     },
-    comment: { type: String },
+    review: { type: String },
     listing: { type: mongoose.Schema.Types.ObjectId, ref: "Listing" },
   },
   { timestamps: true }

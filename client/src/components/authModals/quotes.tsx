@@ -4,7 +4,11 @@ import InputEl from "../atoms/Input";
 import ButtonEl from "../atoms/Button";
 import React from "react";
 
-const Quotes = () => {
+interface IProps {
+  setModal: (e: any) => void;
+}
+
+const Quotes: React.FC<IProps> = ({ setModal }) => {
   const [data, setData] = React.useState({
     org: "",
     email: "",
@@ -20,7 +24,9 @@ const Quotes = () => {
     }));
   };
 
-  const getQuotes = () => {};
+  const getQuotes = () => {
+    setModal("");
+  };
 
   return (
     <>

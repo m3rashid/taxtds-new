@@ -1,7 +1,5 @@
-// import React from "react";
-// import { toast } from "react-toastify";
-
 import React from "react";
+
 import { Loader } from "../../components/atoms/loader";
 const Card = React.lazy(() => import("../../components/main/card"));
 import UserWrapper from "../../components/user/wrapper";
@@ -31,7 +29,6 @@ const demoServices = [
   },
 ];
 
-const username = "Demouser";
 const User = () => {
   return (
     <UserWrapper>

@@ -1,8 +1,8 @@
 import React from "react";
 import { MdError } from "react-icons/md";
 
-import Header from "../components/mainHeader";
-import Footer from "../components/mainFooter";
+import Header from "../components/main/header";
+import Footer from "../components/main/footer";
 
 const NotFound = () => {
   // TODO handle OG tags

@@ -1,8 +1,11 @@
 import { Link, useNavigate } from "react-router-dom";
-import { MdExitToApp, MdHome } from "react-icons/md";
-import useAuth from "../hooks/useAuth";
 import { useSetRecoilState } from "recoil";
+import { MdExitToApp, MdHome } from "react-icons/md";
+
+import useAuth from "../hooks/useAuth";
 import { authState } from "../store/auth";
+import AuthModals from "./authModals";
+import React from "react";
 
 interface IProps {
   greeting: string;
@@ -11,14 +14,7 @@ interface IProps {
 }
 
 const Header = ({ greeting, subtitle, person = true }: IProps) => {
-  const setRecoilState = useSetRecoilState(authState);
-  const navigate = useNavigate();
-  const { handleLogout: logout } = useAuth();
-
-  const handleLogout = () => {
-    logout(setRecoilState);
-    navigate("/");
-  };
+  const [showModal, setShowModal] = React.useState("");
 
   return (
     <>
@@ -31,12 +27,15 @@ const Header = ({ greeting, subtitle, person = true }: IProps) => {
           {person ? (
             <div
               className="flex items-center gap-2 cursor-pointer"
-              onClick={handleLogout}
+              onClick={() => setShowModal("logout")}
             >
               <MdExitToApp />
               <p className="font-semibold">Logout</p>
             </div>
           ) : null}
+          {showModal !== "" && (
+            <AuthModals trigger="logout" setModalShow={setShowModal} />
+          )}
           <Link to="/">
             <div className="flex items-center gap-2 hover:text-lightHover">
               <MdHome />
