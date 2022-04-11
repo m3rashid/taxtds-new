@@ -59,13 +59,13 @@ router.post("/user/login" /* authRateLimiter, */, use(checkLogin), use(login));
 router.post(
   "/listings/add" /* regularRateLimiter, */,
   checkAuth,
-  use(checkAddListing),
-  use(
-    upload.fields([
-      { name: "avatar", maxCount: 1 },
-      { name: "gallery", maxCount: 3 },
-    ])
-  ),
+  upload.fields([
+    { name: "avatar", maxCount: 1 },
+    { name: "galleryImgOne", maxCount: 1 },
+    { name: "galleryImgTwo", maxCount: 1 },
+    { name: "galleryImgThree", maxCount: 1 },
+  ]),
+  // use(checkAddListing),
   use(addListing)
 );
 router.post(

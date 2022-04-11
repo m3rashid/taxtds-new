@@ -11,6 +11,8 @@ import {
   MdOutlineAlternateEmail,
   MdOutlineAddChart,
 } from "react-icons/md";
+import axios from "axios";
+import { toast } from "react-toastify";
 import { useRecoilState } from "recoil";
 
 import UserWrapper from "../../components/user/wrapper";
@@ -21,6 +23,8 @@ import StateUt from "../../data/state";
 import ButtonEl from "../../components/atoms/Button";
 import { services as servicesAtom } from "../../store/data";
 import useData from "../../hooks/useData";
+import { SERVER_ROOT_URL } from "../../hooks/helpers";
+import { tokenHeader } from "../../hooks/helpers";
 
 const CreateService = () => {
   const { getServices } = useData();
@@ -30,31 +34,26 @@ const CreateService = () => {
     getServices(setServices);
   }, []);
 
-  // console.log(services);
-
   const [data, setData] = React.useState({
     brandName: "",
-    avatar: "",
-    galleryImgOne: "",
-    galleryImgTwo: "",
-    galleryImgThree: "",
-    services: [],
-    established: "",
     tagline: "",
     owner: "",
+    phone: "",
+    email: "",
+    established: "",
     addressLineOne: "",
     addressLineTwo: "",
     state: "",
-    phone: "",
-    email: "",
+    avatar: "",
+    services: [],
+    galleryImgOne: "",
+    galleryImgTwo: "",
+    galleryImgThree: "",
   });
 
   const handleChange = (e: any) => {
     const { name, value } = e.target;
-    setData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    setData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleChangeServices = (values: any) => {
@@ -64,22 +63,51 @@ const CreateService = () => {
     }));
   };
 
-  const handleAddListing = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const values: any = {
-      ...data,
-      gallery: [],
-    };
-    data.galleryImgOne !== "" && values.gallery.push(data.galleryImgOne);
-    data.galleryImgTwo !== "" && values.gallery.push(data.galleryImgTwo);
-    data.galleryImgThree !== "" && values.gallery.push(data.galleryImgThree);
+  const handleAddListing = async (e: React.FormEvent<HTMLFormElement>) => {
+    const addToast = toast.loading("Adding your listing ...");
+    try {
+      e.preventDefault();
+      // all the three fields are required
 
-    delete values["galleryImgOne"];
-    delete values["galleryImgTwo"];
-    delete values["galleryImgThree"];
+      let form = new FormData();
+      form.append("brandName", data.brandName);
+      form.append("tagline", data.tagline);
+      form.append("owner", data.owner);
+      form.append("phone", data.phone);
+      form.append("email", data.email);
+      form.append("established", data.established);
+      form.append("addressLineOne", data.addressLineOne);
+      form.append("addressLineTwo", data.addressLineTwo);
+      form.append("state", data.state);
+      form.append("services", JSON.stringify(data.services));
+      form.append("avatar", data.avatar, "avatar.png");
+      form.append("galleryImgOne", data.galleryImgOne);
+      form.append("galleryImgTwo", data.galleryImgTwo);
+      form.append("galleryImgThree", data.galleryImgThree);
 
-    console.log(values);
-    // send this values with post request
+      const res = await axios.post(
+        `${SERVER_ROOT_URL}/listings/add`,
+        { body: form },
+        {
+          headers: {
+            Authorization: tokenHeader.headers!.Authorization,
+          },
+        }
+      );
+      toast.update(addToast, {
+        render: res.data.message || "Successfully listed your service",
+        type: "success",
+        isLoading: false,
+        autoClose: 5000,
+      });
+    } catch (err: any) {
+      toast.update(addToast, {
+        render: err.response?.data?.message || "Error listing your service",
+        type: "error",
+        isLoading: false,
+        autoClose: 5000,
+      });
+    }
   };
 
   return (

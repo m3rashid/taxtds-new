@@ -10,14 +10,11 @@ interface IProps {
 
 const FileInput = ({ title, name, setData }: IProps) => {
   const [image, setImage] = React.useState<string>("");
+
   const onDrop = React.useCallback((acceptedFiles: any) => {
     const url = URL.createObjectURL(acceptedFiles[0]);
     setImage(url);
-
-    setData((prev: any) => ({
-      ...prev,
-      [name]: acceptedFiles[0],
-    }));
+    setData((prev: any) => ({ ...prev, [name]: acceptedFiles[0] }));
   }, []);
 
   const removeImage = (e: React.MouseEvent<SVGElement, MouseEvent>) => {
@@ -60,7 +57,7 @@ const FileInput = ({ title, name, setData }: IProps) => {
               className="absolute top-0 right-0 bg-red-400 rounded-full p-1 mt-3 mr-3 cursor-pointer"
               onClick={removeImage}
             />
-            <img className="rounded-md" src={image} alt="" />
+            <img className="rounded-[4px]" src={image} alt="" />
           </div>
         )}
       </div>

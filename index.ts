@@ -12,15 +12,16 @@ import adminRoutes from "./adminRoutes";
 const app = express();
 app.use(cors());
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(serverLogger);
 app.use(routes);
 app.use("/admin", adminRoutes);
 
 // Global error handler
 app.use((err: any, req: Request, res: Response, _: NextFunction) => {
-  logger.error(err);
+  logger.error(JSON.stringify(err));
   return res.status(500).json({
-    message: err.message || "Internal Server Error",
+    message: JSON.stringify(err.message) || "Internal Server Error",
   });
 });
 

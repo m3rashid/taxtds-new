@@ -14,11 +14,6 @@ import {
 import { IAuthState } from "../store/interfaces";
 
 const useAuth = () => {
-  const controller = new AbortController();
-
-  const CancelToken = axios.CancelToken;
-  const source = CancelToken.source();
-
   const handleAuth = async (
     values: any,
     actions: IActions,
@@ -28,18 +23,10 @@ const useAuth = () => {
     const body = JSON.stringify(values);
 
     try {
-      setTimeout(() => {
-        controller.abort();
-      }, 5000);
-
       const res = await axios.post(
         `${SERVER_ROOT_URL}${actions.endpoint}`,
         body,
-        {
-          headers: defaultHeader.headers,
-          signal: controller.signal,
-          cancelToken: source.token,
-        }
+        defaultHeader
       );
       window.localStorage.setItem(JWT_AUTH, res.data.token);
       window.localStorage.setItem(
@@ -83,18 +70,10 @@ const useAuth = () => {
     const authToast = toast.loading(actions.pendingMessage);
     const body = JSON.stringify(values);
     try {
-      setTimeout(() => {
-        controller.abort();
-      }, 5000);
-
       const res = await axios.post(
         `${SERVER_ROOT_URL}${actions.endpoint}`,
         body,
-        {
-          headers: defaultHeader.headers,
-          signal: controller.signal,
-          cancelToken: source.token,
-        }
+        defaultHeader
       );
       toast.update(authToast, {
         render: res.data.message || actions.successMessage || "Success",
@@ -129,14 +108,8 @@ const useAuth = () => {
   const getUser = async (setRecoilState: SetterOrUpdater<IAuthState>) => {
     const body = JSON.stringify({});
     try {
-      setTimeout(() => {
-        controller.abort();
-      }, 5000);
-
       const res = await axios.post(`${SERVER_ROOT_URL}/user`, body, {
         headers: tokenHeader.headers,
-        signal: controller.signal,
-        cancelToken: source.token,
       });
       setRecoilState((prev) => ({
         ...prev,
