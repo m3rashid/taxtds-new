@@ -13,8 +13,6 @@ const useData = () => {
   const body = JSON.stringify({});
   const headers = {
     headers: defaultHeader.headers,
-    // signal: controller.signal,
-    // cancelToken: source.token,
   };
 
   const getServices = async (setRecoilState: SetterOrUpdater<IService[]>) => {
@@ -60,7 +58,7 @@ const useData = () => {
       const res = await axios.post(
         `${SERVER_ROOT_URL}/listings/all`,
         body,
-        headers
+        tokenHeader
       );
       setRecoilState(res.data.listings);
     } catch (err) {

@@ -1,4 +1,5 @@
 import React from "react";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 
 import CloseEl from "../atoms/Close";
 const Login = React.lazy(() => import("./login"));
@@ -12,13 +13,12 @@ const Logout = React.lazy(() => import("./logout"));
 
 import { Loader } from "../atoms/loader";
 
-const AuthModals = ({
-  trigger,
-  setModalShow,
-}: {
+interface IProps {
   trigger: string;
   setModalShow: any;
-}) => {
+}
+
+const AuthModals: React.FC<IProps> = ({ trigger, setModalShow }) => {
   const initialState = React.useMemo(() => {
     return {
       login: false,
@@ -95,7 +95,7 @@ const AuthModals = ({
           <div className="flex flex-col items-center bg-accentOne rounded-md px-[15px] pb-[25px] md:px-[25px] md:pb-[35px]">
             <React.Suspense fallback={<Loader />}>
               <div className="relative -top-[3.5rem]">
-                <img
+                <LazyLoadImage
                   className="rounded-full h-28 border-8 border-accentTwo"
                   src="/favicon.ico"
                   alt=""

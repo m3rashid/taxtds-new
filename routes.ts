@@ -20,6 +20,7 @@ import {
   checkRegisterTwo,
   checkAddReview,
   checkAddListing,
+  checkGetOneListing,
 } from "./validators";
 import upload from "./utils/multer";
 
@@ -65,7 +66,6 @@ router.post(
     { name: "galleryImgTwo", maxCount: 1 },
     { name: "galleryImgThree", maxCount: 1 },
   ]),
-  // use(checkAddListing),
   use(addListing)
 );
 router.post(
@@ -79,7 +79,11 @@ router.post(
   checkAuth,
   use(removeListing)
 );
-router.post("/listings/one" /* regularRateLimiter, */, use(getOneListing));
+router.post(
+  "/listings/one" /* regularRateLimiter, */,
+  use(checkGetOneListing),
+  use(getOneListing)
+);
 router.post("/listings/all" /* regularRateLimiter, */, use(getAllListings));
 
 // service

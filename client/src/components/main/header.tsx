@@ -6,6 +6,7 @@ import {
 } from "react-icons/md";
 import { useRecoilValue } from "recoil";
 import { useNavigate } from "react-router-dom";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 
 import AuthModals from "../authModals";
 import { authState } from "../../store/auth";
@@ -47,7 +48,7 @@ const Header = () => {
     <header className="w-screen">
       <div className="bg-accentOne p-[5px] md:p-[10px] flex items-center justify-around">
         <div className="flex-shrink flex flex-row mt-2 md:mt-0 mb-3 md:mb-0">
-          <img className="" src="/images/foot-logo.png" alt="logo" />
+          <LazyLoadImage className="" src="/images/foot-logo.png" alt="logo" />
         </div>
 
         <div className="ml-0 md:ml-[50px] md:mt-2 lg:ml-[30px] xl:ml-[200px] cursor-pointer flex gap-2">

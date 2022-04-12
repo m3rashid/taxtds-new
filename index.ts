@@ -8,6 +8,7 @@ import serverLogger from "./utils/serverLogger";
 import logger from "./utils/logger";
 import routes from "./routes";
 import adminRoutes from "./adminRoutes";
+import { client as redisClient } from "./utils/cache";
 
 const app = express();
 app.use(cors());
@@ -28,6 +29,7 @@ app.use((err: any, req: Request, res: Response, _: NextFunction) => {
 const port = process.env.PORT || 5000;
 app.listen(port, async () => {
   try {
+    redisClient.flushDb();
     if (process.env.NODE_ENV === "production")
       await mongoose.connect("mongodb://localhost/taxtds");
     else await mongoose.connect("mongodb://localhost/taxtds");

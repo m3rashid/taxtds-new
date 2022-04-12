@@ -6,6 +6,7 @@ import {
   MdLoop,
   MdInfoOutline,
 } from "react-icons/md";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 
 const Table = React.lazy(() => import("../../components/admin/table"));
 import AdminWrapper from "../../components/admin/wrapper";
@@ -70,7 +71,10 @@ export const Listings: React.FC<IProps> = () => {
         Header: "Avatar",
         accessor: "avatar",
         Cell: (props: any) => (
-          <img className="h-16 w-16" src={props.row.original.avatar} />
+          <LazyLoadImage
+            className="h-16 w-16"
+            src={props.row.original.avatar}
+          />
         ),
       },
       {

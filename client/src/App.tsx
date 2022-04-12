@@ -24,6 +24,7 @@ import UserDetail from "./pages/userDetail";
 
 const App = () => {
   const { getUser } = useAuth();
+
   const { getProfessions, getListings } = useData();
   const setAuthState = useSetRecoilState(authState);
   const setProfessions = useSetRecoilState(professions);

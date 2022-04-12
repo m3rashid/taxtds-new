@@ -9,6 +9,7 @@ import {
   deleteListingSchema,
   editListingSchema,
   featureUnfeatureListingSchema,
+  getOneListingSchema,
   removeListingSchema,
 } from "./listing";
 import {
@@ -22,7 +23,11 @@ import {
   editServiceSchema,
   deleteServiceSchema,
 } from "./service";
-import {changePasswordSchema, resetPasswordSchema, updateUserInfoSchema} from "./password";
+import {
+  changePasswordSchema,
+  resetPasswordSchema,
+  updateUserInfoSchema,
+} from "./password";
 
 const validateRequest =
   (schema: Joi.ObjectSchema) =>
@@ -39,15 +44,16 @@ export const checkRegisterTwo = validateRequest(registerTwoSchema);
 
 // listing
 export const checkAddListing = validateRequest(addListingSchema);
+export const checkGetOneListing = validateRequest(getOneListingSchema);
 
 // review
 export const checkAddReview = validateRequest(reviewSchema);
 
 // passwords
 export const checkForgotPassword = validateRequest(registerOneSchema);
-export const checkResetPassword = validateRequest(resetPasswordSchema)
-export const checkChangePassword = validateRequest(changePasswordSchema)
-export const checkUpdateUserInfo = validateRequest(updateUserInfoSchema)
+export const checkResetPassword = validateRequest(resetPasswordSchema);
+export const checkChangePassword = validateRequest(changePasswordSchema);
+export const checkUpdateUserInfo = validateRequest(updateUserInfoSchema);
 
 /* admin  stuff */
 // listing

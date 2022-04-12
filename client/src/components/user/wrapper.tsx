@@ -24,7 +24,7 @@ const UserWrapper = ({ children }: { children: React.ReactNode }) => {
     <>
       <Header greeting={`Hello ${user.name}`} />
       <div className="bg-accentTwo w-full -mt-4 shadow-md p-3 flex gap-6 flex-wrap items-center justify-center">
-        <Link to={`/user/${user._id}`}>Home</Link>
+        <Link to={`/user/${user._id}/home`}>Home</Link>
         <Link to={`/user/${user._id}/create`}>List Service</Link>
       </div>
       <div className="my-[50px] flex justify-center">{children}</div>

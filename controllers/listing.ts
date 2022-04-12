@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { v2 as cloudinary } from "cloudinary";
+import sharp from "sharp";
 import path from "path";
 import fs from "fs";
 
@@ -7,6 +8,7 @@ import Listing, { Image, IListing } from "../models/listing";
 import logger from "../utils/logger";
 import { clearHash } from "../utils/cache";
 import { paginationConfig } from "./helpers";
+import Review from "../models/review";
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -15,8 +17,12 @@ cloudinary.config({
   secure: true,
 });
 
+export const cloudinaryInitial = `https://res.cloudinary.com/${process.env.CLOUDINARY_CLOUD_NAME}/image/upload/`;
+
 const uploadFiles = async (file: Express.Multer.File) => {
-  let filePath = path.resolve(__dirname, `../uploads/${file.filename}`);
+  let filePath = path.resolve(__dirname, `../uploads/resized/${file.filename}`);
+  await sharp(file.path).resize({ width: 700 }).toFile(filePath);
+
   let data = await cloudinary.uploader.upload(filePath);
   return data;
 };
@@ -25,12 +31,15 @@ const removeFileFromServer = (filename: string) => {
   fs.unlink(path.resolve(__dirname, `../uploads/${filename}`), (err) => {
     if (err) logger.error(err);
   });
+  fs.unlink(
+    path.resolve(__dirname, `../uploads/resized/${filename}`),
+    (err) => {
+      if (err) logger.error(err);
+    }
+  );
 };
 
 export const addListing = async (req: Request, res: Response) => {
-  logger.info(JSON.stringify(req.body));
-  // logger.info(JSON.stringify(req.));
-
   const files = req.files as { [fieldname: string]: Express.Multer.File[] };
   const avatar = files["avatar"][0];
   const galleryImgOne = files["galleryImgOne"][0];
@@ -48,14 +57,27 @@ export const addListing = async (req: Request, res: Response) => {
   let galleryUrls: Image[] = [];
   for (let i = 0; i < gallery.length; i++) {
     const fileUrl = await uploadFiles(gallery[i]);
-    galleryUrls.push({ url: fileUrl.secure_url, public_id: fileUrl.public_id });
+    galleryUrls.push({
+      url: fileUrl.secure_url.split(cloudinaryInitial)[1],
+      public_id: fileUrl.public_id,
+    });
   }
+
+  removeFileFromServer(avatar.filename);
+  for (let i = 0; i < gallery.length; i++) {
+    removeFileFromServer(gallery[i].filename);
+  }
+
+  const services = JSON.parse(req.body.services);
 
   const listing: IListing = new Listing({
     brandName: req.body.brandName,
-    avatar: { url: avatarUrl.secure_url, public_id: avatarUrl.public_id },
+    avatar: {
+      url: avatarUrl.secure_url.split(cloudinaryInitial)[1],
+      public_id: avatarUrl.public_id,
+    },
     gallery: galleryUrls,
-    services: req.body.services,
+    services: services,
     addedBy: req.user,
     established: req.body.established,
     tagline: req.body.tagline,
@@ -67,11 +89,6 @@ export const addListing = async (req: Request, res: Response) => {
     email: req.body.email,
   });
   await listing.save();
-
-  removeFileFromServer(avatar.filename);
-  for (let i = 0; i < gallery.length; i++) {
-    removeFileFromServer(gallery[i].filename);
-  }
 
   clearHash("listings");
   return res.status(200).json({
@@ -128,12 +145,30 @@ export const getAllListings = async (req: Request, res: Response) => {
 
 export const getOneListing = async (req: Request, res: Response) => {
   const { listingId } = req.body;
-  const listing = await Listing.findOne({ _id: listingId, deleted: false })
-    .populate("services", {
-      path: "addedBy",
-      populate: { path: "professions", model: "Profession" },
-    })
-    .cache();
+  logger.info("reached route");
+  const listing = await Listing.findOne({
+    _id: listingId,
+    deleted: false,
+  });
+
+  // do this populate
+
+  // .populate({
+  //   path: "services",
+  //   model: "Service",
+  // })
+  // .populate({
+  //   path: "addedBy",
+  //   populate: {
+  //     path: "professions",
+  //     model: "Profession",
+  //   },
+  // });
+
+  logger.info("got listing");
   if (!listing) throw new Error("No listing found");
-  return res.status(200).json({ listing });
+
+  const reviews = await Review.find({ listing: listingId });
+  logger.info("got reviews");
+  return res.status(200).json({ listing, reviews });
 };

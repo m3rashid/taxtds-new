@@ -5,8 +5,9 @@ import {
   MdInfoOutline,
   MdOutlineReadMore,
 } from "react-icons/md";
-const Table = React.lazy(() => import("../../components/admin/table"));
+import { LazyLoadImage } from "react-lazy-load-image-component";
 
+const Table = React.lazy(() => import("../../components/admin/table"));
 import AdminWrapper from "../../components/admin/wrapper";
 import ButtonEl from "../../components/atoms/Button";
 import { Loader } from "../../components/atoms/loader";
@@ -58,7 +59,10 @@ export const Users: React.FC<IProps> = () => {
         Header: "Avatar",
         accessor: "avatar",
         Cell: (props: any) => (
-          <img className="h-16 w-16" src={props.row.original.avatar} />
+          <LazyLoadImage
+            className="h-16 w-16"
+            src={props.row.original.avatar}
+          />
         ),
       },
       {

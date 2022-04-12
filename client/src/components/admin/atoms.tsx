@@ -1,4 +1,5 @@
 import React from "react";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 
 export const profilePhotoStyles = {
   maxWidth: "50px",
@@ -6,7 +7,9 @@ export const profilePhotoStyles = {
 
 export const ProfilePhoto = ({ avatar }: { avatar?: string }) => {
   if (!avatar) return null;
-  return <img className="w-10 h-10 rounded-full" src={avatar} alt="" />;
+  return (
+    <LazyLoadImage className="w-10 h-10 rounded-full" src={avatar} alt="" />
+  );
 };
 
 export const Button = ({

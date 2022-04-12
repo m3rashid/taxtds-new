@@ -1,6 +1,6 @@
 import { atom } from "recoil";
 
-import { IProfession, IService } from "./interfaces";
+import { IListing, IProfession, IService } from "./interfaces";
 
 export const services = atom<IService[]>({
   key: "services",
@@ -12,8 +12,13 @@ export const professions = atom<IProfession[]>({
   default: [],
 });
 
-export const listings = atom({
+export const listings = atom<IListing[]>({
   key: "listings",
+  default: [],
+});
+
+export const userListings = atom<IListing[]>({
+  key: "userListings",
   default: [],
 });
 

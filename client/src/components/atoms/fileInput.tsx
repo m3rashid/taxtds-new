@@ -1,6 +1,7 @@
 import React from "react";
 import { useDropzone } from "react-dropzone";
 import { MdAddPhotoAlternate, MdOutlineClose } from "react-icons/md";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 
 interface IProps {
   title?: string;
@@ -57,7 +58,7 @@ const FileInput = ({ title, name, setData }: IProps) => {
               className="absolute top-0 right-0 bg-red-400 rounded-full p-1 mt-3 mr-3 cursor-pointer"
               onClick={removeImage}
             />
-            <img className="rounded-[4px]" src={image} alt="" />
+            <LazyLoadImage className="rounded-[4px]" src={image} alt="" />
           </div>
         )}
       </div>

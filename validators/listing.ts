@@ -10,7 +10,7 @@ export const addListingSchema = Joi.object({
   addressLineOne: Joi.string().required(),
   addressLineTwo: Joi.string().allow(""),
   state: Joi.string().required().allow(""),
-  services: Joi.array().min(1),
+  services: Joi.any().required(),
 });
 
 export const editListingSchema = addListingSchema.keys({

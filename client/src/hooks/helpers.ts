@@ -24,3 +24,6 @@ export const tokenHeader: AxiosRequestConfig<string> = {
     Authorization: localStorage.getItem(JWT_AUTH) || "",
   },
 };
+
+export const cloudinaryInitial =
+  "https://res.cloudinary.com/drdo5t5sl/image/upload/";

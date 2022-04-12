@@ -1,16 +1,22 @@
-import FooterCarousel from "./footerCarousel";
-import { navs, services, socials } from "./footerData";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+
+import Carousel from "./carousel";
+import { data, navs, services, socials } from "./footerData";
 
 const Footer = () => {
   const container = "pt-[20px] pl-[10px] md:pl-[25px] lg:pl-[25px]";
   return (
     <>
-      <FooterCarousel />
+      <Carousel data={data} />
       <footer className="w-[100%] bg-accentOne text-lightBgOne">
         <div className="grid grid-cols-1 lg:grid-cols-2 p-[10px] md:pt-[50px] md:pr-[10%] md:pb-0 md:pl-[10%] lg:pt-[30px] lg:pr-[4%] lg:pb-0 lg:pl-[4%]">
           <div className={container}>
             <div className="flex flex-col items-center">
-              <img className="" src="/images/foot-logo.png" alt="logo" />
+              <LazyLoadImage
+                className=""
+                src="/images/foot-logo.png"
+                alt="logo"
+              />
               <p className="text-center">
                 Worlds's No. 1 Local Business Directory Website
               </p>
