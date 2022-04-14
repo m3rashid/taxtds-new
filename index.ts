@@ -8,13 +8,16 @@ import serverLogger from "./utils/serverLogger";
 import logger from "./utils/logger";
 import routes from "./routes";
 import adminRoutes from "./adminRoutes";
-import { client as redisClient } from "./utils/cache";
+import { redisClient } from "./utils/newCache";
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(serverLogger);
+if (process.env.NODE_ENV !== "production") {
+  app.use(serverLogger);
+  mongoose.set("debug", true);
+}
 app.use(routes);
 app.use("/admin", adminRoutes);
 
@@ -22,7 +25,10 @@ app.use("/admin", adminRoutes);
 app.use((err: any, req: Request, res: Response, _: NextFunction) => {
   logger.error(JSON.stringify(err));
   return res.status(500).json({
-    message: JSON.stringify(err.message) || "Internal Server Error",
+    message:
+      process.env.NODE_ENV !== "production"
+        ? JSON.stringify(err.message) || "Internal Server Error"
+        : "Internal Server Error",
   });
 });
 
@@ -36,6 +42,7 @@ app.listen(port, async () => {
     logger.info("Mongoose is connected");
   } catch (err) {
     logger.error(JSON.stringify(err));
+    logger.error("MongoDB connection error");
     process.exit(1);
   }
   logger.info(`Server ready on: http://localhost:${port}`);

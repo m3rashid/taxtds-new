@@ -1,25 +1,23 @@
 import mongoose from "mongoose";
 
 export interface IReview {
-  _id?: string;
   name: string;
   rating: number;
-  comment?: string;
-  listing: any;
-  createdAt?: any;
-  updatedAt?: any;
+  review?: string;
+  listing: mongoose.Types.ObjectId;
 }
 
-const reviewSchema = new mongoose.Schema(
+const reviewSchema = new mongoose.Schema<IReview>(
   {
-    name: { type: String, default: "Anonymous" },
+    name: { type: String, default: "Anonymous", trim: true },
     rating: {
       type: Number,
       required: [true, "Rating is required"],
       min: 0,
       max: 10,
+      trim: true,
     },
-    review: { type: String },
+    review: { type: String, trim: true },
     listing: { type: mongoose.Schema.Types.ObjectId, ref: "Listing" },
   },
   { timestamps: true }

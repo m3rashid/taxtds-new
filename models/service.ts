@@ -1,17 +1,11 @@
 import mongoose from "mongoose";
 
-export interface IService extends mongoose.Document {
-  _id?: string;
+export interface IService {
   name: string;
-  createdAt?: any;
-  updatedAt?: any;
 }
 
-const serviceSchema = new mongoose.Schema(
-  {
-    name: { type: String, required: true },
-  },
-  { timestamps: true }
-);
+const serviceSchema = new mongoose.Schema<IService>({
+  name: { type: String, required: true, trim: true },
+});
 
 export default mongoose.model<IService>("Service", serviceSchema);

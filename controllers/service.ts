@@ -1,9 +1,11 @@
 import { Request, Response } from "express";
 
 import Service from "../models/service";
-import "../utils/cache";
+import { useCache } from "../utils/newCache";
 
 export const getAllServices = async (req: Request, res: Response) => {
-  const services = await Service.find().cache({ key: "services" });
+  const query = Service.find();
+  const services = await useCache("services", query);
+
   return res.status(200).json({ services });
 };

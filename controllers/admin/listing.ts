@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
 
 import Listing from "../../models/listing";
-import { clearHash } from "../../utils/cache";
-import {paginationConfig} from "../helpers";
+import { clearHash, useCache } from "../../utils/newCache";
+import { paginationConfig } from "../helpers";
 
 export const deleteListing = async (req: Request, res: Response) => {
   const { listingId } = req.body;
@@ -20,12 +20,13 @@ export const removeRecoverListing = async (req: Request, res: Response) => {
 };
 
 export const getAllListingsAdmin = async (req: Request, res: Response) => {
-  const {page, limit} = paginationConfig(req);
-  const listings = await Listing.find()
+  const { page, limit } = paginationConfig(req);
+  const query = Listing.find()
     .sort({ createdAt: "desc" })
     .skip(page * limit)
-    .limit(limit)
-    .cache({ key: "listings" });
+    .limit(limit);
+
+  const listings = await useCache("listings", query);
   return res.status(200).json({ listings });
 };
 

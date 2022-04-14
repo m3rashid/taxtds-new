@@ -1,4 +1,5 @@
 import React from "react";
+import axios from "axios";
 import {
   MdPerson,
   MdRateReview,
@@ -6,7 +7,7 @@ import {
   MdGrade,
 } from "react-icons/md";
 import { LazyLoadImage } from "react-lazy-load-image-component";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 import Header from "../components/customHeader";
 import Footer from "../components/main/footer";
@@ -14,13 +15,37 @@ import InputEl from "../components/atoms/Input";
 import ButtonEl from "../components/atoms/Button";
 import { Loader } from "../components/atoms/loader";
 import { IListingDetail } from "../store/interfaces";
-import axios from "axios";
 import {
   cloudinaryInitial,
   defaultHeader,
   SERVER_ROOT_URL,
 } from "../hooks/helpers";
-import Carousel from "../components/main/carousel";
+
+interface IListBoxProps {
+  children?: React.ReactNode;
+  title?: string;
+}
+const ListBox: React.FC<IListBoxProps> = ({ children, title }) => {
+  return (
+    <div className="bg-[white] hover:bg-lightHover mb-[20px] p-[10px] rounded-md shadow-md">
+      <h2 className="text-left mb-2 text-2xl font-bold">{title}</h2>
+      {children}
+    </div>
+  );
+};
+
+interface IListBoxItemProps {
+  label?: string;
+  value?: any;
+}
+const ListBoxItem: React.FC<IListBoxItemProps> = ({ label, value }) => {
+  return (
+    <p className="font-bold">
+      <span className="font-semibold">{label}</span>
+      {value}
+    </p>
+  );
+};
 
 const getListing = async (listingId: string) => {
   try {
@@ -50,9 +75,7 @@ const ListingDetail = () => {
 
   const demoListing = listing.listing;
   const reviews = listing.reviews;
-  const galleryImages = demoListing.gallery.reduce((acc, curr) => {
-    return [...acc, { key: curr._id, imageUrl: cloudinaryInitial + curr.url }];
-  }, [] as any);
+  const user = listing.listing.addedBy;
 
   // TODO handle OG tags
   document.title = `Taxtds - ${demoListing.brandName}`;
@@ -63,11 +86,11 @@ const ListingDetail = () => {
         subtitle={demoListing.tagline}
         person={false}
       />
-      <div className="min-h-[25vh] grid grid-cols-1 md:grid-cols-2 gap-[30px] mb-8 max-w-[1400px]">
-        <div className="p-[10px] md:p-[15px] w-full md:w-auto flex flex-col gap-[15px]">
+      <div className="min-h-[25vh] grid grid-cols-1 md:grid-cols-2 md:gap-[30px] mb-8 max-w-[1400px]">
+        <div className="p-[10px] md:p-[15px] w-full md:w-auto flex flex-col gap-[15px] order-last md:order-1">
           <React.Suspense fallback={<Loader />}>
             <LazyLoadImage
-              className="max-w-[600px] w-full rounded-md"
+              className="max-w-[600px] w-full rounded-md shadow-md"
               src={cloudinaryInitial + demoListing.avatar.url}
               alt={demoListing.brandName || ""}
             />
@@ -77,62 +100,52 @@ const ListingDetail = () => {
                 alt={demoListing.brandName}
                 src={cloudinaryInitial + image.url}
                 placeholderSrc={cloudinaryInitial + image.url}
-                className="max-w-[600px] w-full rounded-md"
+                className="max-w-[600px] w-full rounded-md shadow-md"
               />
             ))}
           </React.Suspense>
         </div>
-        <div className="p-[10px] md:p-[15px]">
-          <div className="bg-[white] hover:bg-lightHover mb-[20px] p-[10px] rounded-md shadow-md">
-            <h2 className="text-left mb-2 text-2xl font-bold">
-              General Service Details
-            </h2>
-            <p className="font-bold">
-              <span className="font-semibold">Established: </span>
-              {demoListing.established}
-            </p>
-            <p className="font-bold">
-              <span className="font-semibold">Phone Number: </span>
-              {demoListing.phone}
-            </p>
-            <p className="font-bold">
-              <span className="font-semibold">Email Address: </span>
-              {demoListing.email}
-            </p>
-            <p className="font-bold">
-              <span className="font-semibold">Address: </span>
-              {demoListing.addressLineOne + ", " + demoListing.addressLineTwo}
-            </p>
-            <p className="font-bold">
-              <span className="font-semibold">Address (state): </span>
-              {demoListing.state}
-            </p>
-          </div>
-          <div className="bg-[white] hover:bg-lightHover mb-[20px] p-[10px] rounded-md shadow-md">
-            <h2 className="text-left mb-2 text-2xl font-bold">
-              Service Owner Details
-            </h2>
-            <p className="font-bold">
-              <span className="font-semibold">Name: </span>
-              {demoListing.owner}
-            </p>
-          </div>
-
-          <div className="bg-[white]  mb-[20px] p-[10px] rounded-md shadow-md">
-            <h2 className="text-center text-2xl font-bold">
-              All services offered
-            </h2>
-            <div className="py-[10px]">
+        <div className="p-[10px] md:p-[15px] order-2">
+          <ListBox title="General Service Details">
+            <ListBoxItem
+              label="Established : "
+              value={demoListing.established}
+            />
+            <ListBoxItem label="Phone Number : " value={demoListing.phone} />
+            <ListBoxItem label="Email Address : " value={demoListing.email} />
+            <ListBoxItem
+              label="Address : "
+              value={
+                demoListing.addressLineOne + ", " + demoListing.addressLineTwo
+              }
+            />
+            <ListBoxItem label="Address (state) : " value={demoListing.state} />
+          </ListBox>
+          <ListBox title="Listing Owner">
+            <ListBoxItem label="Name : " value={demoListing.owner} />
+          </ListBox>
+          <ListBox title="Listing Added By">
+            <ListBoxItem label="Name : " value={user.name} />
+            <ListBoxItem label="Phone Number : " value={user.phone} />
+            <ListBoxItem label="Email Address : " value={user.email} />
+            <ListBoxItem label="Experience : " value={user.experience} />
+            <ListBoxItem
+              label="Address : "
+              value={user.addressLineOne + ", " + user.addressLineTwo}
+            />
+            <ListBoxItem label="Address (state) : " value={user.state} />
+            <ListBoxItem
+              label="Professions : "
+              value={user.professions.join(", ") || " - "}
+            />
+          </ListBox>
+          <ListBox title="All services offered">
+            <div className="pt-[10px]">
               {demoListing.services.map((service) => (
-                <div
-                  key={service.name}
-                  className="py-[6px] px-[15px] rounded-md mb-[5px] font-semibold shadow-sm hover:bg-lightHover"
-                >
-                  {service.name}
-                </div>
+                <ListBoxItem key={service.name} label={service.name} />
               ))}
             </div>
-          </div>
+          </ListBox>
         </div>
       </div>
       <div className="min-h-[25vh] grid gap-[10px] grid-cols-1 md:grid-cols-2 max-w-[1400px] w-full md:w-auto mb-[30px]">
@@ -155,25 +168,18 @@ const ListingDetail = () => {
                             <MdPerson fontSize="large" />
                           </div>
                           <div className="">
-                            <p className="font-semibold">
-                              Name:
-                              <span className="font-bold"> {review.name}</span>
-                            </p>
-                            <p className="font-semibold">
-                              Rating:
-                              <span className="font-bold">
-                                &nbsp; {review.rating}
-                              </span>
-                            </p>
+                            <ListBoxItem label="Name : " value={review.name} />
+                            <ListBoxItem
+                              label="Rating : "
+                              value={review.rating}
+                            />
                           </div>
                         </div>
                         <div className="">
-                          <p className="font-semibold">
-                            Review:
-                            <span className="font-medium">
-                              &nbsp; {review.review}
-                            </span>
-                          </p>
+                          <ListBoxItem
+                            label="Review : "
+                            value={review.review}
+                          />
                         </div>
                       </div>
                     );

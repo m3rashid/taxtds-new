@@ -1,3 +1,4 @@
+import { HydratedDocument } from "mongoose";
 import JWT from "jsonwebtoken";
 import { join } from "path";
 import { readFileSync } from "fs";
@@ -14,7 +15,7 @@ const publicKey = readFileSync(
   "utf8"
 );
 
-const issueJWT = (user: IUser) => {
+const issueJWT = (user: HydratedDocument<IUser>) => {
   const expiresIn = "1d";
   const payload = { sub: user._id, iat: Date.now() };
   const signedToken = JWT.sign(payload, privateKey, {

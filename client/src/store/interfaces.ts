@@ -68,7 +68,7 @@ export interface IListingDetail {
       updatedAt?: Date | any;
       __v?: number | any;
     }[];
-    addedBy: string;
+    addedBy: any;
     established: string;
     tagline?: string;
     owner: string;

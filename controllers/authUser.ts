@@ -1,8 +1,9 @@
 import { Response, Request } from "express";
+import { HydratedDocument } from "mongoose";
 
 import { issueJWT } from "../middlewares/jwt";
-import Otp from "../models/otp";
-import User from "../models/user";
+import Otp, { IOtp } from "../models/otp";
+import User, { IUser } from "../models/user";
 import { comparePassword, hashPassword } from "../utils/auth";
 import logger from "../utils/logger";
 
@@ -30,7 +31,7 @@ export const register = async (req: Request, res: Response) => {
     otpToSend = savedOtp.otp;
     emailToSend = savedOtp.email;
   } else {
-    const dbOtp = new Otp({
+    const dbOtp: HydratedDocument<IOtp> = new Otp({
       email,
       otp: Math.floor(100000 + Math.random() * 900000),
     });
@@ -51,7 +52,7 @@ export const createAccount = async (req: Request, res: Response) => {
   if (!dbOtp || parseInt(otp) !== dbOtp.otp) throw new Error("Invalid OTP");
 
   const hash: string = await hashPassword(req.body.password);
-  const newUser = new User({
+  const newUser: HydratedDocument<IUser> = new User({
     email,
     name: req.body.name,
     phone: req.body.phone,

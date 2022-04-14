@@ -1,14 +1,15 @@
 import { Request, Response } from "express";
 import { v2 as cloudinary } from "cloudinary";
+import { HydratedDocument } from "mongoose";
 import sharp from "sharp";
 import path from "path";
 import fs from "fs";
 
 import Listing, { Image, IListing } from "../models/listing";
-import logger from "../utils/logger";
-import { clearHash } from "../utils/cache";
+import { clearHash, useCache } from "../utils/newCache";
 import { paginationConfig } from "./helpers";
 import Review from "../models/review";
+import logger from "../utils/logger";
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -70,7 +71,7 @@ export const addListing = async (req: Request, res: Response) => {
 
   const services = JSON.parse(req.body.services);
 
-  const listing: IListing = new Listing({
+  const listing: HydratedDocument<IListing> = new Listing({
     brandName: req.body.brandName,
     avatar: {
       url: avatarUrl.secure_url.split(cloudinaryInitial)[1],
@@ -103,7 +104,6 @@ export const editListing = async (req: Request, res: Response) => {
   const listing = await Listing.findById(listingId);
   if (!listing || listing.addedBy !== req.user)
     throw new Error("No Services Found");
-  // handle the image change workflow
   await Listing.findByIdAndUpdate(listingId, {
     $set: {
       brandName: req.body.brandName,
@@ -135,40 +135,24 @@ export const removeListing = async (req: Request, res: Response) => {
 
 export const getAllListings = async (req: Request, res: Response) => {
   const { page, limit } = paginationConfig(req);
-  const listings = await Listing.find({ deleted: false })
+  const query = Listing.find({ deleted: false })
     .sort({ createdAt: "desc" })
     .skip(page * limit)
-    .limit(limit)
-    .cache({ key: "listings" });
+    .limit(limit);
+
+  const listings = await useCache("listings", query);
   return res.status(200).json({ listings });
 };
 
 export const getOneListing = async (req: Request, res: Response) => {
   const { listingId } = req.body;
-  logger.info("reached route");
-  const listing = await Listing.findOne({
+
+  const listing = await Listing.getFullListing({
     _id: listingId,
     deleted: false,
   });
 
-  // do this populate
-
-  // .populate({
-  //   path: "services",
-  //   model: "Service",
-  // })
-  // .populate({
-  //   path: "addedBy",
-  //   populate: {
-  //     path: "professions",
-  //     model: "Profession",
-  //   },
-  // });
-
-  logger.info("got listing");
   if (!listing) throw new Error("No listing found");
-
   const reviews = await Review.find({ listing: listingId });
-  logger.info("got reviews");
   return res.status(200).json({ listing, reviews });
 };

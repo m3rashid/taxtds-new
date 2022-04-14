@@ -1,49 +1,10 @@
-import { boolean } from "joi";
 import mongoose from "mongoose";
 
-export const StateUt = [
-  "Andhra Pradesh",
-  "Arunachal Pradesh",
-  "Assam",
-  "Bihar",
-  "Chhattisgarh",
-  "Goa",
-  "Gujarat",
-  "Haryana",
-  "Himachal Pradesh",
-  "Jharkhand",
-  "Karnataka",
-  "Kerala",
-  "Madhya Pradesh",
-  "Maharashtra",
-  "Manipur",
-  "Meghalaya",
-  "Mizoram",
-  "Nagaland",
-  "Odisha",
-  "Punjab",
-  "Rajasthan",
-  "Sikkim",
-  "Tamil Nadu",
-  "Telangana",
-  "Tripura",
-  "Uttarakhand",
-  "Uttar Pradesh",
-  "West Bengal",
-  "Andaman and Nicobar Islands",
-  "Chandigarh",
-  "Dadra and Nagar Haveli",
-  "Daman & Diu",
-  "Delhi",
-  "Jammu & Kashmir",
-  "Ladakh",
-  "Lakshadweep",
-  "Puducherry",
-];
+import { StateUt } from "../bulk/state";
 
-export interface IUser extends mongoose.Document {
-  _id?: string;
+export interface IUser {
   email: string;
+  role: "USER" | "ADMIN";
   password: string;
   phone: string;
   name: string;
@@ -51,27 +12,39 @@ export interface IUser extends mongoose.Document {
   addressLineOne: string;
   addressLineTwo?: string;
   state: string;
-  professions: any;
+  professions: mongoose.Types.ObjectId[];
   deleted?: boolean;
-  createdAt?: any;
-  updatedAt?: any;
 }
 
-const userSchema = new mongoose.Schema(
+const userSchema = new mongoose.Schema<IUser>(
   {
     email: {
       type: String,
       unique: true,
       required: [true, "Email is required"],
+      trim: true,
     },
-    role: { type: String, enum: ["USER", "ADMIN"], default: "USER" },
+    role: {
+      type: String,
+      enum: ["USER", "ADMIN"],
+      default: "USER",
+      trim: true,
+    },
     password: { type: String },
-    phone: { type: String, required: [true, "Phone number is required"] },
-    name: { type: String, required: [true, "Name is required"] },
-    experience: { type: Number },
-    addressLineOne: { type: String, required: [true, "Address is required"] },
-    addressLineTwo: { type: String },
-    state: { type: String, enum: StateUt },
+    phone: {
+      type: String,
+      required: [true, "Phone number is required"],
+      trim: true,
+    },
+    name: { type: String, required: [true, "Name is required"], trim: true },
+    experience: { type: Number, trim: true },
+    addressLineOne: {
+      type: String,
+      required: [true, "Address is required"],
+      trim: true,
+    },
+    addressLineTwo: { type: String, trim: true },
+    state: { type: String, enum: StateUt, trim: true },
     professions: { type: [mongoose.Schema.Types.ObjectId], ref: "Profession" },
     deleted: { type: Boolean, default: false },
   },

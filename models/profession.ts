@@ -1,17 +1,15 @@
 import mongoose from "mongoose";
 
-export interface IProfession extends mongoose.Document {
-  _id?: string;
+export interface IProfession {
   name: string;
-  createdAt?: any;
-  updatedAt?: any;
 }
 
-const professionSchema = new mongoose.Schema(
-  {
-    name: { type: String, required: [true, "Profession is required"] },
+const professionSchema = new mongoose.Schema<IProfession>({
+  name: {
+    type: String,
+    required: [true, "Profession is required"],
+    trim: true,
   },
-  { timestamps: true }
-);
+});
 
 export default mongoose.model<IProfession>("Profession", professionSchema);

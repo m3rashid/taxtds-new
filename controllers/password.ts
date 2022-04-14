@@ -1,9 +1,10 @@
 import { Response, Request } from "express";
 
-import Otp from "../models/otp";
+import Otp, { IOtp } from "../models/otp";
 import User from "../models/user";
 import logger from "../utils/logger";
 import { comparePassword, hashPassword } from "../utils/auth";
+import { HydratedDocument } from "mongoose";
 
 export const forgotPassword = async (req: Request, res: Response) => {
   const { email } = req.body;
@@ -14,7 +15,7 @@ export const forgotPassword = async (req: Request, res: Response) => {
   const savedOtp = await Otp.findOne({ email });
   if (savedOtp) otpToSend = savedOtp.otp;
   else {
-    const dbOtp = new Otp({
+    const dbOtp: HydratedDocument<IOtp> = new Otp({
       email,
       otp: Math.floor(100000 + Math.random() * 900000),
     });
@@ -34,7 +35,10 @@ export const resetPassword = async (req: Request, res: Response) => {
   if (!dbOtp || parseInt(otp) !== dbOtp.otp) throw new Error("Invalid OTP");
 
   const hash: string = await hashPassword(req.body.password);
-  await User.findOneAndUpdate({ email, deleted: false }, { $set: { password: hash } });
+  await User.findOneAndUpdate(
+    { email, deleted: false },
+    { $set: { password: hash } }
+  );
 
   return res.status(200).json({ message: "Password reset successfully" });
 };
@@ -66,5 +70,4 @@ export const updateUserInfo = async (req: Request, res: Response) => {
   await User.findOneAndUpdate({ _id: req.user }, { $set: { ...updates } });
 
   return res.status(200).json({ message: "Info changed successfully" });
-}
-
+};

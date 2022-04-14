@@ -1,10 +1,13 @@
 import { Request, Response } from "express";
+import { HydratedDocument } from "mongoose";
 
-import Service from "../../models/service";
-import { clearHash } from "../../utils/cache";
+import Service, { IService } from "../../models/service";
+import { clearHash } from "../../utils/newCache";
 
 export const addService = async (req: Request, res: Response) => {
-  const service = new Service({ name: req.body.name });
+  const service: HydratedDocument<IService> = new Service({
+    name: req.body.name,
+  });
   await service.save();
   clearHash("services");
   res.sendStatus(200);

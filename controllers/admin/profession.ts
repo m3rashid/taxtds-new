@@ -1,12 +1,13 @@
 import { Request, Response } from "express";
+import { HydratedDocument } from "mongoose";
 
-import Profession from "../../models/profession";
-import { clearHash } from "../../utils/cache";
+import Profession, { IProfession } from "../../models/profession";
+import { clearHash } from "../../utils/newCache";
 
 export const addProfession = async (req: Request, res: Response) => {
   const { name } = req.body;
   // use reqex matching to check if the same name exists in the database or not
-  const profession = new Profession({ name });
+  const profession: HydratedDocument<IProfession> = new Profession({ name });
   await profession.save();
   clearHash("professions");
   return res.status(200).json({ message: "Profession added successfully" });
