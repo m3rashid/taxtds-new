@@ -1,25 +1,15 @@
 import React from "react";
-import axios from "axios";
-import {
-  MdPerson,
-  MdRateReview,
-  MdThumbsUpDown,
-  MdGrade,
-} from "react-icons/md";
+import { MdPerson } from "react-icons/md";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { useLocation } from "react-router-dom";
 
 import Header from "../components/customHeader";
 import Footer from "../components/main/footer";
-import InputEl from "../components/atoms/Input";
-import ButtonEl from "../components/atoms/Button";
 import { Loader } from "../components/atoms/loader";
 import { IListingDetail } from "../store/interfaces";
-import {
-  cloudinaryInitial,
-  defaultHeader,
-  SERVER_ROOT_URL,
-} from "../hooks/helpers";
+import { cloudinaryInitial } from "../hooks/helpers";
+import useListings from "../hooks/useListings";
+import AddReview from "../components/addReview";
 
 interface IListBoxProps {
   children?: React.ReactNode;
@@ -47,30 +37,18 @@ const ListBoxItem: React.FC<IListBoxItemProps> = ({ label, value }) => {
   );
 };
 
-const getListing = async (listingId: string) => {
-  try {
-    const res = await axios.post(
-      `${SERVER_ROOT_URL}/listings/one`,
-      JSON.stringify({ listingId }),
-      defaultHeader
-    );
-    return res.data;
-  } catch (err) {
-    console.log(err);
-  }
-};
-
 const ListingDetail = () => {
   const location = useLocation();
   const listingId = location.pathname.split("/")[2];
   const [listing, setListing] = React.useState<IListingDetail>();
+  const { getOneListing, addReview } = useListings();
 
   React.useEffect(() => {
-    getListing(listingId).then((gotListing) => setListing(gotListing));
+    getOneListing(listingId).then((gotListing) => setListing(gotListing));
   }, []);
 
   if (!listing) {
-    return <Loader size={56} />;
+    return <Loader />;
   }
 
   const demoListing = listing.listing;
@@ -193,44 +171,7 @@ const ListingDetail = () => {
             </React.Suspense>
           </div>
         </div>
-        <div className="w-full md:min-w-[400px]">
-          <h2 className="text-center text-2xl font-bold">Write a review</h2>
-          <div className="p-[10px] md:p-[15px]">
-            <div className="bg-[white] p-4 rounded-md shadow-md">
-              <InputEl
-                Icon={<MdPerson />}
-                name="name"
-                onChange={() => {}}
-                placeholder="Name"
-                type="text"
-                value=""
-              />
-              <InputEl
-                Icon={<MdGrade />}
-                name="rating"
-                onChange={() => {}}
-                type="number"
-                placeholder="Rating"
-                min={0}
-                max={10}
-                value=""
-              />
-              <InputEl
-                Icon={<MdRateReview />}
-                name="review"
-                onChange={() => {}}
-                placeholder="Review"
-                type="text"
-                value=""
-              />
-              <ButtonEl
-                Icon={<MdThumbsUpDown />}
-                label="Post Review"
-                callback={() => {}}
-              />
-            </div>
-          </div>
-        </div>
+        <AddReview listingId={demoListing._id!} />
       </div>
       <Footer />
     </>

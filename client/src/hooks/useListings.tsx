@@ -1,7 +1,7 @@
 import React from "react";
 import axios from "axios";
 import { useSetRecoilState } from "recoil";
-import { SERVER_ROOT_URL, tokenHeader } from "./helpers";
+import { defaultHeader, SERVER_ROOT_URL, tokenHeader } from "./helpers";
 import { listings } from "../store/data";
 import { toast } from "react-toastify";
 
@@ -21,7 +21,47 @@ const useListings = () => {
     }
   };
 
-  return { getListings };
+  const getOneListing = async (listingId: string) => {
+    try {
+      const res = await axios.post(
+        `${SERVER_ROOT_URL}/listings/one`,
+        JSON.stringify({ listingId }),
+        defaultHeader
+      );
+      return res.data;
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const addReview = async (data: any) => {
+    const reviewToast = toast.loading("Adding your review");
+    const body = JSON.stringify(data);
+    try {
+      const res = await axios.post(
+        `${SERVER_ROOT_URL}/review/add`,
+        body,
+        defaultHeader
+      );
+      toast.update(reviewToast, {
+        render: res.data.message || "Thanks for your review...",
+        type: "success",
+        isLoading: false,
+        autoClose: 5000,
+      });
+    } catch (err: any) {
+      toast.update(reviewToast, {
+        render:
+          err.response?.data?.message ||
+          "Error in adding review, pleasy try again",
+        type: "error",
+        isLoading: false,
+        autoClose: 5000,
+      });
+    }
+  };
+
+  return { getListings, getOneListing, addReview };
 };
 
 export default useListings;

@@ -78,11 +78,11 @@ const Table: React.FC<IProps> = ({ columns, data, title }) => {
         </div>
         <div className="mt-4 flex flex-col w-full">
           <div className="-my-2 overflow-x-auto -mx-4 sm:-mx-6 lg:-mx-8">
-            <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-              <div className="overflow-hidden">
+            <div className="py-2 align-middle inline-block w-full sm:px-6 lg:px-8">
+              <div className="overflow-auto">
                 <table
                   {...getTableProps()}
-                  className="min-w-full divide-y divide-gray-100 bg-lightBgOne"
+                  className="w-full divide-y divide-gray-100 bg-lightBgOne"
                 >
                   <thead className="bg-gray-50">
                     {headerGroups.map((headerGroup) => (

@@ -13,7 +13,7 @@ import {
 } from "react-icons/md";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { useRecoilState } from "recoil";
+import { useRecoilValue } from "recoil";
 
 import UserWrapper from "../../components/user/wrapper";
 import InputEl from "../../components/atoms/Input";
@@ -22,19 +22,13 @@ import { ReactSelect } from "../../components/atoms/reactSelect";
 import StateUt from "../../data/state";
 import ButtonEl from "../../components/atoms/Button";
 import { services as servicesAtom } from "../../store/data";
-import useData from "../../hooks/useData";
 import { SERVER_ROOT_URL } from "../../hooks/helpers";
 import { tokenHeader } from "../../hooks/helpers";
 import { Loader } from "../../components/atoms/loader";
 
 const CreateService = () => {
-  const { getServices } = useData();
-  const [services, setServices] = useRecoilState(servicesAtom);
+  const services = useRecoilValue(servicesAtom);
   const [loading, setLoading] = React.useState(false);
-
-  React.useEffect(() => {
-    getServices(setServices);
-  }, []);
 
   const initialState = React.useMemo(
     () => ({
@@ -75,7 +69,6 @@ const CreateService = () => {
     const addToast = toast.loading("Adding your listing ...");
     try {
       e.preventDefault();
-      console.log(data.avatar);
 
       [
         data.avatar,
@@ -103,10 +96,6 @@ const CreateService = () => {
       form.append("galleryImgOne", data.galleryImgOne);
       form.append("galleryImgTwo", data.galleryImgTwo);
       form.append("galleryImgThree", data.galleryImgThree);
-
-      for (let key of form.entries()) {
-        console.log(key[0] + ", " + key[1]);
-      }
 
       const res = await axios({
         method: "POST",

@@ -12,6 +12,14 @@ import ButtonLink from "../atoms/ButtonLink";
 import { cloudinaryInitial } from "../../hooks/helpers";
 import { IListing } from "../../store/interfaces";
 
+export const EmptyCard: React.FC<{}> = () => {
+  return (
+    <div className="bg-[white] hover:bg-lightHover w-[94vw] md:w-auto md:min-w-[350px] lg:min-w-[520px] rounded-md p-[20px] shadow-md">
+      <h3 className="text-2xl lg:text-xl font-bold">No Listings found</h3>
+    </div>
+  );
+};
+
 const Tag = ({
   label = "featured",
   bgColor = "bg-accentOne",

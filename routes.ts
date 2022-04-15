@@ -92,7 +92,6 @@ router.post("/services/all" /* regularRateLimiter, */, use(getAllServices));
 // reviews
 router.post(
   "/review/add" /* regularRateLimiter, */,
-  checkAuth,
   use(checkAddReview),
   use(addReview)
 );

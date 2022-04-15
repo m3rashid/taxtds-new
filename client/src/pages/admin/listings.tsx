@@ -7,75 +7,45 @@ import {
   MdInfoOutline,
 } from "react-icons/md";
 import { LazyLoadImage } from "react-lazy-load-image-component";
+import { useRecoilValue } from "recoil";
 
 const Table = React.lazy(() => import("../../components/admin/table"));
 import AdminWrapper from "../../components/admin/wrapper";
 import ButtonEl from "../../components/atoms/Button";
 import ButtonLink from "../../components/atoms/ButtonLink";
 import { Loader } from "../../components/atoms/loader";
-
-const demoData = [
-  {
-    _id: 1,
-    avatar: "/images/carousel/1.jpg",
-    name: "Listing 1",
-    phone: "1234567890",
-    email: "user@user.com",
-    featured: true,
-  },
-  {
-    _id: 2,
-    avatar: "/images/carousel/2.jpg",
-    name: "Listing 2",
-    phone: "1234567890",
-    email: "user@user.com",
-    featured: true,
-  },
-  {
-    _id: 3,
-    avatar: "/images/carousel/3.jpg",
-    name: "Listing 3",
-    phone: "1234567890",
-    email: "user@user.com",
-    featured: false,
-  },
-  {
-    _id: 4,
-    avatar: "/images/carousel/4.jpg",
-    name: "Listing 4",
-    phone: "1234567890",
-    email: "user@user.com",
-    featured: false,
-  },
-  {
-    _id: 5,
-    avatar: "/images/carousel/5.jpg",
-    name: "Listing 5",
-    phone: "1234567890",
-    email: "user@user.com",
-    featured: true,
-  },
-];
+import { listings } from "../../store/data";
+import { cloudinaryInitial } from "../../hooks/helpers";
+import moment from "moment";
+import useListing from "../../hooks/admin/useListing";
 
 interface IProps {}
 
 export const Listings: React.FC<IProps> = () => {
+  const allListings = useRecoilValue(listings);
+  const { featureUnfeature, sendEmail, deleteListing } = useListing();
+
   const columns = React.useMemo(
     () => [
       {
-        Header: "Name",
-        accessor: "name",
-        Cell: (props: any) => <>{props.row.original.name}</>,
+        Header: "brand Name",
+        accessor: "brandName",
+        Cell: (props: any) => <>{props.row.original.brandName}</>,
       },
       {
         Header: "Avatar",
         accessor: "avatar",
         Cell: (props: any) => (
           <LazyLoadImage
-            className="h-16 w-16"
-            src={props.row.original.avatar}
+            className="h-16 w-16 rounded-full"
+            src={cloudinaryInitial + props.row.original.avatar.url}
           />
         ),
+      },
+      {
+        Header: "Owner",
+        accessor: "owner",
+        Cell: (props: any) => <>{props.row.original.owner}</>,
       },
       {
         Header: "Phone",
@@ -86,6 +56,20 @@ export const Listings: React.FC<IProps> = () => {
         Header: "Email",
         accessor: "email",
         Cell: (props: any) => <>{props.row.original.email}</>,
+      },
+      {
+        Header: "Listed on",
+        accessor: "createdAt",
+        Cell: (props: any) => (
+          <>{moment(props.row.original.createdAt).format("lll")}</>
+        ),
+      },
+      {
+        Header: "Last Updated on",
+        accessor: "updatedAt",
+        Cell: (props: any) => (
+          <>{moment(props.row.original.updatedAt).format("lll")}</>
+        ),
       },
       {
         Header: "Featured",
@@ -107,6 +91,7 @@ export const Listings: React.FC<IProps> = () => {
               label="Send Email"
               Icon={<MdEmail />}
               bgColor="bg-blue-200"
+              callback={() => {}}
             />
             <ButtonEl
               label={props.row.original.featured ? "Unfeature" : "Feature"}
@@ -119,12 +104,21 @@ export const Listings: React.FC<IProps> = () => {
               }
               bgColor={props.row.original.featured && "bg-rose-500"}
               textColor={props.row.original.featured && "text-white"}
+              callback={() => {
+                featureUnfeature(
+                  props.row.original._id,
+                  !props.row.original.featured
+                );
+              }}
             />
             <ButtonEl
               label="Delete"
               Icon={<MdDelete />}
               bgColor="bg-rose-500"
               textColor="text-white"
+              callback={() => {
+                deleteListing(props.row.original._id);
+              }}
             />
           </div>
         ),
@@ -133,10 +127,14 @@ export const Listings: React.FC<IProps> = () => {
     []
   );
 
+  if (!allListings) {
+    return <Loader />;
+  }
+
   return (
     <AdminWrapper>
       <React.Suspense fallback={<Loader />}>
-        <Table columns={columns} data={demoData} title="Listings" />
+        <Table columns={columns} data={allListings} title="Listings" />
       </React.Suspense>
     </AdminWrapper>
   );

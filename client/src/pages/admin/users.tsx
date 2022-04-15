@@ -1,70 +1,35 @@
+import axios from "axios";
+import moment from "moment";
 import React from "react";
-import {
-  MdDelete,
-  MdEmail,
-  MdInfoOutline,
-  MdOutlineReadMore,
-} from "react-icons/md";
-import { LazyLoadImage } from "react-lazy-load-image-component";
+import { MdDelete, MdEmail, MdOutlineReadMore } from "react-icons/md";
 
 const Table = React.lazy(() => import("../../components/admin/table"));
 import AdminWrapper from "../../components/admin/wrapper";
 import ButtonEl from "../../components/atoms/Button";
 import { Loader } from "../../components/atoms/loader";
-
-const demoData = [
-  {
-    id: 1,
-    name: "Raj",
-    email: "raj@gmail.com",
-    avatar: "/images/carousel/1.jpg",
-  },
-  {
-    id: 2,
-    name: "Rahul",
-    email: "rahul@gmail.com",
-    avatar: "/images/carousel/2.jpg",
-  },
-  {
-    id: 3,
-    name: "Ritu",
-    email: "ritu@gmail.com",
-    avatar: "/images/carousel/3.jpg",
-  },
-  {
-    id: 4,
-    name: "Rashid",
-    email: "rahid@user.com",
-    avatar: "/images/carousel/4.jpg",
-  },
-  {
-    id: 5,
-    name: "Shakir",
-    email: "shakir@bluff.com",
-    avatar: "/images/carousel/5.jpg",
-  },
-];
+import { SERVER_ROOT_URL, tokenHeader } from "../../hooks/helpers";
 
 interface IProps {}
 
 export const Users: React.FC<IProps> = () => {
+  const [users, setUsers] = React.useState([]);
+
+  const getAllUsers = async () => {
+    const res = await axios.post(
+      `${SERVER_ROOT_URL}/admin/user/all`,
+      JSON.stringify({}),
+      tokenHeader
+    );
+    const users = res.data.users;
+    setUsers(users);
+  };
+
+  React.useEffect(() => {
+    getAllUsers().then().catch();
+  }, []);
+
   const columns = React.useMemo(
     () => [
-      {
-        Header: "ID",
-        accessor: "id",
-        Cell: (props: any) => <>{props.row.original.id}</>,
-      },
-      {
-        Header: "Avatar",
-        accessor: "avatar",
-        Cell: (props: any) => (
-          <LazyLoadImage
-            className="h-16 w-16"
-            src={props.row.original.avatar}
-          />
-        ),
-      },
       {
         Header: "Name",
         accessor: "name",
@@ -76,15 +41,37 @@ export const Users: React.FC<IProps> = () => {
         Cell: (props: any) => <>{props.row.original.email}</>,
       },
       {
+        Header: "Experience",
+        accessor: "experience",
+        Cell: (props: any) => <>{props.row.original.experience} years</>,
+      },
+      {
+        Header: "Address One",
+        accessor: "addressLineOne",
+        Cell: (props: any) => <>{props.row.original.addressLineOne}</>,
+      },
+      {
+        Header: "Address Two",
+        accessor: "addressLineTwo",
+        Cell: (props: any) => <>{props.row.original.addressLineTwo}</>,
+      },
+      {
+        Header: "State",
+        accessor: "state",
+        Cell: (props: any) => <>{props.row.original.state}</>,
+      },
+      {
+        Header: "Joined",
+        accessor: "createdAt",
+        Cell: (props: any) => (
+          <>{moment(props.row.original.createdAt).format("lll")}</>
+        ),
+      },
+      {
         Header: "Actions",
         accessor: "",
         Cell: (props: any) => (
           <div className="flex gap-4">
-            <ButtonEl
-              label="Details"
-              Icon={<MdInfoOutline />}
-              bgColor="bg-blue-200"
-            />
             <ButtonEl
               label="Send Email"
               Icon={<MdEmail />}
@@ -104,17 +91,14 @@ export const Users: React.FC<IProps> = () => {
     []
   );
 
-  /*
-    ===== Actions ===== 
-    Send Email
-    Delete
-    Show User Listings
-  */
+  if (!users) {
+    return <Loader />;
+  }
 
   return (
     <AdminWrapper>
       <React.Suspense fallback={<Loader />}>
-        <Table columns={columns} data={demoData} title="Listed Users" />
+        <Table columns={columns} data={users} title="Listed Users" />
       </React.Suspense>
     </AdminWrapper>
   );

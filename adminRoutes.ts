@@ -4,7 +4,7 @@ import express from "express";
 import { use } from "./routes";
 import checkAuth from "./middlewares/jwt.auth";
 import checkAdmin from "./middlewares/admin";
-import { deleteUser, emailUser } from "./controllers/admin/user";
+import { deleteUser, emailUser, getAllUsers } from "./controllers/admin/user";
 import {
   deleteListing,
   featureUnfeatureListing,
@@ -38,6 +38,12 @@ router.post(
   use(checkAdmin),
   use(deleteUser)
 );
+router.post(
+  "/user/all" /* regularRateLimiter, */,
+  checkAuth,
+  use(checkAdmin),
+  use(getAllUsers)
+);
 
 // listing routes
 router.post(
@@ -50,7 +56,7 @@ router.post(
 router.post(
   "/listing/feature-unfeature" /* regularRateLimiter, */,
   checkAuth,
-  use(checkAdmin),
+  checkAdmin,
   use(checkFeatureUnfeatureListing),
   use(featureUnfeatureListing)
 );

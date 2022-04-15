@@ -5,6 +5,6 @@ import { useCache } from "../utils/newCache";
 
 export const getProfessions = async (req: Request, res: Response) => {
   const query = Profession.find();
-  const professions = useCache("professions", query);
+  const professions = await useCache("professions", query);
   return res.status(200).json({ professions });
 };

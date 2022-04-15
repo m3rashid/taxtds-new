@@ -7,6 +7,7 @@ import { paginationConfig } from "../helpers";
 export const deleteListing = async (req: Request, res: Response) => {
   const { listingId } = req.body;
 
+  // TODO delete the listing images from cloudinary also
   await Listing.deleteOne({ _id: listingId });
   clearHash("listings");
   return res.status(200).json({ message: "Deleted listing successfully" });
@@ -32,13 +33,12 @@ export const getAllListingsAdmin = async (req: Request, res: Response) => {
 
 export const featureUnfeatureListing = async (req: Request, res: Response) => {
   const { listingId, toFeature } = req.body;
-  const updatedListing = await Listing.findOneAndUpdate(
+  await Listing.findOneAndUpdate(
     { _id: listingId },
     { $set: { featured: toFeature } }
   );
   clearHash("listings");
   return res.status(200).json({
     message: `Listing ${toFeature ? "featured" : "unfeatured"} successfully`,
-    listing: updatedListing,
   });
 };

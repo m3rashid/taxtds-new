@@ -5,6 +5,7 @@ import Footer from "../components/main/footer";
 import { Loader } from "../components/atoms/loader";
 const Sidebar = React.lazy(() => import("../components/main/sidebar"));
 const Card = React.lazy(() => import("../components/main/card"));
+import { EmptyCard } from "../components/main/card";
 import { listings as allListings } from "../store/data";
 import { useRecoilValue } from "recoil";
 
@@ -28,11 +29,15 @@ const Main = () => {
           </React.Suspense>
         </div>
         <div className="flex flex-col items-center gap-4">
-          {listings.map((listing) => (
-            <React.Suspense key={listing._id} fallback={<Loader />}>
-              <Card listing={listing} />
-            </React.Suspense>
-          ))}
+          {listings.length > 0 ? (
+            listings.map((listing) => (
+              <React.Suspense key={listing._id} fallback={<Loader />}>
+                <Card listing={listing} />
+              </React.Suspense>
+            ))
+          ) : (
+            <EmptyCard />
+          )}
         </div>
       </div>
       <Footer />

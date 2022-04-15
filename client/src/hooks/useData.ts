@@ -5,11 +5,6 @@ import { defaultHeader, SERVER_ROOT_URL, tokenHeader } from "./helpers";
 import { IProfession, IService } from "../store/interfaces";
 
 const useData = () => {
-  // const controller = new AbortController();
-
-  // const CancelToken = axios.CancelToken;
-  // const source = CancelToken.source();
-
   const body = JSON.stringify({});
   const headers = {
     headers: defaultHeader.headers,
