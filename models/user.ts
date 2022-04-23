@@ -36,7 +36,11 @@ const userSchema = new mongoose.Schema<IUser>(
       required: [true, "Phone number is required"],
       trim: true,
     },
-    name: { type: String, required: [true, "Name is required"], trim: true },
+    name: {
+      type: String,
+      required: [true, "Name is required"],
+      trim: true,
+    },
     experience: { type: Number, trim: true },
     addressLineOne: {
       type: String,

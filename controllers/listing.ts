@@ -6,7 +6,6 @@ import path from "path";
 import fs from "fs";
 
 import Listing, { Image, IListing } from "../models/listing";
-import { clearHash, useCache } from "../utils/newCache";
 import { paginationConfig } from "./helpers";
 import Review from "../models/review";
 import logger from "../utils/logger";
@@ -91,7 +90,6 @@ export const addListing = async (req: Request, res: Response) => {
   });
   await listing.save();
 
-  clearHash("listings");
   return res.status(200).json({
     message: "Listing added successfully",
     listing,
@@ -119,7 +117,6 @@ export const editListing = async (req: Request, res: Response) => {
       email: req.body.email,
     },
   });
-  clearHash("listings");
   return res.status(200).json({ message: "Listing updated successfully" });
 };
 
@@ -129,18 +126,16 @@ export const removeListing = async (req: Request, res: Response) => {
     { _id: listingId, addedBy: req.user },
     { $set: { deleted: true } }
   );
-  clearHash("listings");
   return res.status(200).json({ message: "Listing removed successfully" });
 };
 
 export const getAllListings = async (req: Request, res: Response) => {
   const { page, limit } = paginationConfig(req);
-  const query = Listing.find({ deleted: false })
+  const listings = await Listing.find({ deleted: false })
     .sort({ createdAt: "desc" })
     .skip(page * limit)
     .limit(limit);
 
-  const listings = await useCache("listings", query);
   return res.status(200).json({ listings });
 };
 
