@@ -6,7 +6,6 @@ import cors from "cors";
 import xss from "xss-clean";
 import helmet from "helmet";
 
-import serverLogger from "./utils/serverLogger";
 import logger from "./utils/logger";
 import routes from "./routes";
 import adminRoutes from "./adminRoutes";
@@ -18,7 +17,6 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 if (process.env.NODE_ENV !== "production") {
-  app.use(serverLogger);
   mongoose.set("debug", true);
 }
 app.use(routes);

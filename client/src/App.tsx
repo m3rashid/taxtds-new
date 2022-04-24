@@ -12,15 +12,16 @@ import User from "./pages/user";
 import CreateService from "./pages/user/create";
 import EditService from "./pages/user/edit";
 
-import { Listings } from "./pages/admin/listings";
-import { Professions } from "./pages/admin/professions";
-import { Services } from "./pages/admin/services";
-import { Users } from "./pages/admin/users";
+import Listings from "./pages/admin/listings";
+import Professions from "./pages/admin/professions";
+import Services from "./pages/admin/services";
+import Users from "./pages/admin/users";
 import useAuth from "./hooks/useAuth";
 import { authState } from "./store/auth";
 import { professions, listings } from "./store/data";
 import useData from "./hooks/useData";
 import UserDetail from "./pages/userDetail";
+import { Loader } from "./components/atoms/loader";
 
 const App = () => {
   const { getUser } = useAuth();
@@ -51,27 +52,29 @@ const App = () => {
           draggable
           pauseOnHover
         />
-        <Routes>
-          <Route path="/" element={<Main />} />
-          <Route path="/user/:userId">
-            <Route path="" element={<UserDetail />} />
-            <Route path="home" element={<User />} />
-            <Route path="create" element={<CreateService />} />
-            <Route path=":listingId/edit" element={<EditService />} />
-          </Route>
-          <Route path="/listings">
-            <Route path="" element={<Navigate to="/" />} />
-            <Route path=":id" element={<ListingDetail />} />
-          </Route>
-          <Route path="/admin">
-            <Route path="" element={<Navigate to="/admin/listings" />} />
-            <Route path="professions" element={<Professions />} />
-            <Route path="services" element={<Services />} />
-            <Route path="listings" element={<Listings />} />
-            <Route path="users" element={<Users />} />
-          </Route>
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+        <React.Suspense fallback={<Loader />}>
+          <Routes>
+            <Route path="/" element={<Main />} />
+            <Route path="/user/:userId">
+              <Route path="" element={<UserDetail />} />
+              <Route path="home" element={<User />} />
+              <Route path="create" element={<CreateService />} />
+              <Route path=":listingId/edit" element={<EditService />} />
+            </Route>
+            <Route path="/listings">
+              <Route path="" element={<Navigate to="/" />} />
+              <Route path=":id" element={<ListingDetail />} />
+            </Route>
+            <Route path="/admin">
+              <Route path="" element={<Navigate to="/admin/listings" />} />
+              <Route path="professions" element={<Professions />} />
+              <Route path="services" element={<Services />} />
+              <Route path="listings" element={<Listings />} />
+              <Route path="users" element={<Users />} />
+            </Route>
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </React.Suspense>
       </div>
     </BrowserRouter>
   );

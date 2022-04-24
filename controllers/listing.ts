@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { v2 as cloudinary } from "cloudinary";
 import { HydratedDocument } from "mongoose";
+import mongoose from "mongoose";
 import sharp from "sharp";
 import path from "path";
 import fs from "fs";
@@ -133,8 +134,20 @@ export const getAllListings = async (req: Request, res: Response) => {
   const { page, limit } = paginationConfig(req);
   const listings = await Listing.find({ deleted: false })
     .sort({ createdAt: "desc" })
+    .select([
+      "-addedBy",
+      "-addressLineOne",
+      "-addressLineTwo",
+      "-createdAt",
+      "-updatedAt",
+      "-deleted",
+      "-gallery",
+      "-reviews",
+      "-services",
+    ])
     .skip(page * limit)
-    .limit(limit);
+    .limit(limit)
+    .lean();
 
   return res.status(200).json({ listings });
 };
@@ -142,12 +155,50 @@ export const getAllListings = async (req: Request, res: Response) => {
 export const getOneListing = async (req: Request, res: Response) => {
   const { listingId } = req.body;
 
-  const listing = await Listing.getFullListing({
-    _id: listingId,
-    deleted: false,
-  });
+  const listing = await Listing.aggregate([
+    {
+      $match: {
+        $and: [
+          { deleted: false },
+          { _id: new mongoose.Types.ObjectId(listingId) },
+        ],
+      },
+    },
+    {
+      $lookup: {
+        from: "services",
+        localField: "services",
+        foreignField: "_id",
+        as: "services",
+      },
+    },
+    {
+      $lookup: {
+        from: "users",
+        localField: "addedBy",
+        foreignField: "_id",
+        as: "addedBy",
+      },
+    },
+    { $unwind: { path: "$addedBy", preserveNullAndEmptyArrays: true } },
+    {
+      $lookup: {
+        from: "professions",
+        localField: "addedBy.professions",
+        foreignField: "_id",
+        as: "addedBy.professions",
+      },
+    },
+    {
+      $lookup: {
+        from: "reviews",
+        localField: "reviews",
+        foreignField: "_id",
+        as: "reviews",
+      },
+    },
+  ]);
 
   if (!listing) throw new Error("No listing found");
-  const reviews = await Review.find({ listing: listingId });
-  return res.status(200).json({ listing, reviews });
+  return res.status(200).json({ listing: listing[0] });
 };

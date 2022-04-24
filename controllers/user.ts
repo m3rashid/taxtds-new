@@ -9,11 +9,11 @@ export const getUser = async (req: Request, res: Response) => {
   if (!user) throw new Error(`User not found for id: ${req.user}`);
   logger.info(`User found for id: ${req.user}`);
 
-  const { token, expires } = issueJWT(user);
-  return res.status(200).json({ token, expires, user });
+  const { token } = issueJWT(user);
+  return res.status(200).json({ token, user });
 };
 
 export const getQuotes = async (Req: Request, res: Response) => {
   // email to admin about this
-  res.status(200).json({ message: "Quotes" })
+  res.status(200).json({ message: "Quotes" });
 };

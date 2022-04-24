@@ -49,40 +49,38 @@ export interface IListing {
 }
 
 export interface IListingDetail {
-  listing: {
-    avatar: {
-      url: string;
-      public_id: string;
-    };
-    _id?: string;
-    brandName: string;
-    gallery: {
-      url: string;
-      public_id: string;
-      _id: string;
-    }[];
-    services: {
-      _id: string;
-      name: string;
-      createdAt?: Date | any;
-      updatedAt?: Date | any;
-      __v?: number | any;
-    }[];
-    addedBy: any;
-    established: string;
-    tagline?: string;
-    owner: string;
-    addressLineOne: string;
-    addressLineTwo: string;
-    state: string;
-    phone: number | string;
-    email: string;
-    deleted?: boolean;
-    featured?: boolean;
+  avatar: {
+    url: string;
+    public_id: string;
+  };
+  _id?: string;
+  brandName: string;
+  gallery: {
+    url: string;
+    public_id: string;
+    _id: string;
+  }[];
+  services: {
+    _id: string;
+    name: string;
     createdAt?: Date | any;
     updatedAt?: Date | any;
     __v?: number | any;
-  };
+  }[];
+  addedBy: any;
+  established: string;
+  tagline?: string;
+  owner: string;
+  addressLineOne: string;
+  addressLineTwo: string;
+  state: string;
+  phone: number | string;
+  email: string;
+  deleted?: boolean;
+  featured?: boolean;
+  createdAt?: Date | any;
+  updatedAt?: Date | any;
+  __v?: number | any;
   reviews: {
     _id: string;
     name: string;

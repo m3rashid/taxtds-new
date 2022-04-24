@@ -16,6 +16,10 @@ export const deleteUser = async (req: Request, res: Response) => {
 };
 
 export const getAllUsers = async (req: Request, res: Response) => {
-  const users = await User.find({});
+  const users = await User.find({ role: "USER" }).select([
+    "-password",
+    "-professions",
+    "-updatedAt",
+  ]);
   return res.status(200).json({ users });
 };

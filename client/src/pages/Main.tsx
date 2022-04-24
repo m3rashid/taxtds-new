@@ -1,13 +1,13 @@
 import React from "react";
+import { useRecoilValue } from "recoil";
 
 import Header from "../components/main/header";
 import Footer from "../components/main/footer";
 import { Loader } from "../components/atoms/loader";
-const Sidebar = React.lazy(() => import("../components/main/sidebar"));
-const Card = React.lazy(() => import("../components/main/card"));
 import { EmptyCard } from "../components/main/card";
 import { listings as allListings } from "../store/data";
-import { useRecoilValue } from "recoil";
+const Sidebar = React.lazy(() => import("../components/main/sidebar"));
+const Card = React.lazy(() => import("../components/main/card"));
 
 const Main = () => {
   const storeListings = useRecoilValue(allListings);

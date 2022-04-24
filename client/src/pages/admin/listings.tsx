@@ -7,7 +7,7 @@ import {
   MdInfoOutline,
 } from "react-icons/md";
 import { LazyLoadImage } from "react-lazy-load-image-component";
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 
 const Table = React.lazy(() => import("../../components/admin/table"));
 import AdminWrapper from "../../components/admin/wrapper";
@@ -18,11 +18,20 @@ import { listings } from "../../store/data";
 import { cloudinaryInitial } from "../../hooks/helpers";
 import moment from "moment";
 import useListing from "../../hooks/admin/useListing";
+import useData from "../../hooks/useData";
 
 interface IProps {}
 
-export const Listings: React.FC<IProps> = () => {
-  const allListings = useRecoilValue(listings);
+const Listings: React.FC<IProps> = () => {
+  const [allListings, setListings] = useRecoilState(listings);
+  const { getListings } = useData();
+  const checked = React.useRef(false);
+
+  if (!checked.current && allListings.length === 0) {
+    getListings(setListings);
+    checked.current = true;
+  }
+
   const { featureUnfeature, sendEmail, deleteListing } = useListing();
 
   const columns = React.useMemo(
@@ -139,3 +148,5 @@ export const Listings: React.FC<IProps> = () => {
     </AdminWrapper>
   );
 };
+
+export default Listings;

@@ -31,9 +31,7 @@ const Table: React.FC<IProps> = ({ columns, data, title }) => {
     getTableBodyProps,
     headerGroups,
     prepareRow,
-    page, // Instead of using 'rows', we'll use page,
-    // which has only the rows for the active page
-
+    page,
     canPreviousPage,
     canNextPage,
     pageOptions,
@@ -77,8 +75,8 @@ const Table: React.FC<IProps> = ({ columns, data, title }) => {
           )}
         </div>
         <div className="mt-4 flex flex-col w-full">
-          <div className="-my-2 overflow-x-auto -mx-4 sm:-mx-6 lg:-mx-8">
-            <div className="py-2 align-middle inline-block w-full sm:px-6 lg:px-8">
+          <div className="-my-2 overflow-x-auto">
+            <div className="py-2 align-middle inline-block w-full">
               <div className="overflow-auto">
                 <table
                   {...getTableProps()}
@@ -88,8 +86,6 @@ const Table: React.FC<IProps> = ({ columns, data, title }) => {
                     {headerGroups.map((headerGroup) => (
                       <tr {...headerGroup.getHeaderGroupProps()}>
                         {headerGroup.headers.map((column) => (
-                          // Add the sorting props to control sorting. For this example
-                          // we can add them into the header props
                           <th
                             scope="col"
                             className="group px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
@@ -99,7 +95,6 @@ const Table: React.FC<IProps> = ({ columns, data, title }) => {
                           >
                             <div className="flex items-center justify-between">
                               {column.render("Header")}
-                              {/* Add a sort direction indicator */}
                               <span>
                                 {column.isSorted ? (
                                   column.isSortedDesc ? (
@@ -155,7 +150,6 @@ const Table: React.FC<IProps> = ({ columns, data, title }) => {
           </div>
         </div>
       </div>
-      {/* Pagination */}
       <div className="px-5 py-3 flex items-center justify-between">
         <div className="flex-1 flex justify-between sm:hidden">
           <Button onClick={() => previousPage()} disabled={!canPreviousPage}>

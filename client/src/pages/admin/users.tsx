@@ -11,7 +11,7 @@ import { SERVER_ROOT_URL, tokenHeader } from "../../hooks/helpers";
 
 interface IProps {}
 
-export const Users: React.FC<IProps> = () => {
+const Users: React.FC<IProps> = () => {
   const [users, setUsers] = React.useState([]);
 
   const getAllUsers = async () => {
@@ -103,3 +103,5 @@ export const Users: React.FC<IProps> = () => {
     </AdminWrapper>
   );
 };
+
+export default Users;

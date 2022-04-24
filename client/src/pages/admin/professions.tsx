@@ -10,7 +10,7 @@ import { professions as professionsAtom } from "../../store/data";
 
 interface IProps {}
 
-export const Professions: React.FC<IProps> = () => {
+const Professions: React.FC<IProps> = () => {
   const professions = useRecoilValue(professionsAtom);
   const columns = React.useMemo(
     () => [
@@ -60,3 +60,5 @@ export const Professions: React.FC<IProps> = () => {
     </AdminWrapper>
   );
 };
+
+export default Professions;

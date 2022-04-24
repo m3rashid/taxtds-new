@@ -22,10 +22,7 @@ const issueJWT = (user: HydratedDocument<IUser>) => {
     expiresIn: expiresIn,
     algorithm: "RS256",
   });
-  return {
-    token: "Bearer " + signedToken,
-    expires: expiresIn,
-  };
+  return { token: "Bearer " + signedToken };
 };
 
 const verifyJWT = (token: string) => {

@@ -11,6 +11,8 @@ import ButtonEl from "../atoms/Button";
 import ButtonLink from "../atoms/ButtonLink";
 import { cloudinaryInitial } from "../../hooks/helpers";
 import { IListing } from "../../store/interfaces";
+import { useRecoilValue } from "recoil";
+import { authState } from "../../store/auth";
 
 export const EmptyCard: React.FC<{}> = () => {
   return (
@@ -40,6 +42,9 @@ interface IProps {
 }
 
 const Card: React.FC<IProps> = ({ listing, isUserPage = false }) => {
+  const { user } = useRecoilValue(authState);
+  const userId = user._id || null;
+
   return (
     <>
       <div className="bg-[white] hover:bg-lightHover w-[94vw] md:w-auto md:min-w-[350px] lg:min-w-[520px] rounded-md p-[20px] shadow-md relative overflow-hidden">
@@ -92,7 +97,7 @@ const Card: React.FC<IProps> = ({ listing, isUserPage = false }) => {
             <ButtonLink
               Icon={<MdEdit />}
               label="Edit"
-              to={`/user/:userId/${listing._id}/edit`}
+              to={`/user/${userId}/${listing._id}/edit`}
             />
           )}
         </div>

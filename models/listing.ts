@@ -20,16 +20,13 @@ export interface IListing {
   addressLineTwo?: string;
   state: string;
   phone: number | string;
+  reviews: mongoose.Types.ObjectId[];
   email: string;
   deleted?: boolean;
   featured?: boolean;
 }
 
-export interface ListingModel extends mongoose.Model<IListing> {
-  getFullListing(query: any): any;
-}
-
-const listingSchema = new mongoose.Schema<IListing, ListingModel>(
+const listingSchema = new mongoose.Schema<IListing>(
   {
     brandName: {
       type: String,
@@ -75,6 +72,10 @@ const listingSchema = new mongoose.Schema<IListing, ListingModel>(
       required: [true, "Phone number is required"],
       trim: true,
     },
+    reviews: {
+      type: [mongoose.Schema.Types.ObjectId],
+      ref: "Review",
+    },
     email: { type: String, required: [true, "Email is required"], trim: true },
     deleted: { type: Boolean, default: false },
     featured: { type: Boolean, default: false },
@@ -82,19 +83,4 @@ const listingSchema = new mongoose.Schema<IListing, ListingModel>(
   { timestamps: true }
 );
 
-listingSchema.static("getFullListing", function getFullListing(query) {
-  return this.findOne(query)
-    .populate({
-      path: "services",
-      model: "Service",
-    })
-    .populate({
-      path: "addedBy",
-      populate: {
-        path: "professions",
-        model: "Profession",
-      },
-    });
-});
-
-export default mongoose.model<IListing, ListingModel>("Listing", listingSchema);
+export default mongoose.model<IListing>("Listing", listingSchema);

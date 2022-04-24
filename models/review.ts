@@ -18,7 +18,6 @@ const reviewSchema = new mongoose.Schema<IReview>(
       trim: true,
     },
     review: { type: String, trim: true },
-    listing: { type: mongoose.Schema.Types.ObjectId, ref: "Listing" },
   },
   { timestamps: true }
 );

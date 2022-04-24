@@ -1,7 +1,8 @@
 import React from "react";
+import { Helmet } from "react-helmet";
 import { MdPerson } from "react-icons/md";
-import { LazyLoadImage } from "react-lazy-load-image-component";
 import { useLocation } from "react-router-dom";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 
 import Header from "../components/customHeader";
 import Footer from "../components/main/footer";
@@ -30,7 +31,7 @@ interface IListBoxItemProps {
 }
 const ListBoxItem: React.FC<IListBoxItemProps> = ({ label, value }) => {
   return (
-    <p className="font-bold">
+    <p>
       <span className="font-semibold">{label}</span>
       {value}
     </p>
@@ -44,24 +45,25 @@ const ListingDetail = () => {
   const { getOneListing, addReview } = useListings();
 
   React.useEffect(() => {
-    getOneListing(listingId).then((gotListing) => setListing(gotListing));
+    getOneListing(listingId).then((gotListing) =>
+      setListing(gotListing.listing)
+    );
   }, []);
 
   if (!listing) {
     return <Loader />;
   }
 
-  const demoListing = listing.listing;
-  const reviews = listing.reviews;
-  const user = listing.listing.addedBy;
-
-  // TODO handle OG tags
-  document.title = `Taxtds - ${demoListing.brandName}`;
   return (
     <>
+      <Helmet>
+        {/* TODO handle OG tags here */}
+        <title>{`Taxtds - ${listing.brandName}`}</title>
+      </Helmet>
+
       <Header
-        greeting={demoListing.brandName || ""}
-        subtitle={demoListing.tagline}
+        greeting={listing.brandName || ""}
+        subtitle={listing.tagline}
         person={false}
       />
       <div className="min-h-[25vh] grid grid-cols-1 md:grid-cols-2 md:gap-[30px] mb-8 max-w-[1400px]">
@@ -69,13 +71,13 @@ const ListingDetail = () => {
           <React.Suspense fallback={<Loader />}>
             <LazyLoadImage
               className="max-w-[600px] w-full rounded-md shadow-md"
-              src={cloudinaryInitial + demoListing.avatar.url}
-              alt={demoListing.brandName || ""}
+              src={cloudinaryInitial + listing.avatar.url}
+              alt={listing.brandName || ""}
             />
-            {demoListing.gallery.map((image) => (
+            {listing.gallery.map((image) => (
               <LazyLoadImage
                 key={image._id}
-                alt={demoListing.brandName}
+                alt={listing.brandName}
                 src={cloudinaryInitial + image.url}
                 placeholderSrc={cloudinaryInitial + image.url}
                 className="max-w-[600px] w-full rounded-md shadow-md"
@@ -85,41 +87,52 @@ const ListingDetail = () => {
         </div>
         <div className="p-[10px] md:p-[15px] order-2">
           <ListBox title="General Service Details">
+            <ListBoxItem label="Established : " value={listing.established} />
+            <ListBoxItem label="Phone Number : " value={listing.phone} />
+            <ListBoxItem label="Email Address : " value={listing.email} />
             <ListBoxItem
-              label="Established : "
-              value={demoListing.established}
+              label="Address : "
+              value={listing.addressLineOne + ", " + listing.addressLineTwo}
             />
-            <ListBoxItem label="Phone Number : " value={demoListing.phone} />
-            <ListBoxItem label="Email Address : " value={demoListing.email} />
+            <ListBoxItem label="Address (state) : " value={listing.state} />
+          </ListBox>
+          <ListBox title="Listing Owner">
+            <ListBoxItem label="Name : " value={listing.owner} />
+          </ListBox>
+          <ListBox title="Listing Added By">
+            <ListBoxItem label="Name : " value={listing.addedBy.name} />
+            <ListBoxItem
+              label="Phone Number : "
+              value={listing.addedBy.phone}
+            />
+            <ListBoxItem
+              label="Email Address : "
+              value={listing.addedBy.email}
+            />
+            <ListBoxItem
+              label="Experience : "
+              value={listing.addedBy.experience}
+            />
             <ListBoxItem
               label="Address : "
               value={
-                demoListing.addressLineOne + ", " + demoListing.addressLineTwo
+                listing.addedBy.addressLineOne +
+                ", " +
+                listing.addedBy.addressLineTwo
               }
             />
-            <ListBoxItem label="Address (state) : " value={demoListing.state} />
-          </ListBox>
-          <ListBox title="Listing Owner">
-            <ListBoxItem label="Name : " value={demoListing.owner} />
-          </ListBox>
-          <ListBox title="Listing Added By">
-            <ListBoxItem label="Name : " value={user.name} />
-            <ListBoxItem label="Phone Number : " value={user.phone} />
-            <ListBoxItem label="Email Address : " value={user.email} />
-            <ListBoxItem label="Experience : " value={user.experience} />
             <ListBoxItem
-              label="Address : "
-              value={user.addressLineOne + ", " + user.addressLineTwo}
+              label="Address (state) : "
+              value={listing.addedBy.state}
             />
-            <ListBoxItem label="Address (state) : " value={user.state} />
             <ListBoxItem
               label="Professions : "
-              value={user.professions.join(", ") || " - "}
+              value={listing.addedBy.professions.join(", ") || " - "}
             />
           </ListBox>
           <ListBox title="All services offered">
             <div className="pt-[10px]">
-              {demoListing.services.map((service) => (
+              {listing.services.map((service) => (
                 <ListBoxItem key={service.name} label={service.name} />
               ))}
             </div>
@@ -133,9 +146,9 @@ const ListingDetail = () => {
           </h2>
           <div className="p-[10px] md:p-[15px]">
             <React.Suspense fallback={<Loader />}>
-              {reviews.length !== 0 ? (
+              {listing.reviews.length !== 0 ? (
                 <div className="flex gap-3 flex-col items-center">
-                  {reviews.map((review) => {
+                  {listing.reviews.map((review) => {
                     return (
                       <div
                         key={review._id}
@@ -171,7 +184,7 @@ const ListingDetail = () => {
             </React.Suspense>
           </div>
         </div>
-        <AddReview listingId={demoListing._id!} />
+        <AddReview listingId={listing._id!} />
       </div>
       <Footer />
     </>

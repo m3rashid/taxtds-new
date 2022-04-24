@@ -2,6 +2,7 @@ import { Response, Request } from "express";
 import { HydratedDocument } from "mongoose";
 
 import { issueJWT } from "../middlewares/jwt";
+import Listing from "../models/listing";
 import Otp, { IOtp } from "../models/otp";
 import User, { IUser } from "../models/user";
 import { comparePassword, hashPassword } from "../utils/auth";
@@ -9,14 +10,34 @@ import logger from "../utils/logger";
 
 export const login = async (req: Request, res: Response) => {
   const { email, password } = req.body;
-  const oldUser = await User.findOne({ email, deleted: false });
-  if (!oldUser) throw new Error("User not found");
+  const user = await User.findOne({ email, deleted: false });
+  if (!user) throw new Error("User not found");
 
-  const match = await comparePassword(password, oldUser.password);
+  const match = await comparePassword(password, user.password);
   if (!match) throw new Error("Credentials Invalid");
 
-  const { token, expires } = issueJWT(oldUser);
-  return res.status(200).json({ token, expires, user: oldUser });
+  let userListings: any = [];
+  if (user.role === "USER") {
+    userListings = await Listing.find({
+      addedBy: user._id,
+      deleted: false,
+    })
+      .select([
+        "-addedBy",
+        "-addressLineOne",
+        "-addressLineTwo",
+        "-createdAt",
+        "-updatedAt",
+        "-deleted",
+        "-gallery",
+        "-reviews",
+        "-services",
+      ])
+      .lean();
+  }
+
+  const { token } = issueJWT(user);
+  return res.status(200).json({ token, user, userListings });
 };
 
 export const register = async (req: Request, res: Response) => {
@@ -65,6 +86,6 @@ export const createAccount = async (req: Request, res: Response) => {
   });
   await newUser.save();
   await Otp.deleteOne({ email });
-  const { token, expires } = issueJWT(newUser);
-  return res.status(200).json({ token, expires, user: newUser });
+  const { token } = issueJWT(newUser);
+  return res.status(200).json({ token, user: newUser });
 };

@@ -58,7 +58,7 @@ const User = () => {
       <div className="flex flex-col md:flex-row flex-shrink-0 gap-4 p-4 md:w-full max-w-[1600px] mb-4">
         <React.Suspense fallback={<Loader />}>
           {demoServices.map((listing) => (
-            <Card listing={listing} isUserPage={true} />
+            <Card key={listing._id} listing={listing} isUserPage={true} />
           ))}
         </React.Suspense>
       </div>
