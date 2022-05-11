@@ -10,13 +10,7 @@ const Sidebar = React.lazy(() => import("../components/main/sidebar"));
 const Card = React.lazy(() => import("../components/main/card"));
 
 const Main = () => {
-  const storeListings = useRecoilValue(allListings);
-
-  const listings = React.useMemo(() => {
-    return storeListings.sort((a, b) => {
-      return a.featured === b.featured ? 0 : a.featured ? -1 : 1;
-    });
-  }, [storeListings]);
+  const listings = useRecoilValue(allListings);
 
   document.title = "Taxtds - Home";
   return (

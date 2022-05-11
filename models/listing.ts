@@ -68,7 +68,7 @@ const listingSchema = new mongoose.Schema<IListing>(
     addressLineTwo: { type: String, trim: true },
     state: { type: String, enum: StateUt, trim: true },
     phone: {
-      type: Number,
+      type: String,
       required: [true, "Phone number is required"],
       trim: true,
     },

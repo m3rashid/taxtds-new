@@ -12,9 +12,10 @@ import InputEl from "./atoms/Input";
 
 interface IProps {
   listingId: string;
+  setReviewAdded: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const AddReview: React.FC<IProps> = ({ listingId }) => {
+const AddReview: React.FC<IProps> = ({ listingId, setReviewAdded }) => {
   const initialState = React.useMemo(() => {
     return { name: "", rating: "", review: "", listingId: listingId };
   }, []);
@@ -31,7 +32,7 @@ const AddReview: React.FC<IProps> = ({ listingId }) => {
 
   const submitHandler = async () => {
     if (
-      parseInt(data.rating) === NaN ||
+      isNaN(parseInt(data.rating)) ||
       parseInt(data.rating) < 1 ||
       parseInt(data.rating) > 10
     ) {
@@ -43,6 +44,7 @@ const AddReview: React.FC<IProps> = ({ listingId }) => {
       return;
     }
     await addReview(data);
+    setReviewAdded(true)
     setData(initialState);
   };
 

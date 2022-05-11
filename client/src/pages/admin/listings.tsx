@@ -28,7 +28,7 @@ const Listings: React.FC<IProps> = () => {
   const checked = React.useRef(false);
 
   if (!checked.current && allListings.length === 0) {
-    getListings(setListings);
+    getListings(setListings).then().catch();
     checked.current = true;
   }
 

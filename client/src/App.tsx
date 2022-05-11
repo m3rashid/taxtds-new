@@ -12,6 +12,7 @@ import User from "./pages/user";
 import CreateService from "./pages/user/create";
 import EditService from "./pages/user/edit";
 
+import Home from "./pages/admin/home"
 import Listings from "./pages/admin/listings";
 import Professions from "./pages/admin/professions";
 import Services from "./pages/admin/services";
@@ -32,9 +33,9 @@ const App = () => {
   const setListings = useSetRecoilState(listings);
 
   React.useEffect(() => {
-    getUser(setAuthState);
-    getProfessions(setProfessions);
-    getListings(setListings);
+    getUser(setAuthState).then().catch();
+    getProfessions(setProfessions).then().catch();
+    getListings(setListings).then().catch();
   }, []);
 
   return (
@@ -66,7 +67,8 @@ const App = () => {
               <Route path=":id" element={<ListingDetail />} />
             </Route>
             <Route path="/admin">
-              <Route path="" element={<Navigate to="/admin/listings" />} />
+              <Route path="" element={<Navigate to="/admin/home" />} />
+              <Route path="home" element={<Home />} />
               <Route path="professions" element={<Professions />} />
               <Route path="services" element={<Services />} />
               <Route path="listings" element={<Listings />} />

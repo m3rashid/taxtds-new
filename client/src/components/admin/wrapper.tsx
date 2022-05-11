@@ -10,12 +10,13 @@ const AdminWrapper = ({ children }: { children: React.ReactNode }) => {
     <div className="w-full">
       <Header greeting="Hello Admin" />
       <div className="bg-accentTwo w-full -mt-4 shadow-md p-3 flex gap-4 flex-wrap items-center justify-center">
+        <Link to="/admin/home">Home</Link>
         <Link to="/admin/listings">Listings</Link>
         <Link to="/admin/users">Users</Link>
         <Link to="/admin/professions">Professions</Link>
         <Link to="/admin/services">Services</Link>
       </div>
-      <div className="flex justify-center">{children}</div>
+      <div className="flex justify-center mb-8">{children}</div>
     </div>
   );
 };

@@ -22,7 +22,7 @@ import { ReactSelect } from "../../components/atoms/reactSelect";
 import StateUt from "../../data/state";
 import ButtonEl from "../../components/atoms/Button";
 import { services as servicesAtom } from "../../store/data";
-import { SERVER_ROOT_URL } from "../../hooks/helpers";
+import {formatResponseMessage, SERVER_ROOT_URL} from "../../hooks/helpers";
 import { tokenHeader } from "../../hooks/helpers";
 import { Loader } from "../../components/atoms/loader";
 
@@ -108,7 +108,7 @@ const CreateService = () => {
       });
       setLoading(false);
       toast.update(addToast, {
-        render: res.data.message || "Successfully listed your service",
+        render: formatResponseMessage(res.data.message) || "Successfully listed your service",
         type: "success",
         isLoading: false,
         autoClose: 5000,
@@ -117,7 +117,7 @@ const CreateService = () => {
     } catch (err: any) {
       setLoading(false);
       toast.update(addToast, {
-        render: err.response?.data?.message || "Error listing your service",
+        render: formatResponseMessage(err.response?.data?.message) || "Error listing your service",
         type: "error",
         isLoading: false,
         autoClose: 5000,

@@ -12,7 +12,7 @@ const Sidebar = () => {
   const [services, setServices] = useRecoilState(servicesAtom);
 
   React.useEffect(() => {
-    getServices(setServices);
+    getServices(setServices).then().catch();
   }, []);
 
   return (

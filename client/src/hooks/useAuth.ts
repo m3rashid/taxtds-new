@@ -5,6 +5,7 @@ import { SetterOrUpdater } from "recoil";
 
 import {
   defaultHeader,
+  formatResponseMessage,
   IActions,
   JWT_AUTH,
   LAST_LOGIN,
@@ -24,7 +25,7 @@ const useAuth = () => {
 
     try {
       const res = await axios.post(
-        `${SERVER_ROOT_URL}${actions.endpoint}`,
+        SERVER_ROOT_URL + actions.endpoint,
         body,
         defaultHeader
       );
@@ -34,7 +35,10 @@ const useAuth = () => {
         actions.role || res.data.user.role || "USER"
       );
       toast.update(authToast, {
-        render: res.data.message || actions.successMessage || "Success",
+        render:
+          formatResponseMessage(res.data.message)
+          || formatResponseMessage(actions.successMessage)
+          || "Success",
         type: "success",
         isLoading: false,
         autoClose: 5000,
@@ -51,7 +55,9 @@ const useAuth = () => {
       window.localStorage.removeItem(LAST_LOGIN);
       toast.update(authToast, {
         render:
-          err.response?.data?.message || actions.failureMessage || "Error",
+          formatResponseMessage(err.response?.data?.message)
+          || formatResponseMessage(actions.failureMessage)
+          || "Error",
         type: "error",
         isLoading: false,
         autoClose: 5000,
@@ -71,12 +77,15 @@ const useAuth = () => {
     const body = JSON.stringify(values);
     try {
       const res = await axios.post(
-        `${SERVER_ROOT_URL}${actions.endpoint}`,
+        SERVER_ROOT_URL + actions.endpoint,
         body,
         defaultHeader
       );
       toast.update(authToast, {
-        render: res.data.message || actions.successMessage || "Success",
+        render:
+          formatResponseMessage(res.data.message)
+          ||  formatResponseMessage(actions.successMessage)
+          || "Success",
         type: "success",
         isLoading: false,
         autoClose: 5000,
@@ -84,7 +93,9 @@ const useAuth = () => {
     } catch (err: any) {
       toast.update(authToast, {
         render:
-          err.response?.data?.message || actions.failureMessage || "Error",
+          formatResponseMessage(err.response?.data?.message)
+          ||  formatResponseMessage(actions.failureMessage)
+          || "Error",
         type: "error",
         isLoading: false,
         autoClose: 5000,

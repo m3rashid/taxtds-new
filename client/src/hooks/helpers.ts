@@ -25,5 +25,11 @@ export const tokenHeader: AxiosRequestConfig<string> = {
   },
 };
 
+export const formatResponseMessage = (msg?: string) => {
+  if(msg) {
+    return msg.replaceAll('\\', "").replaceAll('"', '')
+  }
+};
+
 export const cloudinaryInitial =
   "https://res.cloudinary.com/drdo5t5sl/image/upload/";

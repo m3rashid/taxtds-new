@@ -1,14 +1,12 @@
-import { Request, Response } from "express";
-import { v2 as cloudinary } from "cloudinary";
-import { HydratedDocument } from "mongoose";
-import mongoose from "mongoose";
+import {Request, Response} from "express";
+import {v2 as cloudinary} from "cloudinary";
+import mongoose, {HydratedDocument} from "mongoose";
 import sharp from "sharp";
 import path from "path";
 import fs from "fs";
 
-import Listing, { Image, IListing } from "../models/listing";
-import { paginationConfig } from "./helpers";
-import Review from "../models/review";
+import Listing, {IListing, Image} from "../models/listing";
+import {paginationConfig} from "./helpers";
 import logger from "../utils/logger";
 
 cloudinary.config({
@@ -23,9 +21,7 @@ export const cloudinaryInitial = `https://res.cloudinary.com/${process.env.CLOUD
 const uploadFiles = async (file: Express.Multer.File) => {
   let filePath = path.resolve(__dirname, `../uploads/resized/${file.filename}`);
   await sharp(file.path).resize({ width: 700 }).toFile(filePath);
-
-  let data = await cloudinary.uploader.upload(filePath);
-  return data;
+  return await cloudinary.uploader.upload(filePath);
 };
 
 const removeFileFromServer = (filename: string) => {
@@ -147,6 +143,24 @@ export const getAllListings = async (req: Request, res: Response) => {
     ])
     .skip(page * limit)
     .limit(limit)
+    .lean();
+
+  return res.status(200).json({ listings });
+};
+
+export const getUserListings = async (req: Request, res: Response) => {
+  const listings = await Listing.find({ deleted: false, addedBy: req.user })
+    .select([
+      "-addedBy",
+      "-addressLineOne",
+      "-addressLineTwo",
+      "-createdAt",
+      "-updatedAt",
+      "-deleted",
+      "-gallery",
+      "-reviews",
+      "-services",
+    ])
     .lean();
 
   return res.status(200).json({ listings });

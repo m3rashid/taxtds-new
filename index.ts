@@ -16,9 +16,7 @@ app.use(xss());
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-if (process.env.NODE_ENV !== "production") {
-  mongoose.set("debug", true);
-}
+mongoose.set("debug", process.env.NODE_ENV !== "production");
 app.use(routes);
 app.use("/admin", adminRoutes);
 

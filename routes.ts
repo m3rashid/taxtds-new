@@ -8,7 +8,7 @@ import {
   editListing,
   removeListing,
   getOneListing,
-  getAllListings,
+  getAllListings, getUserListings,
 } from "./controllers/listing";
 import { getProfessions } from "./controllers/profession";
 import { addReview } from "./controllers/review";
@@ -85,6 +85,7 @@ router.post(
   use(getOneListing)
 );
 router.post("/listings/all" /* regularRateLimiter, */, use(getAllListings));
+router.post("/listings/me" /* regularRateLimiter, */, checkAuth, use(getUserListings));
 
 // service
 router.post("/services/all" /* regularRateLimiter, */, use(getAllServices));

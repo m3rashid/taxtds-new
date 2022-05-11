@@ -11,6 +11,7 @@ import { IListingDetail } from "../store/interfaces";
 import { cloudinaryInitial } from "../hooks/helpers";
 import useListings from "../hooks/useListings";
 import AddReview from "../components/addReview";
+import moment from "moment";
 
 interface IListBoxProps {
   children?: React.ReactNode;
@@ -42,13 +43,12 @@ const ListingDetail = () => {
   const location = useLocation();
   const listingId = location.pathname.split("/")[2];
   const [listing, setListing] = React.useState<IListingDetail>();
-  const { getOneListing, addReview } = useListings();
+  const { getOneListing } = useListings();
+  const [reviewAdded, setReviewAdded] = React.useState(false);
 
   React.useEffect(() => {
-    getOneListing(listingId).then((gotListing) =>
-      setListing(gotListing.listing)
-    );
-  }, []);
+    getOneListing(listingId).then((gotListing) => setListing(gotListing.listing)).catch();
+  }, [reviewAdded]);
 
   if (!listing) {
     return <Loader />;
@@ -148,8 +148,7 @@ const ListingDetail = () => {
             <React.Suspense fallback={<Loader />}>
               {listing.reviews.length !== 0 ? (
                 <div className="flex gap-3 flex-col items-center">
-                  {listing.reviews.map((review) => {
-                    return (
+                  {listing.reviews.map((review) => (
                       <div
                         key={review._id}
                         className="bg-[white] hover:bg-lightHover rounded-md shadow-md gap-3 p-3 w-full max-w-[400px]"
@@ -171,10 +170,11 @@ const ListingDetail = () => {
                             label="Review : "
                             value={review.review}
                           />
+                          <ListBoxItem label="On: " value={moment(review.createdAt).format("LLLL")} />
                         </div>
                       </div>
-                    );
-                  })}
+                    )
+                  )}
                 </div>
               ) : (
                 <div className="bg-[white] hover:bg-lightHover rounded-md shadow-md gap-3 p-3 w-full">
@@ -184,7 +184,7 @@ const ListingDetail = () => {
             </React.Suspense>
           </div>
         </div>
-        <AddReview listingId={listing._id!} />
+        <AddReview listingId={listing._id!} setReviewAdded={setReviewAdded} />
       </div>
       <Footer />
     </>

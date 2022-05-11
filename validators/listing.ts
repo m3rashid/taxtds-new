@@ -4,7 +4,7 @@ export const addListingSchema = Joi.object({
   brandName: Joi.string().required(),
   tagline: Joi.string().allow(""),
   owner: Joi.string().required().allow(""),
-  phone: Joi.number().required(),
+  phone: Joi.string().required(),
   email: Joi.string().required(),
   established: Joi.string().allow(""),
   addressLineOne: Joi.string().required(),

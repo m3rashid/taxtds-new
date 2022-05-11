@@ -2,7 +2,7 @@ import axios from "axios";
 import { SetterOrUpdater } from "recoil";
 
 import { defaultHeader, SERVER_ROOT_URL, tokenHeader } from "./helpers";
-import { IProfession, IService } from "../store/interfaces";
+import {IListing, IProfession, IService} from "../store/interfaces";
 
 const useData = () => {
   const body = JSON.stringify({});
@@ -55,7 +55,15 @@ const useData = () => {
         body,
         tokenHeader
       );
-      setRecoilState(res.data.listings);
+      setRecoilState((prev: IListing[]) => {
+        const listings = [...prev, ...res.data.listings]
+        const ids = listings.map(o => o._id)
+        return listings
+          .filter(({_id}, index) => !ids.includes(_id, index + 1))
+          .sort((a: IListing, b: IListing) => {
+          return a.featured ? -1 : 1
+        });
+      });
     } catch (err) {
       console.log(err);
     }
