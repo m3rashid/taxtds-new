@@ -35,7 +35,7 @@ export const use =
 // </endpoint> <rateLimit> <validator> <auth> <controller>
 
 // health check
-router.post(
+router.get(
   "/",
   use((_: Request, res: Response) => {
     return res.json({ message: "Server is OK" });
