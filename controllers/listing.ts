@@ -9,14 +9,22 @@ import Listing, {IListing, Image} from "../models/listing";
 import {paginationConfig} from "./helpers";
 import logger from "../utils/logger";
 
+const cloudinaryCloudName = process.env.NODE_ENV === "production"
+  ? process.env.CLOUDINARY_CLOUD_NAME
+  : process.env.PROD_CLOUDINARY_CLOUD_NAME
+
 cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-  api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET,
+  cloud_name: cloudinaryCloudName,
+  api_key: process.env.NODE_ENV === "production"
+    ? process.env.CLOUDINARY_API_KEY
+    : process.env.PROD_CLOUDINARY_API_KEY,
+  api_secret: process.env.NODE_ENV === "production"
+    ? process.env.CLOUDINARY_API_SECRET
+    : process.env.PROD_CLOUDINARY_API_SECRET,
   secure: true,
 });
 
-export const cloudinaryInitial = `https://res.cloudinary.com/${process.env.CLOUDINARY_CLOUD_NAME}/image/upload/`;
+export const cloudinaryInitial = `https://res.cloudinary.com/${cloudinaryCloudName}/image/upload/`;
 
 const uploadFiles = async (file: Express.Multer.File) => {
   let filePath = path.resolve(__dirname, `../uploads/resized/${file.filename}`);

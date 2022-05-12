@@ -13,7 +13,10 @@ import adminRoutes from "./adminRoutes";
 const app = express();
 app.use(helmet());
 app.use(xss());
-app.use(cors());
+app.use(cors({
+  origin: process.env.NODE_ENV === "production" ? "https://taxtds.netlify.app" : "http://localhost:3000",
+  optionsSuccessStatus: 200
+}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 mongoose.set("debug", process.env.NODE_ENV !== "production");
@@ -34,14 +37,18 @@ app.use((err: any, req: Request, res: Response, _: NextFunction) => {
 const port = process.env.PORT || 5000;
 app.listen(port, async () => {
   try {
-    if (process.env.NODE_ENV === "production")
+    if (process.env.NODE_ENV === "production") {
       await mongoose.connect(`mongodb+srv://${process.env.PROD_DB_USERNAME!}:${process.env.PROD_DB_PASSWORD!}@taxtds-website.wc4rg.mongodb.net/${process.env.PROD_DB_NAME!}?retryWrites=true&w=majority`);
-    else await mongoose.connect("mongodb://localhost/taxtds");
+      logger.info(`Server ready on: https://taxtds.herokuapp.com:${port}`);
+    }
+    else {
+      await mongoose.connect("mongodb://localhost/taxtds");
+      logger.info(`Server ready on: http://localhost:${port}`);
+    }
     logger.info("Mongoose is connected");
   } catch (err) {
     logger.error(JSON.stringify(err));
     logger.error("MongoDB connection error");
     process.exit(1);
   }
-  logger.info(`Server ready on: http://localhost:${port}`);
 });

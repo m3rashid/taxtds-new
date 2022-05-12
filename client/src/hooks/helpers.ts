@@ -8,7 +8,7 @@ export interface IActions {
   role?: "USER" | "ADMIN";
 }
 
-export const SERVER_ROOT_URL = "http://localhost:5000";
+export const SERVER_ROOT_URL = process.env.NODE_ENV === "production" ? "https://taxtds.herokuapp.com" : "http://localhost:5000";
 export const JWT_AUTH = "jwtAuth";
 export const LAST_LOGIN = "lastLogin";
 
@@ -31,5 +31,5 @@ export const formatResponseMessage = (msg?: string) => {
   }
 };
 
-export const cloudinaryInitial =
-  "https://res.cloudinary.com/drdo5t5sl/image/upload/";
+export const cloudinaryInitial = `https://res.cloudinary.com/${process.env.NODE_ENV === "production" ? "taxtds" : "drdo5t5sl"}/image/upload/`
+
