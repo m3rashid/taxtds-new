@@ -15,7 +15,8 @@
   "scripts": {
     "start": "ts-node index.ts",
     "dev": "ts-node-dev --respawn index.ts",
-    "build": "tsc"
+    "build": "tsc && cp -r ./uploads ./build/uploads",
+    "prod": "build/index.js"
   },
   "dependencies": {
     "bcrypt": "^5.0.1",

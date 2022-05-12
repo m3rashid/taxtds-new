@@ -1,1 +1,1 @@
-web: node ./utils/generateKeyPair.js && yarn start
+web: node ./utils/generateKeyPair.js && yarn build && yarn start

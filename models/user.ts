@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-import { StateUt } from "../bulk/state";
+import { StateUt } from "./state";
 
 export interface IUser {
   email: string;

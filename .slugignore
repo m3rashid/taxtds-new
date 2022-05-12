@@ -2,4 +2,6 @@ client
 node_modules
 *.md
 *.txt
-bulk
+.netlify
+tsconfig.json
+LICENSE
