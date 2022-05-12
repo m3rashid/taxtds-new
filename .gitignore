@@ -4,5 +4,3 @@ node_modules
 build
 *.log
 .idea
-# Local Netlify folder
-client/.netlify/.netlify
