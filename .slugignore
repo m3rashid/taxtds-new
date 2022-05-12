@@ -13,8 +13,8 @@ validators
 .env.sample
 adminRoutes.ts
 index.ts
-*.md
-*.txt
-.netlify
-tsconfig.json
 LICENSE
+*.txt
+*.md
+tsconfig.json
+routes.ts
