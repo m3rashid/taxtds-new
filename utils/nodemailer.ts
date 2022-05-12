@@ -11,15 +11,19 @@ import deleteServiceByAdmin from "../mailers/deleteServiceByAdmin";
 import custom from "../mailers/custom";
 import logger from "./logger";
 
+const gmailUsername = process.env.NODE_ENV === "production"
+  ? process.env.PROD_GMAIL_USER
+  : process.env.GMAIL_USERNAME
+const gmailPassword = process.env.NODE_ENV === "production"
+  ? process.env.PROD_GMAIL_PASS
+  : process.env.GMAIL_PASSWORD
+
 const transporter = nodemailer.createTransport({
   service: "gmail",
   host: "smtp.gmail.com",
   port: 587,
   secure: true,
-  auth: {
-    user: process.env.GMAIL_USERNAME,
-    pass: process.env.GMAIL_PASSWORD,
-  },
+  auth: { user: gmailUsername, pass: gmailPassword },
   tls: { rejectUnauthorized: false },
 });
 
@@ -62,7 +66,7 @@ const Mail = (mailData: IParameters) => {
   }
 
   const mailOptions = {
-    from: `"Tax TDS admin", ${process.env.GMAIL_USERNAME}@gmail.com`,
+    from: `"Tax TDS admin", ${gmailUsername}@gmail.com`,
     to: mailData.emailId,
     subject: mailData.subject,
     html: html,
