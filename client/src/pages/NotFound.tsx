@@ -1,14 +1,19 @@
 import React from "react";
 import { MdError } from "react-icons/md";
+import {Helmet} from "react-helmet";
 
 import Header from "../components/main/header";
 import Footer from "../components/main/footer";
 
 const NotFound = () => {
-  // TODO handle OG tags
-  document.title = "Taxtds - 404 Not Found";
   return (
     <>
+      <Helmet>
+        <title>Taxtds - 404 Not Found</title>
+        <meta name="og:title" content="Taxtds - 404 Not Found" />
+        <meta name="twitter:title" content="Taxtds - 404 Not Found"/>
+      </Helmet>
+
       <Header />
       <div className="h-[50vh] w-screen flex items-center justify-center">
         <div className="flex flex-col gap-1 items-center justify-center bg-accentTwo rounded-md px-[10px] md:px-[25px] py-[25px] md:py-[50px] shadow-xl">

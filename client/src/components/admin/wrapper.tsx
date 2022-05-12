@@ -1,13 +1,18 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import {Helmet} from "react-helmet";
 
 import Header from "../customHeader";
 
 const AdminWrapper = ({ children }: { children: React.ReactNode }) => {
-  document.title = "Taxtds - Admin";
-
   return (
     <div className="w-full">
+      <Helmet>
+        <title>Taxtds - Admin</title>
+        <meta name="og:title" content="Taxtds - Admin" />
+        <meta name="twitter:title" content="Taxtds - Admin"/>
+      </Helmet>
+
       <Header greeting="Hello Admin" />
       <div className="bg-accentTwo w-full -mt-4 shadow-md p-3 flex gap-4 flex-wrap items-center justify-center">
         <Link to="/admin/home">Home</Link>

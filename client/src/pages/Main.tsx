@@ -1,5 +1,6 @@
 import React from "react";
 import { useRecoilValue } from "recoil";
+import {Helmet} from "react-helmet";
 
 import Header from "../components/main/header";
 import Footer from "../components/main/footer";
@@ -12,9 +13,14 @@ const Card = React.lazy(() => import("../components/main/card"));
 const Main = () => {
   const listings = useRecoilValue(allListings);
 
-  document.title = "Taxtds - Home";
   return (
     <>
+      <Helmet>
+        <title>Taxtds - Home</title>
+        <meta name="og:title" content="Taxtds - Home" />
+        <meta name="twitter:title" content="Taxtds - Home"/>
+      </Helmet>
+
       <Header />
       <div className="flex flex-col md:flex-row max-w-[1400px] lg:min-w-[1200px] justify-center items-start mb-4">
         <div className="mb-4 md:mb-0 flex justify-center">

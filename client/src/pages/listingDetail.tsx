@@ -57,8 +57,20 @@ const ListingDetail = () => {
   return (
     <>
       <Helmet>
-        {/* TODO handle OG tags here */}
         <title>{`Taxtds - ${listing.brandName}`}</title>
+        <meta name="og:title" content={`Taxtds - ${listing.brandName}`} />
+        <meta name="twitter:title" content={`Taxtds - ${listing.brandName}`} />
+
+        <meta name="description" content={listing.brandName + "- " + listing.tagline} />
+        <meta name="twitter:description" content={listing.brandName + "- " + listing.tagline} />
+        <meta name="og:description" content={listing.brandName + "- " + listing.tagline} />
+
+        <meta name="keywords" content={listing.addedBy.professions.map((a: any) => a.name).join(", ") + ", " + listing.services.map((service) => service.name).join(", ")} />
+
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:image" content={cloudinaryInitial + listing.avatar.url} />
+        <meta name="og:image" content={cloudinaryInitial + listing.avatar.url} />
+        <meta name="og:url" content={window.location.href} />
       </Helmet>
 
       <Header
@@ -127,7 +139,7 @@ const ListingDetail = () => {
             />
             <ListBoxItem
               label="Professions : "
-              value={listing.addedBy.professions.join(", ") || " - "}
+              value={listing.addedBy.professions.map((a: any) => a.name).join(", ") || " - "}
             />
           </ListBox>
           <ListBox title="All services offered">
