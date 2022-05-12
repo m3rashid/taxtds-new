@@ -35,7 +35,7 @@ const port = process.env.PORT || 5000;
 app.listen(port, async () => {
   try {
     if (process.env.NODE_ENV === "production")
-      await mongoose.connect("mongodb://localhost/taxtds");
+      await mongoose.connect(`mongodb+srv://${process.env.PROD_DB_USERNAME!}:${process.env.PROD_DB_PASSWORD!}@taxtds-website.wc4rg.mongodb.net/${process.env.PROD_DB_NAME!}?retryWrites=true&w=majority`);
     else await mongoose.connect("mongodb://localhost/taxtds");
     logger.info("Mongoose is connected");
   } catch (err) {
