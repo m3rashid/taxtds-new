@@ -16,7 +16,7 @@
     "start": "ts-node index.ts",
     "dev": "ts-node-dev --respawn index.ts",
     "build": "tsc && cp -r ./uploads ./build/uploads && mkdir ./build/utils/keys && node ./build/utils/generateKeyPair.js",
-    "prod": "build/index.js"
+    "prod": "node ./build/index.js"
   },
   "dependencies": {
     "bcrypt": "^5.0.1",
