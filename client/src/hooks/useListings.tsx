@@ -1,13 +1,20 @@
 import React from "react";
 import axios from "axios";
 import { useSetRecoilState } from "recoil";
-import {defaultHeader, formatResponseMessage, SERVER_ROOT_URL, tokenHeader} from "./helpers";
-import { listings } from "../store/data";
+import {
+  defaultHeader,
+  formatResponseMessage,
+  SERVER_ROOT_URL,
+  tokenHeader,
+} from "./helpers";
+import { listingPagination, listings } from "../store/data";
 import { toast } from "react-toastify";
-import { IListing } from "../store/interfaces"
+import { IListing } from "../store/interfaces";
 
 const useListings = () => {
   const setRecoilState = useSetRecoilState(listings);
+  const setListingPagination = useSetRecoilState(listingPagination);
+
   const getListings = async () => {
     try {
       const body = JSON.stringify({});
@@ -17,6 +24,7 @@ const useListings = () => {
         tokenHeader
       );
       setRecoilState(res.data.listings);
+      setListingPagination(res.data.pagination);
     } catch (err) {
       toast.error("Error getting listings ...");
     }
@@ -45,18 +53,19 @@ const useListings = () => {
         defaultHeader
       );
       toast.update(reviewToast, {
-        render: formatResponseMessage(res.data.message)
-          || "Thanks for your review...",
+        render:
+          formatResponseMessage(res.data.message) ||
+          "Thanks for your review...",
         type: "success",
         isLoading: false,
         autoClose: 5000,
       });
-    //  update in the store
+      //  update in the store
     } catch (err: any) {
       toast.update(reviewToast, {
         render:
-          formatResponseMessage(err.response?.data?.message)
-            || "Error in adding review, pleasy try again",
+          formatResponseMessage(err.response?.data?.message) ||
+          "Error in adding review, pleasy try again",
         type: "error",
         isLoading: false,
         autoClose: 5000,

@@ -1,26 +1,29 @@
-import {Request, Response} from "express";
-import {v2 as cloudinary} from "cloudinary";
-import mongoose, {HydratedDocument} from "mongoose";
+import { Request, Response } from "express";
+import { v2 as cloudinary } from "cloudinary";
+import mongoose, { HydratedDocument } from "mongoose";
 import sharp from "sharp";
 import path from "path";
 import fs from "fs";
 
-import Listing, {IListing, Image} from "../models/listing";
-import {paginationConfig} from "./helpers";
+import Listing, { IListing, Image } from "../models/listing";
+import { paginationConfig } from "./helpers";
 import logger from "../utils/logger";
 
-const cloudinaryCloudName = process.env.NODE_ENV === "production"
-  ? process.env.CLOUDINARY_CLOUD_NAME
-  : process.env.PROD_CLOUDINARY_CLOUD_NAME
+const cloudinaryCloudName =
+  process.env.NODE_ENV === "production"
+    ? process.env.PROD_CLOUDINARY_CLOUD_NAME
+    : process.env.CLOUDINARY_CLOUD_NAME;
 
 cloudinary.config({
   cloud_name: cloudinaryCloudName,
-  api_key: process.env.NODE_ENV === "production"
-    ? process.env.CLOUDINARY_API_KEY
-    : process.env.PROD_CLOUDINARY_API_KEY,
-  api_secret: process.env.NODE_ENV === "production"
-    ? process.env.CLOUDINARY_API_SECRET
-    : process.env.PROD_CLOUDINARY_API_SECRET,
+  api_key:
+    process.env.NODE_ENV === "production"
+      ? process.env.PROD_CLOUDINARY_API_KEY
+      : process.env.CLOUDINARY_API_KEY,
+  api_secret:
+    process.env.NODE_ENV === "production"
+      ? process.env.PROD_CLOUDINARY_API_SECRET
+      : process.env.CLOUDINARY_API_SECRET,
   secure: true,
 });
 
@@ -136,24 +139,47 @@ export const removeListing = async (req: Request, res: Response) => {
 
 export const getAllListings = async (req: Request, res: Response) => {
   const { page, limit } = paginationConfig(req);
-  const listings = await Listing.find({ deleted: false })
-    .sort({ createdAt: "desc" })
-    .select([
-      "-addedBy",
-      "-addressLineOne",
-      "-addressLineTwo",
-      "-createdAt",
-      "-updatedAt",
-      "-deleted",
-      "-gallery",
-      "-reviews",
-      "-services",
-    ])
-    .skip(page * limit)
-    .limit(limit)
-    .lean();
+  const pipeline: mongoose.PipelineStage[] = [
+    { $match: { deleted: false } },
+    { $sort: { createdAt: -1 } },
+    {
+      $unset: [
+        "addedBy",
+        "addressLineOne",
+        "addressLineTwo",
+        "createdAt",
+        "updatedAt",
+        "deleted",
+        "gallery",
+        "reviews",
+        "services",
+      ],
+    },
+    {
+      $facet: {
+        metadata: [{ $count: "count" }],
+        data: [
+          { $sort: { createdAt: -1 } },
+          { $skip: page * limit },
+          { $limit: limit },
+        ],
+      },
+    },
+  ];
 
-  return res.status(200).json({ listings });
+  const results = await Listing.aggregate(pipeline);
+  const listings = results[0].data;
+  const count = results[0].metadata[0].count;
+
+  const pagination = {
+    limit,
+    count,
+    hasMore: page * limit < count,
+    hasPrevious: page !== 0,
+    currentPage: page,
+  };
+
+  return res.status(200).json({ listings, pagination });
 };
 
 export const getUserListings = async (req: Request, res: Response) => {

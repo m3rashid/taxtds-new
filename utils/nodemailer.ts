@@ -11,12 +11,14 @@ import deleteServiceByAdmin from "../mailers/deleteServiceByAdmin";
 import custom from "../mailers/custom";
 import logger from "./logger";
 
-const gmailUsername = process.env.NODE_ENV === "production"
-  ? process.env.PROD_GMAIL_USER
-  : process.env.GMAIL_USERNAME
-const gmailPassword = process.env.NODE_ENV === "production"
-  ? process.env.PROD_GMAIL_PASS
-  : process.env.GMAIL_PASSWORD
+const gmailUsername =
+  process.env.NODE_ENV === "production"
+    ? process.env.PROD_GMAIL_USER
+    : process.env.GMAIL_USERNAME;
+const gmailPassword =
+  process.env.NODE_ENV === "production"
+    ? process.env.PROD_GMAIL_PASS
+    : process.env.GMAIL_PASSWORD;
 
 const transporter = nodemailer.createTransport({
   service: "gmail",

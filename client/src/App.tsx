@@ -12,14 +12,14 @@ import User from "./pages/user";
 import CreateService from "./pages/user/create";
 import EditService from "./pages/user/edit";
 
-import Home from "./pages/admin/home"
+import Home from "./pages/admin/home";
 import Listings from "./pages/admin/listings";
 import Professions from "./pages/admin/professions";
 import Services from "./pages/admin/services";
 import Users from "./pages/admin/users";
 import useAuth from "./hooks/useAuth";
 import { authState } from "./store/auth";
-import { professions, listings } from "./store/data";
+import { professions, listings, listingPagination } from "./store/data";
 import useData from "./hooks/useData";
 import UserDetail from "./pages/userDetail";
 import { Loader } from "./components/atoms/loader";
@@ -31,11 +31,12 @@ const App = () => {
   const setAuthState = useSetRecoilState(authState);
   const setProfessions = useSetRecoilState(professions);
   const setListings = useSetRecoilState(listings);
+  const setListingPagination = useSetRecoilState(listingPagination);
 
   React.useEffect(() => {
     getUser(setAuthState).then().catch();
     getProfessions(setProfessions).then().catch();
-    getListings(setListings).then().catch();
+    getListings(setListings, setListingPagination).then().catch();
   }, []);
 
   return (

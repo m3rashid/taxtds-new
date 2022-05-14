@@ -2,7 +2,7 @@ import axios from "axios";
 import { SetterOrUpdater } from "recoil";
 
 import { defaultHeader, SERVER_ROOT_URL, tokenHeader } from "./helpers";
-import {IListing, IProfession, IService} from "../store/interfaces";
+import { IListing, IProfession, IService } from "../store/interfaces";
 
 const useData = () => {
   const body = JSON.stringify({});
@@ -48,21 +48,25 @@ const useData = () => {
     }
   };
 
-  const getListings = async (setRecoilState: SetterOrUpdater<any>) => {
+  const getListings = async (
+    setRecoilState: SetterOrUpdater<any>,
+    setListingPagination?: SetterOrUpdater<any>
+  ) => {
     try {
       const res = await axios.post(
         `${SERVER_ROOT_URL}/listings/all`,
         body,
         tokenHeader
       );
+      setListingPagination && setListingPagination(res.data.pagination);
       setRecoilState((prev: IListing[]) => {
-        const listings = [...prev, ...res.data.listings]
-        const ids = listings.map(o => o._id)
+        const listings = [...prev, ...res.data.listings];
+        const ids = listings.map((o) => o._id);
         return listings
-          .filter(({_id}, index) => !ids.includes(_id, index + 1))
+          .filter(({ _id }, index) => !ids.includes(_id, index + 1))
           .sort((a: IListing, b: IListing) => {
-          return a.featured ? -1 : 1
-        });
+            return a.featured ? -1 : 1;
+          });
       });
     } catch (err) {
       console.log(err);

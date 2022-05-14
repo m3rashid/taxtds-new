@@ -92,3 +92,11 @@ export interface IListingDetail {
     __v?: number | any;
   }[];
 }
+
+export interface IPagination {
+  count: number;
+  hasMore: boolean;
+  hasPrevious: boolean;
+  currentPage: number;
+  limit: number;
+}

@@ -1,24 +1,34 @@
-// import React from "react";
-// import { toast } from "react-toastify";
+import React from "react";
+import { useParams } from "react-router-dom";
+import { Loader } from "../../components/atoms/loader";
+import CreateOrEditListing from "../../components/user/createOrEditListing";
 
 import UserWrapper from "../../components/user/wrapper";
-
-const service = {
-  id: 1,
-  name: "Rashid lsdjfalsd",
-  tagline: "jsdfl asdflaksdfa sldkad",
-  avatar: "/images/carousel/1.jpg",
-  owner: "Rashid",
-  state: "delhi",
-  phone: "4952903453",
-  email: "user@wwamil.com",
-  featured: false,
-};
+import useListings from "../../hooks/useListings";
+import { IListingDetail } from "../../store/interfaces";
 
 const EditService = () => {
+  const { listingId } = useParams();
+  const [loading, setLoading] = React.useState(true);
+  const { getOneListing } = useListings();
+  const [listing, setListing] = React.useState<IListingDetail>();
+
+  React.useEffect(() => {
+    getOneListing(listingId!)
+      .then((gotListing) => setListing(gotListing.listing))
+      .catch()
+      .finally(() => setLoading(false));
+  }, []);
+
+  if (loading) {
+    return <Loader />;
+  }
+
   return (
     <UserWrapper>
-      <div className="flex flex-col md:flex-row flex-shrink-0 gap-4 p-4 md:w-full max-w-[1600px] mb-4"></div>
+      <React.Suspense fallback={<Loader />}>
+        <CreateOrEditListing listing={listing} isEdit={true} />
+      </React.Suspense>
     </UserWrapper>
   );
 };

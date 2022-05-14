@@ -4,6 +4,9 @@ interface IButtonProps {
   bgColor?: string;
   textColor?: string;
   Icon?: React.ReactElement;
+  iconAfter?: boolean;
+  disabled?: boolean;
+  compact?: boolean;
 }
 
 const ButtonEl = ({
@@ -12,17 +15,24 @@ const ButtonEl = ({
   bgColor,
   textColor,
   Icon,
+  iconAfter = false,
+  disabled = false,
+  compact = false,
 }: IButtonProps) => {
   return (
     <button
       onClick={callback}
       className={`${bgColor ? bgColor : "bg-buttonSuccess"} ${
         textColor ? textColor : "text-accentOne"
-      } py-[5px] px-[15px] min-w-[100px] rounded-md  hover:opacity-80 mb-3 inline-block`}
+      } ${disabled ? "bg-gray-400" : "hover:opacity-80"} ${
+        compact ? "py-[15px] px-[20px]" : "min-w-[100px] py-[5px] px-[15px]"
+      }   mb-3 inline-block rounded-md`}
+      disabled={disabled}
     >
       <div className="flex items-center justify-center font-bold gap-2">
-        {Icon ? Icon : null}
+        {iconAfter === false && Icon ? Icon : null}
         {label}
+        {iconAfter === true && Icon ? Icon : null}
       </div>
     </button>
   );

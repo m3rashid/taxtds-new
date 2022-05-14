@@ -1,7 +1,7 @@
 import React from "react";
 import { Helmet } from "react-helmet";
 import { MdPerson } from "react-icons/md";
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 
 import Header from "../components/customHeader";
@@ -40,14 +40,15 @@ const ListBoxItem: React.FC<IListBoxItemProps> = ({ label, value }) => {
 };
 
 const ListingDetail = () => {
-  const location = useLocation();
-  const listingId = location.pathname.split("/")[2];
+  const { id: listingId } = useParams();
   const [listing, setListing] = React.useState<IListingDetail>();
   const { getOneListing } = useListings();
   const [reviewAdded, setReviewAdded] = React.useState(false);
 
   React.useEffect(() => {
-    getOneListing(listingId).then((gotListing) => setListing(gotListing.listing)).catch();
+    getOneListing(listingId!)
+      .then((gotListing) => setListing(gotListing.listing))
+      .catch();
   }, [reviewAdded]);
 
   if (!listing) {
@@ -61,15 +62,37 @@ const ListingDetail = () => {
         <meta name="og:title" content={`Taxtds - ${listing.brandName}`} />
         <meta name="twitter:title" content={`Taxtds - ${listing.brandName}`} />
 
-        <meta name="description" content={listing.brandName + "- " + listing.tagline} />
-        <meta name="twitter:description" content={listing.brandName + "- " + listing.tagline} />
-        <meta name="og:description" content={listing.brandName + "- " + listing.tagline} />
+        <meta
+          name="description"
+          content={listing.brandName + "- " + listing.tagline}
+        />
+        <meta
+          name="twitter:description"
+          content={listing.brandName + "- " + listing.tagline}
+        />
+        <meta
+          name="og:description"
+          content={listing.brandName + "- " + listing.tagline}
+        />
 
-        <meta name="keywords" content={listing.addedBy.professions.map((a: any) => a.name).join(", ") + ", " + listing.services.map((service) => service.name).join(", ")} />
+        <meta
+          name="keywords"
+          content={
+            listing.addedBy.professions.map((a: any) => a.name).join(", ") +
+            ", " +
+            listing.services.map((service) => service.name).join(", ")
+          }
+        />
 
         <meta name="twitter:card" content="summary" />
-        <meta name="twitter:image" content={cloudinaryInitial + listing.avatar.url} />
-        <meta name="og:image" content={cloudinaryInitial + listing.avatar.url} />
+        <meta
+          name="twitter:image"
+          content={cloudinaryInitial + listing.avatar.url}
+        />
+        <meta
+          name="og:image"
+          content={cloudinaryInitial + listing.avatar.url}
+        />
         <meta name="og:url" content={window.location.href} />
       </Helmet>
 
@@ -139,7 +162,11 @@ const ListingDetail = () => {
             />
             <ListBoxItem
               label="Professions : "
-              value={listing.addedBy.professions.map((a: any) => a.name).join(", ") || " - "}
+              value={
+                listing.addedBy.professions
+                  .map((a: any) => a.name)
+                  .join(", ") || " - "
+              }
             />
           </ListBox>
           <ListBox title="All services offered">
@@ -161,32 +188,31 @@ const ListingDetail = () => {
               {listing.reviews.length !== 0 ? (
                 <div className="flex gap-3 flex-col items-center">
                   {listing.reviews.map((review) => (
-                      <div
-                        key={review._id}
-                        className="bg-[white] hover:bg-lightHover rounded-md shadow-md gap-3 p-3 w-full max-w-[400px]"
-                      >
-                        <div className="flex items-center w-full gap-6 mb-2">
-                          <div className="p-2 bg-accentTwo rounded-full">
-                            <MdPerson fontSize="large" />
-                          </div>
-                          <div className="">
-                            <ListBoxItem label="Name : " value={review.name} />
-                            <ListBoxItem
-                              label="Rating : "
-                              value={review.rating}
-                            />
-                          </div>
+                    <div
+                      key={review._id}
+                      className="bg-[white] hover:bg-lightHover rounded-md shadow-md gap-3 p-3 w-full max-w-[400px]"
+                    >
+                      <div className="flex items-center w-full gap-6 mb-2">
+                        <div className="p-2 bg-accentTwo rounded-full">
+                          <MdPerson fontSize="large" />
                         </div>
                         <div className="">
+                          <ListBoxItem label="Name : " value={review.name} />
                           <ListBoxItem
-                            label="Review : "
-                            value={review.review}
+                            label="Rating : "
+                            value={review.rating}
                           />
-                          <ListBoxItem label="On: " value={moment(review.createdAt).format("LLLL")} />
                         </div>
                       </div>
-                    )
-                  )}
+                      <div className="">
+                        <ListBoxItem label="Review : " value={review.review} />
+                        <ListBoxItem
+                          label="On: "
+                          value={moment(review.createdAt).format("LLLL")}
+                        />
+                      </div>
+                    </div>
+                  ))}
                 </div>
               ) : (
                 <div className="bg-[white] hover:bg-lightHover rounded-md shadow-md gap-3 p-3 w-full">
