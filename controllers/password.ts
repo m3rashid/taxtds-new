@@ -5,6 +5,8 @@ import User from "../models/user";
 import logger from "../utils/logger";
 import { comparePassword, hashPassword } from "../utils/auth";
 import { HydratedDocument } from "mongoose";
+import sendMail from "../utils/nodemailer";
+import { IForgotData } from "../mailerTemplates";
 
 export const forgotPassword = async (req: Request, res: Response) => {
   const { email } = req.body;
@@ -22,7 +24,13 @@ export const forgotPassword = async (req: Request, res: Response) => {
     await dbOtp.save();
     otpToSend = dbOtp.otp;
   }
-  // TODO send mail to the user with the OTP
+  // TODO this is incomplete
+  sendMail({
+    emailId: email,
+    subject: "Use this OTP to reset your password",
+    type: "FORGOT_PASSWORD",
+    data: {} as IForgotData,
+  });
   logger.info(JSON.stringify({ email, otpToSend }));
   return res.status(200).json({ message: "OTP sent to your email" });
 };

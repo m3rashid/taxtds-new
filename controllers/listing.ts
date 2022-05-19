@@ -8,26 +8,18 @@ import fs from "fs";
 import Listing, { IListing, Image } from "../models/listing";
 import { paginationConfig } from "./helpers";
 import logger from "../utils/logger";
-
-const cloudinaryCloudName =
-  process.env.NODE_ENV === "production"
-    ? process.env.PROD_CLOUDINARY_CLOUD_NAME
-    : process.env.CLOUDINARY_CLOUD_NAME;
+import appConfig from "../utils/appConfig";
+import sendMail from "../utils/nodemailer";
+import { IEditListing } from "../mailerTemplates";
 
 cloudinary.config({
-  cloud_name: cloudinaryCloudName,
-  api_key:
-    process.env.NODE_ENV === "production"
-      ? process.env.PROD_CLOUDINARY_API_KEY
-      : process.env.CLOUDINARY_API_KEY,
-  api_secret:
-    process.env.NODE_ENV === "production"
-      ? process.env.PROD_CLOUDINARY_API_SECRET
-      : process.env.CLOUDINARY_API_SECRET,
+  cloud_name: appConfig.cloudinary.cloudName,
+  api_key: appConfig.cloudinary.apiKey,
+  api_secret: appConfig.cloudinary.apiSecret,
   secure: true,
 });
 
-export const cloudinaryInitial = `https://res.cloudinary.com/${cloudinaryCloudName}/image/upload/`;
+export const cloudinaryInitial = `https://res.cloudinary.com/${appConfig.cloudinary.cloudName}/image/upload/`;
 
 const uploadFiles = async (file: Express.Multer.File) => {
   let filePath = path.resolve(__dirname, `../uploads/resized/${file.filename}`);
@@ -110,7 +102,7 @@ export const editListing = async (req: Request, res: Response) => {
   const listing = await Listing.findById(listingId);
   if (!listing || listing.addedBy !== req.user)
     throw new Error("No Services Found");
-  await Listing.findByIdAndUpdate(listingId, {
+  const updatedListing = await Listing.findByIdAndUpdate(listingId, {
     $set: {
       brandName: req.body.brandName,
       services: req.body.services,
@@ -125,15 +117,30 @@ export const editListing = async (req: Request, res: Response) => {
       email: req.body.email,
     },
   });
+  sendMail({
+    emailId: listing.email,
+    type: "EDIT_LISTING",
+    subject: "Your Listing was updated",
+    data: {
+      brandName: updatedListing ? updatedListing.brandName : req.body.brandName,
+      listingId: listingId,
+    } as IEditListing,
+  });
   return res.status(200).json({ message: "Listing updated successfully" });
 };
 
 export const removeListing = async (req: Request, res: Response) => {
   const { listingId } = req.body;
-  await Listing.findOneAndUpdate(
+  const listing = await Listing.findOneAndUpdate(
     { _id: listingId, addedBy: req.user },
     { $set: { deleted: true } }
   );
+  sendMail({
+    emailId: listing?.email || "",
+    subject: "Listing removed",
+    type: "DELETE_LISTING_BY_USER",
+    data: {},
+  });
   return res.status(200).json({ message: "Listing removed successfully" });
 };
 
@@ -203,7 +210,7 @@ export const getUserListings = async (req: Request, res: Response) => {
 export const getOneListing = async (req: Request, res: Response) => {
   const { listingId } = req.body;
 
-  const listing = await Listing.aggregate([
+  const aggrPipeline = [
     {
       $match: {
         $and: [
@@ -245,7 +252,9 @@ export const getOneListing = async (req: Request, res: Response) => {
         as: "reviews",
       },
     },
-  ]);
+  ];
+
+  const listing = await Listing.aggregate(aggrPipeline);
 
   if (!listing) throw new Error("No listing found");
   return res.status(200).json({ listing: listing[0] });

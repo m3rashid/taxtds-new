@@ -14,6 +14,7 @@ export const deleteListing = async (req: Request, res: Response) => {
 export const removeRecoverListing = async (req: Request, res: Response) => {
   const { listingId, toRemove } = req.body;
   await Listing.findByIdAndUpdate(listingId, { $set: { deleted: toRemove } });
+  // TODO send mail to the user that their listing was updated
   return res.status(200).json({ message: "Recover listing successfully" });
 };
 
@@ -29,10 +30,11 @@ export const getAllListingsAdmin = async (req: Request, res: Response) => {
 
 export const featureUnfeatureListing = async (req: Request, res: Response) => {
   const { listingId, toFeature } = req.body;
-  await Listing.findOneAndUpdate(
+  const listing = await Listing.findOneAndUpdate(
     { _id: listingId },
     { $set: { featured: toFeature } }
   );
+  // TODO send mail to the user that their listing was featured/unfeatured
   return res.status(200).json({
     message: `Listing ${toFeature ? "featured" : "unfeatured"} successfully`,
   });

@@ -1,5 +1,6 @@
 import { Response, Request } from "express";
 import { HydratedDocument } from "mongoose";
+import { ISendRegisterOtp, ISignupData } from "../mailerTemplates";
 
 import { issueJWT } from "../middlewares/jwt";
 import Listing from "../models/listing";
@@ -7,6 +8,7 @@ import Otp, { IOtp } from "../models/otp";
 import User, { IUser } from "../models/user";
 import { comparePassword, hashPassword } from "../utils/auth";
 import logger from "../utils/logger";
+import sendMail from "../utils/nodemailer";
 
 export const login = async (req: Request, res: Response) => {
   const { email, password } = req.body;
@@ -60,7 +62,16 @@ export const register = async (req: Request, res: Response) => {
     otpToSend = dbOtp.otp;
     emailToSend = dbOtp.email;
   }
-  // TODO send mail to the user with the OTP
+  // TODO test this
+  sendMail({
+    type: "SEND_REGISTER_OTP",
+    emailId: emailToSend,
+    subject: "OTP for refistration on Taxtds",
+    data: {
+      email: emailToSend,
+      otp: otpToSend,
+    } as ISendRegisterOtp,
+  });
   logger.info(JSON.stringify({ emailToSend, otpToSend }));
   return res.status(200).json({ message: "OTP sent to your email" });
 };
@@ -87,5 +98,15 @@ export const createAccount = async (req: Request, res: Response) => {
   await newUser.save();
   await Otp.deleteOne({ email });
   const { token } = issueJWT(newUser);
+  // TODO test this
+  sendMail({
+    type: "SIGNUP",
+    emailId: email,
+    subject: "Successfully signed up on Taxtds",
+    data: {
+      name: req.body.name,
+      email: email,
+    } as ISignupData,
+  });
   return res.status(200).json({ token, user: newUser });
 };

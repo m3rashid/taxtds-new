@@ -14,7 +14,7 @@ const review = (data: IReviewData) => {
   <body>
     <table class="main" align="center">
     ${bannerLogo}
-      <tr class="content"><td>Someone posted a review on your service, see how they felt about it</td></tr>
+      <tr class="content"><td>Someone posted a review on your listing, see how they felt about it</td></tr>
       <tr><td><br></td></tr>
     </table>
     <table class="inner" align="center">
