@@ -34,7 +34,7 @@ app.listen(port, async () => {
   try {
     await mongoose.connect(appConfig.mongodbUri);
     logger.info("Mongoose is connected");
-    logger.info(appConfig.startLog);
+    logger.info(appConfig.startLog(port));
   } catch (err) {
     logger.error(JSON.stringify(err));
     logger.error("MongoDB connection error");

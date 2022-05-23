@@ -10,6 +10,7 @@ export const emailUser = async (req: Request, res: Response) => {
     emailId: emailId,
     subject: subject,
     type: "CUSTOM",
+    textVersion: ``,
     data: {
       name: name,
       content: message,
@@ -28,6 +29,7 @@ export const deleteUser = async (req: Request, res: Response) => {
   sendMail({
     emailId: user.email,
     subject: "Taxtds user deleted",
+    textVersion: `Account deleted`,
     type: "DELETE_USER",
   });
   await User.findByIdAndDelete(userId);

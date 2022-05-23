@@ -3,10 +3,10 @@ import social from "./partials/social";
 import bannerLogo from "./partials/bannerLogo";
 
 export interface IForgotData {
-  link: string;
+  otp: string | number;
 }
 
-const forgotPassword = (data: IForgotData) => {
+const forgotPassword = ({ otp }: IForgotData) => {
   return `
   ${header}
   <body>
@@ -14,8 +14,9 @@ const forgotPassword = (data: IForgotData) => {
       ${bannerLogo}
       <tr class="content"><td>Follow the link given below to reset your password</td></tr>
       <tr><td><br></td></tr>
-      <tr><td style="text-align:center;"><a style="color: red;"  target="_blank" href=${data.link}>Click here</a> to reset your password</td></tr>
+      <tr><td style="text-align:center;">Use this OTP to reset your password</td></tr>
       <tr><td><br></td></tr>
+      <tr><td>${otp}</td></tr>
     </table>
     ${social}
   </body>

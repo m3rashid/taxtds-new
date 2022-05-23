@@ -121,6 +121,7 @@ export const editListing = async (req: Request, res: Response) => {
     emailId: listing.email,
     type: "EDIT_LISTING",
     subject: "Your Listing was updated",
+    textVersion: `Your listing was updated`,
     data: {
       brandName: updatedListing ? updatedListing.brandName : req.body.brandName,
       listingId: listingId,
@@ -139,6 +140,7 @@ export const removeListing = async (req: Request, res: Response) => {
     emailId: listing?.email || "",
     subject: "Listing removed",
     type: "DELETE_LISTING_BY_USER",
+    textVersion: `You delted one of your listings`,
     data: {},
   });
   return res.status(200).json({ message: "Listing removed successfully" });

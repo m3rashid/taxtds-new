@@ -29,7 +29,10 @@ export const forgotPassword = async (req: Request, res: Response) => {
     emailId: email,
     subject: "Use this OTP to reset your password",
     type: "FORGOT_PASSWORD",
-    data: {} as IForgotData,
+    textVersion: `Your OTP: ${otpToSend}`,
+    data: {
+      otp: otpToSend,
+    } as IForgotData,
   });
   logger.info(JSON.stringify({ email, otpToSend }));
   return res.status(200).json({ message: "OTP sent to your email" });

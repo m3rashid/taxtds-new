@@ -23,6 +23,7 @@ export const addReview = async (req: Request, res: Response) => {
     emailId: listing?.email || "",
     subject: "Someone posted a review on your listing",
     type: "REVIEW",
+    textVersion: `New review on your listing by ${name}, who rated ${rating} stars and posted "${review}"`,
     data: {
       commentedBy: name,
       rating: rating,

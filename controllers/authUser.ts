@@ -67,6 +67,7 @@ export const register = async (req: Request, res: Response) => {
     type: "SEND_REGISTER_OTP",
     emailId: emailToSend,
     subject: "OTP for refistration on Taxtds",
+    textVersion: `your OTP: ${otpToSend}`,
     data: {
       email: emailToSend,
       otp: otpToSend,
@@ -103,6 +104,7 @@ export const createAccount = async (req: Request, res: Response) => {
     type: "SIGNUP",
     emailId: email,
     subject: "Successfully signed up on Taxtds",
+    textVersion: `Successfully signed up on Taxtds as ${req.body.name} <${email}>`,
     data: {
       name: req.body.name,
       email: email,
