@@ -50,23 +50,30 @@ const useData = () => {
 
   const getListings = async (
     setRecoilState: SetterOrUpdater<any>,
-    setListingPagination?: SetterOrUpdater<any>
+    setListingPagination?: SetterOrUpdater<any>,
+    page?: number,
+    limit?: number
   ) => {
     try {
       const res = await axios.post(
         `${SERVER_ROOT_URL}/listings/all`,
-        body,
+        JSON.stringify({ page, limit }),
         tokenHeader
       );
       setListingPagination && setListingPagination(res.data.pagination);
       setRecoilState((prev: IListing[]) => {
         const listings = [...prev, ...res.data.listings];
         const ids = listings.map((o) => o._id);
-        return listings
-          .filter(({ _id }, index) => !ids.includes(_id, index + 1))
+
+        const newListings = listings
+          .filter(({ _id }, index) => {
+            return !ids.includes(_id, index + 1);
+          })
           .sort((a: IListing, b: IListing) => {
             return a.featured ? -1 : 1;
           });
+        console.log(newListings);
+        return newListings;
       });
     } catch (err) {
       console.log(err);

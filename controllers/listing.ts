@@ -1,16 +1,16 @@
+import fs from "fs";
+import path from "path";
+import sharp from "sharp";
 import { Request, Response } from "express";
 import { v2 as cloudinary } from "cloudinary";
 import mongoose, { HydratedDocument } from "mongoose";
-import sharp from "sharp";
-import path from "path";
-import fs from "fs";
 
-import Listing, { IListing, Image } from "../models/listing";
-import { paginationConfig } from "./helpers";
 import logger from "../utils/logger";
 import appConfig from "../utils/appConfig";
 import sendMail from "../utils/nodemailer";
+import { paginationConfig } from "./helpers";
 import { IEditListing } from "../mailerTemplates";
+import Listing, { IListing, Image } from "../models/listing";
 
 cloudinary.config({
   cloud_name: appConfig.cloudinary.cloudName,

@@ -8,11 +8,12 @@ import {
   editListing,
   removeListing,
   getOneListing,
-  getAllListings, getUserListings,
+  getAllListings,
+  getUserListings,
 } from "./controllers/listing";
-import { getProfessions } from "./controllers/profession";
+import { createProfession, getProfessions } from "./controllers/profession";
 import { addReview } from "./controllers/review";
-import { getAllServices } from "./controllers/service";
+import { createService, getAllServices } from "./controllers/service";
 import checkAuth from "./middlewares/jwt.auth";
 import {
   checkLogin,
@@ -23,6 +24,7 @@ import {
   checkGetOneListing,
 } from "./validators";
 import upload from "./utils/multer";
+import checkAdmin from "./middlewares/admin";
 
 const router = express.Router();
 
@@ -85,10 +87,20 @@ router.post(
   use(getOneListing)
 );
 router.post("/listings/all" /* regularRateLimiter, */, use(getAllListings));
-router.post("/listings/me" /* regularRateLimiter, */, checkAuth, use(getUserListings));
+router.post(
+  "/listings/me" /* regularRateLimiter, */,
+  checkAuth,
+  use(getUserListings)
+);
 
 // service
 router.post("/services/all" /* regularRateLimiter, */, use(getAllServices));
+router.post(
+  "/services/add" /* regularRateLimiter, */,
+  checkAuth,
+  checkAdmin,
+  use(createService)
+);
 
 // reviews
 router.post(
@@ -99,7 +111,12 @@ router.post(
 
 // professions
 router.post("/professions/all" /* regularRateLimiter, */, use(getProfessions));
-
+router.post(
+  "/professions/add",
+  /* regularRateLimiter, */ checkAuth,
+  checkAdmin,
+  use(createProfession)
+);
 // Demo
 router.post("/get-quotes" /* regularRateLimiter, */, checkAuth, use(getQuotes));
 
