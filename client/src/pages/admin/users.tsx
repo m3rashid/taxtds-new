@@ -6,8 +6,13 @@ import { MdDelete, MdEmail } from "react-icons/md";
 import ButtonEl from "../../components/atoms/Button";
 import { Loader } from "../../components/atoms/loader";
 import AdminWrapper from "../../components/admin/wrapper";
-import { SERVER_ROOT_URL, tokenHeader } from "../../hooks/helpers";
+import {
+  formatResponseMessage,
+  SERVER_ROOT_URL,
+  tokenHeader,
+} from "../../hooks/helpers";
 import SendAdminMailModal from "../../components/admin/sendMailModal";
+import { toast } from "react-toastify";
 
 const Table = React.lazy(() => import("../../components/admin/table"));
 
@@ -26,6 +31,33 @@ const Users: React.FC<IProps> = () => {
     );
     const users = res.data.users;
     setUsers(users);
+  };
+
+  const deleteUser = async (userId: string) => {
+    if (!userId) return;
+    const t = toast.loading("Deleting user in progress");
+    const body = JSON.stringify({ userId: userId });
+    try {
+      const res = await axios.post(
+        SERVER_ROOT_URL + "/admin/user/delete",
+        body,
+        tokenHeader
+      );
+      toast.update(t, {
+        render:
+          formatResponseMessage(res.data.message) || "Deletion successful",
+        type: "success",
+        isLoading: false,
+        autoClose: 5000,
+      });
+    } catch (err: any) {
+      toast.update(t, {
+        render: formatResponseMessage(err.message) || "Error in deletion",
+        type: "error",
+        isLoading: false,
+        autoClose: 5000,
+      });
+    }
   };
 
   React.useEffect(() => {
@@ -90,6 +122,7 @@ const Users: React.FC<IProps> = () => {
               Icon={<MdDelete />}
               bgColor="bg-rose-500"
               textColor="text-white"
+              callback={() => deleteUser(props.row.original._id)}
             />
           </div>
         ),

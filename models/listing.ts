@@ -9,7 +9,7 @@ export interface Image {
 
 export interface IListing {
   brandName: string;
-  avatar: string;
+  avatar: Image;
   gallery: Image[];
   services: mongoose.Types.ObjectId[];
   addedBy: mongoose.Types.ObjectId;

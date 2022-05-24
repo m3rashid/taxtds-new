@@ -19,6 +19,13 @@ cloudinary.config({
   secure: true,
 });
 
+export const deleteFromCloudinary = async (public_id?: string) => {
+  if (!public_id) {
+    return;
+  }
+  await cloudinary.uploader.destroy(public_id);
+};
+
 export const cloudinaryInitial = `https://res.cloudinary.com/${appConfig.cloudinary.cloudName}/image/upload/`;
 
 const uploadFiles = async (file: Express.Multer.File) => {

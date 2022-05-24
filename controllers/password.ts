@@ -1,12 +1,12 @@
 import { Response, Request } from "express";
 
-import Otp, { IOtp } from "../models/otp";
 import User from "../models/user";
 import logger from "../utils/logger";
-import { comparePassword, hashPassword } from "../utils/auth";
-import { HydratedDocument } from "mongoose";
+import Otp, { IOtp } from "../models/otp";
 import sendMail from "../utils/nodemailer";
+import { HydratedDocument } from "mongoose";
 import { IForgotData } from "../mailerTemplates";
+import { comparePassword, hashPassword } from "../utils/auth";
 
 export const forgotPassword = async (req: Request, res: Response) => {
   const { email } = req.body;

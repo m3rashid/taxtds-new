@@ -1,5 +1,5 @@
-import { Request, Response } from "express";
 import mongoose from "mongoose";
+import { Request, Response } from "express";
 
 import Profession, { IProfession } from "../models/profession";
 

@@ -1,10 +1,10 @@
+import Listing from "../models/listing";
 import { Request, Response } from "express";
 import { HydratedDocument } from "mongoose";
 import { IReviewData } from "../mailerTemplates";
-import Listing from "../models/listing";
 
-import Review, { IReview } from "../models/review";
 import sendMail from "../utils/nodemailer";
+import Review, { IReview } from "../models/review";
 
 export const addReview = async (req: Request, res: Response) => {
   const { name, rating, review, listingId } = req.body;

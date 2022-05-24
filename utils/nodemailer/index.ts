@@ -1,8 +1,8 @@
 import { google } from "googleapis";
 import nodemailer from "nodemailer";
 
-import appConfig from "../appConfig";
 import logger from "../logger";
+import appConfig from "../appConfig";
 import { getHtml, IParameters } from "./helpers";
 
 const CLIENT_ID = appConfig.gmail.clientId;

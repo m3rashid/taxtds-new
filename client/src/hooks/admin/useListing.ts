@@ -1,6 +1,10 @@
 import axios from "axios";
 import { toast } from "react-toastify";
-import { SERVER_ROOT_URL, tokenHeader } from "../helpers";
+import {
+  formatResponseMessage,
+  SERVER_ROOT_URL,
+  tokenHeader,
+} from "../helpers";
 
 const useListing = () => {
   const sendEmail = async (email: string) => {};
@@ -14,22 +18,32 @@ const useListing = () => {
       );
       toast.success("Listing updated successfully");
     } catch (err) {
-      console.log(err);
       toast.error("Error occured while updating listing");
     }
   };
 
   const deleteListing = async (listingId: string) => {
+    const t = toast.loading("Starting to delete listing");
     try {
-      await axios.post(
+      const res = await axios.post(
         `${SERVER_ROOT_URL}/admin/listing/delete`,
         JSON.stringify({ listingId }),
         tokenHeader
       );
-      toast.success("Listing deleted successfully");
-    } catch (err) {
-      console.log(err);
-      toast.error("Error occured while deleting listing");
+      toast.update(t, {
+        render:
+          formatResponseMessage(res.data.message) || "Deletion successful",
+        type: "success",
+        isLoading: false,
+        autoClose: 5000,
+      });
+    } catch (err: any) {
+      toast.update(t, {
+        render: formatResponseMessage(err.message) || "Error in deletion",
+        type: "error",
+        isLoading: false,
+        autoClose: 5000,
+      });
     }
   };
 

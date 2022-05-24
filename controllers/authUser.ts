@@ -2,13 +2,13 @@ import { Response, Request } from "express";
 import { HydratedDocument } from "mongoose";
 import { ISendRegisterOtp, ISignupData } from "../mailerTemplates";
 
-import { issueJWT } from "../middlewares/jwt";
+import logger from "../utils/logger";
 import Listing from "../models/listing";
 import Otp, { IOtp } from "../models/otp";
-import User, { IUser } from "../models/user";
-import { comparePassword, hashPassword } from "../utils/auth";
-import logger from "../utils/logger";
 import sendMail from "../utils/nodemailer";
+import User, { IUser } from "../models/user";
+import { issueJWT } from "../middlewares/jwt";
+import { comparePassword, hashPassword } from "../utils/auth";
 
 export const login = async (req: Request, res: Response) => {
   const { email, password } = req.body;

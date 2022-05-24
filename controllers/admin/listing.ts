@@ -1,12 +1,28 @@
 import { Request, Response } from "express";
 
+import Review from "../../models/review";
 import Listing from "../../models/listing";
 import { paginationConfig } from "../helpers";
+import { deleteFromCloudinary } from "../listing";
 
 export const deleteListing = async (req: Request, res: Response) => {
   const { listingId } = req.body;
+  const listing = await Listing.findById(listingId);
 
-  // TODO delete the listing images from cloudinary also
+  if (listing?.reviews && listing.reviews.length > 0) {
+    for (let i = 0; i < listing?.reviews.length; i++) {
+      await Review.deleteOne({ _id: listing?.reviews[i] });
+    }
+  }
+
+  const ids = [listing?.avatar.public_id];
+  listing?.gallery.forEach((g) => {
+    ids.push(g.public_id);
+  });
+
+  for (let i = 0; i < ids.length; i++) {
+    await deleteFromCloudinary(ids[i]);
+  }
   await Listing.deleteOne({ _id: listingId });
   return res.status(200).json({ message: "Deleted listing successfully" });
 };

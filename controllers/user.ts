@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
 
-import { issueJWT } from "../middlewares/jwt";
 import User from "../models/user";
 import logger from "../utils/logger";
+import { issueJWT } from "../middlewares/jwt";
 
 export const getUser = async (req: Request, res: Response) => {
   const user = await User.findOne({ _id: req.user, deleted: false });
