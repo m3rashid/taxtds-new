@@ -1,12 +1,12 @@
 import React from "react";
 import moment from "moment";
+import { useRecoilValue } from "recoil";
+import { MdEdit } from "react-icons/md";
 
+import { authState } from "../store/auth";
 import Header from "../components/main/header";
 import Footer from "../components/main/footer";
-import { authState } from "../store/auth";
-import { useRecoilValue } from "recoil";
 import ButtonEl from "../components/atoms/Button";
-import { MdEdit } from "react-icons/md";
 
 const user = {
   banned: false,

@@ -16,16 +16,17 @@ import {
 } from "react-icons/md";
 
 import { GlobalFilter } from "./globalFilter";
-import { Button, PageButton } from "./tableHelpers";
 import { ReactSelect } from "../atoms/reactSelect";
+import { Button, PageButton } from "./tableHelpers";
 
 interface IProps {
-  columns: any;
   data: any;
+  columns: any;
   title: string;
+  setPagination?: (pageSize: number, pageIndex: number) => void;
 }
 
-const Table: React.FC<IProps> = ({ columns, data, title }) => {
+const Table: React.FC<IProps> = ({ columns, data, title, setPagination }) => {
   const {
     getTableProps,
     getTableBodyProps,
@@ -53,6 +54,12 @@ const Table: React.FC<IProps> = ({ columns, data, title }) => {
   );
 
   const { pageSize, pageIndex } = state;
+
+  React.useEffect(() => {
+    if (setPagination) {
+      setPagination(pageSize, pageIndex);
+    }
+  }, [pageSize]);
 
   return (
     <div className="flex flex-col mt-10 justify-between bg-accentTwo rounded-md w-full max-w-[1400px] min-h-[calc(100vh_-_320px)]">

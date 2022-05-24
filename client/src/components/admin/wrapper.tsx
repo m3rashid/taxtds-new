@@ -1,6 +1,6 @@
 import React from "react";
+import { Helmet } from "react-helmet";
 import { Link } from "react-router-dom";
-import {Helmet} from "react-helmet";
 
 import Header from "../customHeader";
 
@@ -10,7 +10,7 @@ const AdminWrapper = ({ children }: { children: React.ReactNode }) => {
       <Helmet>
         <title>Taxtds - Admin</title>
         <meta name="og:title" content="Taxtds - Admin" />
-        <meta name="twitter:title" content="Taxtds - Admin"/>
+        <meta name="twitter:title" content="Taxtds - Admin" />
       </Helmet>
 
       <Header greeting="Hello Admin" />

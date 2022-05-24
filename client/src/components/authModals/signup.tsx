@@ -13,12 +13,12 @@ import {
 
 import InputEl from "../atoms/Input";
 import ButtonEl from "../atoms/Button";
-import { ReactSelect } from "../atoms/reactSelect";
 import StateUt from "../../data/state";
 import useAuth from "../../hooks/useAuth";
 import { authState } from "../../store/auth";
 import { IActions } from "../../hooks/helpers";
 import { professions } from "../../store/data";
+import { ReactSelect } from "../atoms/reactSelect";
 
 const titleStyle = "text-[white] text-center font-bold text-xl -mt-4";
 

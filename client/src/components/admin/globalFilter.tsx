@@ -1,6 +1,6 @@
 import React from "react";
-import { useAsyncDebounce } from "react-table";
 import { MdSearch } from "react-icons/md";
+import { useAsyncDebounce } from "react-table";
 
 import Input from "../atoms/Input";
 

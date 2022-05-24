@@ -1,13 +1,14 @@
 import React from "react";
-import { useRecoilValue } from "recoil";
 import { Helmet } from "react-helmet";
+import { useRecoilValue } from "recoil";
 
+import Pagination from "./pagination";
 import Header from "../components/main/header";
 import Footer from "../components/main/footer";
 import { Loader } from "../components/atoms/loader";
 import { EmptyCard } from "../components/main/card";
 import { listings as allListings } from "../store/data";
-import Pagination from "./pagination";
+
 const Sidebar = React.lazy(() => import("../components/main/sidebar"));
 const Card = React.lazy(() => import("../components/main/card"));
 

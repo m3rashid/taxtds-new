@@ -5,6 +5,7 @@ import {
   FaLinkedinIn,
   FaTwitterSquare,
 } from "react-icons/fa";
+
 import { IListItem } from "./carousel";
 
 export const socials = [

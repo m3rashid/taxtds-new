@@ -1,42 +1,35 @@
 import React from "react";
-import { useSetRecoilState } from "recoil";
-import { ToastContainer, Bounce } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, Bounce } from "react-toastify";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 import Main from "./pages/Main";
-import ListingDetail from "./pages/listingDetail";
 import NotFound from "./pages/NotFound";
+import ListingDetail from "./pages/listingDetail";
 
 import User from "./pages/user";
-import CreateService from "./pages/user/create";
 import EditService from "./pages/user/edit";
+import CreateService from "./pages/user/create";
 
-import Home from "./pages/admin/home";
-import Listings from "./pages/admin/listings";
-import Professions from "./pages/admin/professions";
-import Services from "./pages/admin/services";
-import Users from "./pages/admin/users";
 import useAuth from "./hooks/useAuth";
-import { authState } from "./store/auth";
-import { professions, listings, listingPagination } from "./store/data";
+import Home from "./pages/admin/home";
 import useData from "./hooks/useData";
+import Users from "./pages/admin/users";
 import UserDetail from "./pages/userDetail";
+import Listings from "./pages/admin/listings";
+import Services from "./pages/admin/services";
 import { Loader } from "./components/atoms/loader";
+import Professions from "./pages/admin/professions";
 
 const App = () => {
   const { getUser } = useAuth();
 
   const { getProfessions, getListings } = useData();
-  const setAuthState = useSetRecoilState(authState);
-  const setProfessions = useSetRecoilState(professions);
-  const setListings = useSetRecoilState(listings);
-  const setListingPagination = useSetRecoilState(listingPagination);
 
   React.useEffect(() => {
-    getUser(setAuthState).then().catch();
-    getProfessions(setProfessions).then().catch();
-    getListings(setListings, setListingPagination).then().catch();
+    getUser().then().catch();
+    getProfessions().then().catch();
+    getListings({}).then().catch();
   }, []);
 
   return (

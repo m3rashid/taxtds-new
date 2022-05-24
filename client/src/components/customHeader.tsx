@@ -1,9 +1,6 @@
-import { Link, useNavigate } from "react-router-dom";
-import { useSetRecoilState } from "recoil";
+import { Link } from "react-router-dom";
 import { MdExitToApp, MdHome } from "react-icons/md";
 
-import useAuth from "../hooks/useAuth";
-import { authState } from "../store/auth";
 import AuthModals from "./authModals";
 import React from "react";
 

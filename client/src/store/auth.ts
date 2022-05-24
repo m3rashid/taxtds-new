@@ -1,7 +1,6 @@
 import { atom } from "recoil";
-import { JWT_AUTH, LAST_LOGIN } from "../hooks/helpers";
-
 import { IAuthState, IUserData } from "./interfaces";
+import { JWT_AUTH, LAST_LOGIN } from "../hooks/helpers";
 
 export const authState = atom<IAuthState>({
   key: "authState",

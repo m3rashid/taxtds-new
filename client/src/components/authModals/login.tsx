@@ -13,6 +13,7 @@ interface IProps {
 }
 
 const Login: React.FC<IProps> = ({ setModal }) => {
+  const { handleAuth } = useAuth();
   const setRecoilState = useSetRecoilState(authState);
   const [data, setData] = React.useState({
     email: "",
@@ -28,7 +29,6 @@ const Login: React.FC<IProps> = ({ setModal }) => {
   };
 
   const loginUser = () => {
-    const { handleAuth } = useAuth();
     const actions: IActions = {
       endpoint: "/user/login",
       pendingMessage: "Logging you in...",

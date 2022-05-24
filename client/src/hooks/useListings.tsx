@@ -1,6 +1,8 @@
 import React from "react";
 import axios from "axios";
+import { toast } from "react-toastify";
 import { useSetRecoilState } from "recoil";
+
 import {
   defaultHeader,
   formatResponseMessage,
@@ -8,8 +10,6 @@ import {
   tokenHeader,
 } from "./helpers";
 import { listingPagination, listings } from "../store/data";
-import { toast } from "react-toastify";
-import { IListing } from "../store/interfaces";
 
 const useListings = () => {
   const setRecoilState = useSetRecoilState(listings);

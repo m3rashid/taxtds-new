@@ -11,20 +11,20 @@ import {
   MdOutlineAlternateEmail,
   MdOutlineAddChart,
 } from "react-icons/md";
-import { useRecoilValue } from "recoil";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { useRecoilValue } from "recoil";
 
 import InputEl from "../atoms/Input";
-import FileInput from "../atoms/fileInput";
-import { ReactSelect } from "../atoms/reactSelect";
-import StateUt from "../../data/state";
 import ButtonEl from "../atoms/Button";
-import { services as servicesAtom } from "../../store/data";
+import StateUt from "../../data/state";
 import { Loader } from "../atoms/loader";
-import { formatResponseMessage, SERVER_ROOT_URL } from "../../hooks/helpers";
+import FileInput from "../atoms/fileInput";
 import { tokenHeader } from "../../hooks/helpers";
+import { ReactSelect } from "../atoms/reactSelect";
 import { IListingDetail } from "../../store/interfaces";
+import { services as servicesAtom } from "../../store/data";
+import { formatResponseMessage, SERVER_ROOT_URL } from "../../hooks/helpers";
 
 interface IProps {
   listing?: IListingDetail;

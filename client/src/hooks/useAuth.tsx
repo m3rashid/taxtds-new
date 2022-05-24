@@ -1,7 +1,7 @@
 import React from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { SetterOrUpdater } from "recoil";
+import { SetterOrUpdater, useSetRecoilState } from "recoil";
 
 import {
   defaultHeader,
@@ -13,8 +13,11 @@ import {
   tokenHeader,
 } from "./helpers";
 import { IAuthState } from "../store/interfaces";
+import { authState } from "../store/auth";
 
 const useAuth = () => {
+  const setAuthState = useSetRecoilState(authState);
+
   const handleAuth = async (
     values: any,
     actions: IActions,
@@ -36,9 +39,9 @@ const useAuth = () => {
       );
       toast.update(authToast, {
         render:
-          formatResponseMessage(res.data.message)
-          || formatResponseMessage(actions.successMessage)
-          || "Success",
+          formatResponseMessage(res.data.message) ||
+          formatResponseMessage(actions.successMessage) ||
+          "Success",
         type: "success",
         isLoading: false,
         autoClose: 5000,
@@ -55,9 +58,9 @@ const useAuth = () => {
       window.localStorage.removeItem(LAST_LOGIN);
       toast.update(authToast, {
         render:
-          formatResponseMessage(err.response?.data?.message)
-          || formatResponseMessage(actions.failureMessage)
-          || "Error",
+          formatResponseMessage(err.response?.data?.message) ||
+          formatResponseMessage(actions.failureMessage) ||
+          "Error",
         type: "error",
         isLoading: false,
         autoClose: 5000,
@@ -83,9 +86,9 @@ const useAuth = () => {
       );
       toast.update(authToast, {
         render:
-          formatResponseMessage(res.data.message)
-          ||  formatResponseMessage(actions.successMessage)
-          || "Success",
+          formatResponseMessage(res.data.message) ||
+          formatResponseMessage(actions.successMessage) ||
+          "Success",
         type: "success",
         isLoading: false,
         autoClose: 5000,
@@ -93,9 +96,9 @@ const useAuth = () => {
     } catch (err: any) {
       toast.update(authToast, {
         render:
-          formatResponseMessage(err.response?.data?.message)
-          ||  formatResponseMessage(actions.failureMessage)
-          || "Error",
+          formatResponseMessage(err.response?.data?.message) ||
+          formatResponseMessage(actions.failureMessage) ||
+          "Error",
         type: "error",
         isLoading: false,
         autoClose: 5000,
@@ -116,13 +119,13 @@ const useAuth = () => {
     toast.success("Logged out successfully");
   };
 
-  const getUser = async (setRecoilState: SetterOrUpdater<IAuthState>) => {
+  const getUser = async () => {
     const body = JSON.stringify({});
     try {
       const res = await axios.post(`${SERVER_ROOT_URL}/user`, body, {
         headers: tokenHeader.headers,
       });
-      setRecoilState((prev) => ({
+      setAuthState((prev) => ({
         ...prev,
         isAuthenticated: true,
         token: res.data.token,
@@ -130,7 +133,7 @@ const useAuth = () => {
         role: res.data.user.role || "USER",
       }));
     } catch (err: any) {
-      setRecoilState((prev) => ({
+      setAuthState((prev) => ({
         ...prev,
         isAuthenticated: false,
         token: "",

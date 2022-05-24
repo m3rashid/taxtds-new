@@ -3,8 +3,8 @@ import { useParams } from "react-router-dom";
 import { Loader } from "../../components/atoms/loader";
 import CreateOrEditListing from "../../components/user/createOrEditListing";
 
-import UserWrapper from "../../components/user/wrapper";
 import useListings from "../../hooks/useListings";
+import UserWrapper from "../../components/user/wrapper";
 import { IListingDetail } from "../../store/interfaces";
 
 const EditService = () => {

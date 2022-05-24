@@ -1,13 +1,14 @@
+import React from "react";
 import axios from "axios";
 import moment from "moment";
-import React from "react";
 import { MdDelete, MdEmail, MdOutlineReadMore } from "react-icons/md";
 
-const Table = React.lazy(() => import("../../components/admin/table"));
-import AdminWrapper from "../../components/admin/wrapper";
 import ButtonEl from "../../components/atoms/Button";
 import { Loader } from "../../components/atoms/loader";
+import AdminWrapper from "../../components/admin/wrapper";
 import { SERVER_ROOT_URL, tokenHeader } from "../../hooks/helpers";
+
+const Table = React.lazy(() => import("../../components/admin/table"));
 
 interface IProps {}
 

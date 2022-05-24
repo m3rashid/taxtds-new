@@ -1,11 +1,11 @@
 import React from "react";
+import { useSetRecoilState } from "recoil";
 import { MdExitToApp } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
-import { useSetRecoilState } from "recoil";
 
+import ButtonEl from "../atoms/Button";
 import useAuth from "../../hooks/useAuth";
 import { authState } from "../../store/auth";
-import ButtonEl from "../atoms/Button";
 
 interface IProps {
   setModal: (e: any) => void;

@@ -5,14 +5,14 @@ import {
   MdRateReview,
   MdThumbsUpDown,
 } from "react-icons/md";
+import InputEl from "./atoms/Input";
+import ButtonEl from "./atoms/Button";
 import { toast } from "react-toastify";
 import useListings from "../hooks/useListings";
-import ButtonEl from "./atoms/Button";
-import InputEl from "./atoms/Input";
 
 interface IProps {
   listingId: string;
-  setReviewAdded: React.Dispatch<React.SetStateAction<boolean>>
+  setReviewAdded: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const AddReview: React.FC<IProps> = ({ listingId, setReviewAdded }) => {
@@ -44,7 +44,7 @@ const AddReview: React.FC<IProps> = ({ listingId, setReviewAdded }) => {
       return;
     }
     await addReview(data);
-    setReviewAdded(true)
+    setReviewAdded(true);
     setData(initialState);
   };
 

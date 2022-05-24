@@ -1,7 +1,8 @@
 import React from "react";
 import { MdLock, MdVpnKey } from "react-icons/md";
-import ButtonEl from "../atoms/Button";
+
 import InputEl from "../atoms/Input";
+import ButtonEl from "../atoms/Button";
 
 interface IProps {
   setModal: (e: any) => void;

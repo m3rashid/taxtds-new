@@ -1,23 +1,23 @@
 import React from "react";
 import { MdDelete, MdEdit } from "react-icons/md";
-import { useRecoilState } from "recoil";
+import { useRecoilValue } from "recoil";
 const Table = React.lazy(() => import("../../components/admin/table"));
 
-import AdminWrapper from "../../components/admin/wrapper";
+import useData from "../../hooks/useData";
 import ButtonEl from "../../components/atoms/Button";
 import { Loader } from "../../components/atoms/loader";
-import useData from "../../hooks/useData";
+import AdminWrapper from "../../components/admin/wrapper";
 import { services as servicesAtom } from "../../store/data";
 
 interface IProps {}
 
 const Services: React.FC<IProps> = () => {
-  const [services, setServices] = useRecoilState(servicesAtom);
+  const services = useRecoilValue(servicesAtom);
   const { getServices } = useData();
   const checked = React.useRef(false);
 
   if (!checked.current && services.length === 0) {
-    getServices(setServices);
+    getServices();
     checked.current = true;
   }
 

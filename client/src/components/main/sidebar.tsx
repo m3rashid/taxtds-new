@@ -1,6 +1,6 @@
 import React from "react";
 import { MdArrowDropDownCircle } from "react-icons/md";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 
 import useData from "../../hooks/useData";
 import { services as servicesAtom } from "../../store/data";
@@ -9,10 +9,10 @@ import { Loader } from "../atoms/loader";
 const Sidebar = () => {
   const [open, setOpen] = React.useState<boolean>(true);
   const { getServices } = useData();
-  const [services, setServices] = useRecoilState(servicesAtom);
+  const services = useRecoilValue(servicesAtom);
 
   React.useEffect(() => {
-    getServices(setServices).then().catch();
+    getServices().then().catch();
   }, []);
 
   return (

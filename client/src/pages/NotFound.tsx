@@ -1,6 +1,6 @@
 import React from "react";
+import { Helmet } from "react-helmet";
 import { MdError } from "react-icons/md";
-import {Helmet} from "react-helmet";
 
 import Header from "../components/main/header";
 import Footer from "../components/main/footer";
@@ -11,7 +11,7 @@ const NotFound = () => {
       <Helmet>
         <title>Taxtds - 404 Not Found</title>
         <meta name="og:title" content="Taxtds - 404 Not Found" />
-        <meta name="twitter:title" content="Taxtds - 404 Not Found"/>
+        <meta name="twitter:title" content="Taxtds - 404 Not Found" />
       </Helmet>
 
       <Header />

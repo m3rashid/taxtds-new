@@ -1,5 +1,7 @@
 import React from "react";
+
 import { Loader } from "../../components/atoms/loader";
+
 const CreateOrEditListing = React.lazy(
   () => import("../../components/user/createOrEditListing")
 );

@@ -8,16 +8,16 @@ import { useRecoilValue } from "recoil";
 import { useNavigate } from "react-router-dom";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 
-import AuthModals from "../authModals";
-import { authState } from "../../store/auth";
-import Dropdown from "../atoms/dropdown";
-import TopLink from "../atoms/topLink";
 import {
   adminLoggedInActions,
   notLoggedInActions,
   userLoggedInActions,
   data,
 } from "./headerActions";
+import TopLink from "../atoms/topLink";
+import AuthModals from "../authModals";
+import Dropdown from "../atoms/dropdown";
+import { authState } from "../../store/auth";
 
 const Header = () => {
   const { isAuthenticated, role, user } = useRecoilValue(authState);

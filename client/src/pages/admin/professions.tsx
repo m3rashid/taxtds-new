@@ -1,12 +1,13 @@
 import React from "react";
-import { MdDelete, MdEdit } from "react-icons/md";
 import { useRecoilValue } from "recoil";
-const Table = React.lazy(() => import("../../components/admin/table"));
+import { MdDelete, MdEdit } from "react-icons/md";
 
-import AdminWrapper from "../../components/admin/wrapper";
 import ButtonEl from "../../components/atoms/Button";
 import { Loader } from "../../components/atoms/loader";
+import AdminWrapper from "../../components/admin/wrapper";
 import { professions as professionsAtom } from "../../store/data";
+
+const Table = React.lazy(() => import("../../components/admin/table"));
 
 interface IProps {}
 

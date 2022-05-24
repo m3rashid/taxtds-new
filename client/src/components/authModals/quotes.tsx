@@ -1,8 +1,8 @@
+import React from "react";
 import { MdPerson, MdAlternateEmail, MdPhone, MdHelp } from "react-icons/md";
 
 import InputEl from "../atoms/Input";
 import ButtonEl from "../atoms/Button";
-import React from "react";
 
 interface IProps {
   setModal: (e: any) => void;

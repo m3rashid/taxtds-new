@@ -1,11 +1,11 @@
 import React from "react";
-import { useNavigate, useLocation, Link } from "react-router-dom";
+import { Helmet } from "react-helmet";
 import { useRecoilValue } from "recoil";
-import {Helmet} from "react-helmet";
+import { useNavigate, useLocation, Link } from "react-router-dom";
 
-import { authState } from "../../store/auth";
-import Header from "../customHeader";
 import Footer from "../main/footer";
+import Header from "../customHeader";
+import { authState } from "../../store/auth";
 
 const UserWrapper = ({ children }: { children: React.ReactNode }) => {
   const { isAuthenticated, user, role } = useRecoilValue(authState);

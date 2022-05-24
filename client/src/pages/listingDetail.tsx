@@ -1,17 +1,17 @@
 import React from "react";
+import moment from "moment";
 import { Helmet } from "react-helmet";
 import { MdPerson } from "react-icons/md";
-import { useLocation, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 
-import Header from "../components/customHeader";
+import useListings from "../hooks/useListings";
 import Footer from "../components/main/footer";
+import Header from "../components/customHeader";
+import AddReview from "../components/addReview";
 import { Loader } from "../components/atoms/loader";
 import { IListingDetail } from "../store/interfaces";
 import { cloudinaryInitial } from "../hooks/helpers";
-import useListings from "../hooks/useListings";
-import AddReview from "../components/addReview";
-import moment from "moment";
 
 interface IListBoxProps {
   children?: React.ReactNode;

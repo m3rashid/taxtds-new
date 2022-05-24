@@ -1,40 +1,48 @@
 import axios from "axios";
-import { SetterOrUpdater } from "recoil";
+import { SetterOrUpdater, useSetRecoilState } from "recoil";
 
-import { defaultHeader, SERVER_ROOT_URL, tokenHeader } from "./helpers";
+import {
+  listingPagination,
+  listings,
+  professions,
+  services,
+} from "../store/data";
+import { useSearchParams } from "react-router-dom";
 import { IListing, IProfession, IService } from "../store/interfaces";
+import { defaultHeader, SERVER_ROOT_URL, tokenHeader } from "./helpers";
 
 const useData = () => {
   const body = JSON.stringify({});
-  const headers = {
-    headers: defaultHeader.headers,
-  };
 
-  const getServices = async (setRecoilState: SetterOrUpdater<IService[]>) => {
+  const setListings = useSetRecoilState(listings);
+  const setListingPagination = useSetRecoilState(listingPagination);
+  const setProfessions = useSetRecoilState(professions);
+  const setServices = useSetRecoilState(services);
+  // const [params] = useSearchParams();
+
+  const getServices = async () => {
     try {
       const res = await axios.post(
         `${SERVER_ROOT_URL}/services/all`,
         body,
-        headers
+        defaultHeader
       );
       const services: IService[] = res.data.services.map((service: any) => ({
         label: service.name,
         value: service._id,
       }));
-      setRecoilState(services);
+      setServices(services);
     } catch (err: any) {
       console.log(err);
     }
   };
 
-  const getProfessions = async (
-    setRecoilState: SetterOrUpdater<IProfession[]>
-  ) => {
+  const getProfessions = async () => {
     try {
       const res = await axios.post(
         `${SERVER_ROOT_URL}/professions/all`,
         body,
-        headers
+        defaultHeader
       );
       const professions: IProfession[] = res.data.professions.map(
         (profession: any) => ({
@@ -42,18 +50,20 @@ const useData = () => {
           value: profession._id,
         })
       );
-      setRecoilState(professions);
+      setProfessions(professions);
     } catch (err: any) {
       console.log(err);
     }
   };
 
-  const getListings = async (
-    setRecoilState: SetterOrUpdater<any>,
-    setListingPagination?: SetterOrUpdater<any>,
-    page?: number,
-    limit?: number
-  ) => {
+  interface IGetListings {
+    page?: number;
+    limit?: number;
+    setPageParams?: SetterOrUpdater<any>;
+  }
+
+  const getListings = async ({ page, limit, setPageParams }: IGetListings) => {
+    if (!page) page = 0;
     try {
       const res = await axios.post(
         `${SERVER_ROOT_URL}/listings/all`,
@@ -61,18 +71,13 @@ const useData = () => {
         tokenHeader
       );
       setListingPagination && setListingPagination(res.data.pagination);
-      setRecoilState((prev: IListing[]) => {
+      setListings((prev: IListing[]) => {
         const listings = [...prev, ...res.data.listings];
         const ids = listings.map((o) => o._id);
 
         const newListings = listings
-          .filter(({ _id }, index) => {
-            return !ids.includes(_id, index + 1);
-          })
-          .sort((a: IListing, b: IListing) => {
-            return a.featured ? -1 : 1;
-          });
-        console.log(newListings);
+          .filter(({ _id }, index) => !ids.includes(_id, index + 1))
+          .sort((a: IListing, b: IListing) => (a.featured ? -1 : 1));
         return newListings;
       });
     } catch (err) {

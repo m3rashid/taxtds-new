@@ -1,7 +1,7 @@
 import React from "react";
 import { useDropzone } from "react-dropzone";
-import { MdAddPhotoAlternate, MdOutlineClose } from "react-icons/md";
 import { LazyLoadImage } from "react-lazy-load-image-component";
+import { MdAddPhotoAlternate, MdOutlineClose } from "react-icons/md";
 
 interface IProps {
   title?: string;

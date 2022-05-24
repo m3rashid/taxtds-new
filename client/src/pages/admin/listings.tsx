@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   MdDelete,
   MdEmail,
@@ -6,31 +6,49 @@ import {
   MdLoop,
   MdInfoOutline,
 } from "react-icons/md";
+import moment from "moment";
+import { useRecoilState } from "recoil";
 import { LazyLoadImage } from "react-lazy-load-image-component";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+
+import useData from "../../hooks/useData";
+import { listings } from "../../store/data";
+import ButtonEl from "../../components/atoms/Button";
+import useListing from "../../hooks/admin/useListing";
+import { Loader } from "../../components/atoms/loader";
+import { cloudinaryInitial } from "../../hooks/helpers";
+import AdminWrapper from "../../components/admin/wrapper";
+import ButtonLink from "../../components/atoms/ButtonLink";
+import SendAdminMailModal from "../../components/admin/sendMailModal";
 
 const Table = React.lazy(() => import("../../components/admin/table"));
-import AdminWrapper from "../../components/admin/wrapper";
-import ButtonEl from "../../components/atoms/Button";
-import ButtonLink from "../../components/atoms/ButtonLink";
-import { Loader } from "../../components/atoms/loader";
-import { listings } from "../../store/data";
-import { cloudinaryInitial } from "../../hooks/helpers";
-import moment from "moment";
-import useListing from "../../hooks/admin/useListing";
-import useData from "../../hooks/useData";
 
 interface IProps {}
 
 const Listings: React.FC<IProps> = () => {
-  const [allListings, setListings] = useRecoilState(listings);
   const { getListings } = useData();
-  const checked = React.useRef(false);
+  const [allListings, setListings] = useRecoilState(listings);
+  const [emailData, setEmailData] = React.useState<any>();
+  const [showModal, setShowModal] = React.useState(false);
+  const [paginationConf, setPaginationConf] = useState({
+    pageSize: 5,
+    pageIndex: 0,
+  });
 
-  if (!checked.current && allListings.length === 0) {
-    getListings(setListings).then().catch();
-    checked.current = true;
-  }
+  React.useEffect(() => {
+    getListings({
+      page: paginationConf.pageIndex,
+      limit: paginationConf.pageSize,
+    })
+      .then()
+      .catch();
+  }, [paginationConf.pageSize, paginationConf.pageIndex]);
+
+  const changePagination = (pageSize: number, pageIndex: number) => {
+    setPaginationConf({
+      pageSize,
+      pageIndex,
+    });
+  };
 
   const { featureUnfeature, sendEmail, deleteListing } = useListing();
 
@@ -100,7 +118,10 @@ const Listings: React.FC<IProps> = () => {
               label="Send Email"
               Icon={<MdEmail />}
               bgColor="bg-blue-200"
-              callback={() => {}}
+              callback={() => {
+                setEmailData(props.row.original);
+                setShowModal(true);
+              }}
             />
             <ButtonEl
               label={props.row.original.featured ? "Unfeature" : "Feature"}
@@ -143,7 +164,18 @@ const Listings: React.FC<IProps> = () => {
   return (
     <AdminWrapper>
       <React.Suspense fallback={<Loader />}>
-        <Table columns={columns} data={allListings} title="Listings" />
+        <Table
+          columns={columns}
+          data={allListings}
+          title="Listings"
+          setPagination={changePagination}
+        />
+        {showModal && (
+          <SendAdminMailModal
+            emailData={emailData}
+            setShowModal={setShowModal}
+          />
+        )}
       </React.Suspense>
     </AdminWrapper>
   );

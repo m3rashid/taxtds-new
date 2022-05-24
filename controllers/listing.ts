@@ -151,6 +151,7 @@ export const getAllListings = async (req: Request, res: Response) => {
   const pipeline: mongoose.PipelineStage[] = [
     { $match: { deleted: false } },
     { $sort: { createdAt: -1 } },
+    { $sort: { featured: -1 } },
     {
       $unset: [
         "addedBy",
@@ -167,11 +168,7 @@ export const getAllListings = async (req: Request, res: Response) => {
     {
       $facet: {
         metadata: [{ $count: "count" }],
-        data: [
-          { $sort: { createdAt: -1 } },
-          { $skip: page * limit },
-          { $limit: limit },
-        ],
+        data: [{ $skip: page * limit }, { $limit: limit }],
       },
     },
   ];
@@ -183,7 +180,7 @@ export const getAllListings = async (req: Request, res: Response) => {
   const pagination = {
     limit,
     count,
-    hasMore: page * limit < count,
+    hasMore: (page + 1) * limit < count,
     hasPrevious: page !== 0,
     currentPage: page,
   };
