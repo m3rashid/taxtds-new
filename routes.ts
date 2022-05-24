@@ -11,9 +11,9 @@ import {
   getAllListings,
   getUserListings,
 } from "./controllers/listing";
-import { createProfession, getProfessions } from "./controllers/profession";
+import { getProfessions } from "./controllers/profession";
 import { addReview } from "./controllers/review";
-import { createService, getAllServices } from "./controllers/service";
+import { getAllServices } from "./controllers/service";
 import checkAuth from "./middlewares/jwt.auth";
 import {
   checkLogin,
@@ -95,12 +95,6 @@ router.post(
 
 // service
 router.post("/services/all" /* regularRateLimiter, */, use(getAllServices));
-router.post(
-  "/services/add" /* regularRateLimiter, */,
-  checkAuth,
-  checkAdmin,
-  use(createService)
-);
 
 // reviews
 router.post(
@@ -111,12 +105,7 @@ router.post(
 
 // professions
 router.post("/professions/all" /* regularRateLimiter, */, use(getProfessions));
-router.post(
-  "/professions/add",
-  /* regularRateLimiter, */ checkAuth,
-  checkAdmin,
-  use(createProfession)
-);
+
 // Demo
 router.post("/get-quotes" /* regularRateLimiter, */, checkAuth, use(getQuotes));
 

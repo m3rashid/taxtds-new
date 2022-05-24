@@ -28,7 +28,7 @@ const Home: React.FC<IProps> = () => {
     const t = toast.loading("Creating new profession");
     try {
       await axios.post(
-        SERVER_ROOT_URL + "/professions/add",
+        SERVER_ROOT_URL + "/admin/professions/add",
         JSON.stringify({ name: data.profession }),
         { headers: tokenHeader.headers }
       );
@@ -54,7 +54,7 @@ const Home: React.FC<IProps> = () => {
     const t = toast.loading("Creating new service");
     try {
       await axios.post(
-        SERVER_ROOT_URL + "/services/add",
+        SERVER_ROOT_URL + "admin/service/add",
         JSON.stringify({ name: data.service }),
         { headers: tokenHeader.headers }
       );

@@ -8,7 +8,7 @@ import helmet from "helmet";
 
 import logger from "./utils/logger";
 import routes from "./routes";
-import adminRoutes from "./adminRoutes";
+import adminRoutes from "./admin.routes";
 import appConfig from "./utils/appConfig";
 
 const app = express();
