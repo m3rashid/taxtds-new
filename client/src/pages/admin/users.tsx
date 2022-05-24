@@ -1,12 +1,13 @@
 import React from "react";
 import axios from "axios";
 import moment from "moment";
-import { MdDelete, MdEmail, MdOutlineReadMore } from "react-icons/md";
+import { MdDelete, MdEmail } from "react-icons/md";
 
 import ButtonEl from "../../components/atoms/Button";
 import { Loader } from "../../components/atoms/loader";
 import AdminWrapper from "../../components/admin/wrapper";
 import { SERVER_ROOT_URL, tokenHeader } from "../../hooks/helpers";
+import SendAdminMailModal from "../../components/admin/sendMailModal";
 
 const Table = React.lazy(() => import("../../components/admin/table"));
 
@@ -14,6 +15,8 @@ interface IProps {}
 
 const Users: React.FC<IProps> = () => {
   const [users, setUsers] = React.useState([]);
+  const [emailData, setEmailData] = React.useState<any>();
+  const [showModal, setShowModal] = React.useState(false);
 
   const getAllUsers = async () => {
     const res = await axios.post(
@@ -77,8 +80,11 @@ const Users: React.FC<IProps> = () => {
               label="Send Email"
               Icon={<MdEmail />}
               bgColor="bg-blue-200"
+              callback={() => {
+                setEmailData(props.row.original);
+                setShowModal(true);
+              }}
             />
-            <ButtonEl label="Show Listings" Icon={<MdOutlineReadMore />} />
             <ButtonEl
               label="Delete"
               Icon={<MdDelete />}
@@ -100,6 +106,12 @@ const Users: React.FC<IProps> = () => {
     <AdminWrapper>
       <React.Suspense fallback={<Loader />}>
         <Table columns={columns} data={users} title="Listed Users" />
+        {showModal && (
+          <SendAdminMailModal
+            emailData={emailData}
+            setShowModal={setShowModal}
+          />
+        )}
       </React.Suspense>
     </AdminWrapper>
   );
