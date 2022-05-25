@@ -98,8 +98,8 @@ const Footer = () => {
           reserved.
         </div>
         <div className="text-center py-4 bg-black">
-          <p>
-            Project designed and developed by &nbsp;
+          <p className="flex flex-col md:flex-row justify-center items-center gap-0 md:gap-4">
+            <span>Project designed and developed by</span>
             <a
               href="https://m3rashid.netlify.app"
               rel="noopener noreferrer"
@@ -110,23 +110,24 @@ const Footer = () => {
             </a>
           </p>
           <p>m3rashid.hussain@gmail.com</p>
-          <a
-            href="https://www.linkedin.com/in/m3rashid/"
-            rel="noopener noreferrer"
-            target="_blank"
-            className="text-buttonSuccess hover:text-lightHover"
-          >
-            Contact via linkedin
-          </a>
-          <br />
-          <a
-            href="https://github.com/m3rashid"
-            rel="noopener noreferrer"
-            target="_blank"
-            className="text-buttonSuccess hover:text-lightHover"
-          >
-            Contact via Github
-          </a>
+          <div className="flex flex-col md:flex-row justify-center items-center gap-0 md:gap-4">
+            <a
+              href="https://www.linkedin.com/in/m3rashid/"
+              rel="noopener noreferrer"
+              target="_blank"
+              className="text-buttonSuccess hover:text-lightHover"
+            >
+              Contact via linkedin
+            </a>
+            <a
+              href="https://github.com/m3rashid"
+              rel="noopener noreferrer"
+              target="_blank"
+              className="text-buttonSuccess hover:text-lightHover"
+            >
+              Contact via Github
+            </a>
+          </div>
         </div>
       </footer>
     </>
