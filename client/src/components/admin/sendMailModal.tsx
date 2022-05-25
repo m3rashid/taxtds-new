@@ -49,6 +49,7 @@ const SendAdminMailModal: React.FC<IProps> = ({ emailData, setShowModal }) => {
         body,
         tokenHeader
       );
+      close();
       toast.update(t, {
         render: formatResponseMessage(res.data.message) || "Email sent",
         type: "success",
@@ -56,6 +57,7 @@ const SendAdminMailModal: React.FC<IProps> = ({ emailData, setShowModal }) => {
         autoClose: 5000,
       });
     } catch (err: any) {
+      close();
       toast.update(t, {
         render: formatResponseMessage(err.message) || "Error sending Email",
         type: "error",

@@ -26,6 +26,7 @@ import {
   checkAddProfession,
   checkDeleteListing,
   checkFeatureUnfeatureListing,
+  checkEditProfession,
 } from "./validators";
 
 const router = express.Router();
@@ -96,7 +97,7 @@ router.post(
   "/professions/edit" /* regularRateLimiter, */,
   checkAuth,
   use(checkAdmin),
-  use(checkAddProfession),
+  use(checkEditProfession),
   use(editProfession)
 );
 router.post(

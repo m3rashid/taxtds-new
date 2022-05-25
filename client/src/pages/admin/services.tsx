@@ -8,10 +8,18 @@ import ButtonEl from "../../components/atoms/Button";
 import { Loader } from "../../components/atoms/loader";
 import AdminWrapper from "../../components/admin/wrapper";
 import { services as servicesAtom } from "../../store/data";
+import ServiceModal from "../../components/admin/serviceModal";
 
 interface IProps {}
 
 const Services: React.FC<IProps> = () => {
+  const [editData, setEditData] = React.useState({
+    id: "",
+    name: "",
+  });
+  const [showModal, setShowModal] = React.useState<"delete" | "edit" | "">("");
+  const [deleteData, setDeleteData] = React.useState("");
+
   const services = useRecoilValue(servicesAtom);
   const { getServices } = useData();
   const checked = React.useRef(false);
@@ -31,14 +39,29 @@ const Services: React.FC<IProps> = () => {
       {
         Header: "Actions",
         accessor: "actions",
-        Cell: () => (
+        Cell: (props: any) => (
           <div className="flex gap-4">
-            <ButtonEl label="Edit" Icon={<MdEdit />} bgColor="bg-blue-200" />
+            <ButtonEl
+              label="Edit"
+              Icon={<MdEdit />}
+              bgColor="bg-blue-200"
+              callback={() => {
+                setShowModal("edit");
+                setEditData({
+                  id: props.row.original.value,
+                  name: props.row.original.label,
+                });
+              }}
+            />
             <ButtonEl
               label="Delete"
               Icon={<MdDelete />}
               bgColor="bg-rose-500"
               textColor="text-white"
+              callback={() => {
+                setShowModal("delete");
+                setDeleteData(props.row.original.value);
+              }}
             />
           </div>
         ),
@@ -46,12 +69,6 @@ const Services: React.FC<IProps> = () => {
     ],
     []
   );
-
-  /*
-    ===== Actions ===== 
-    Edit Service
-    Delete Service    
-  */
 
   if (!services) {
     return <Loader />;
@@ -61,6 +78,20 @@ const Services: React.FC<IProps> = () => {
     <AdminWrapper>
       <React.Suspense fallback={<Loader />}>
         <Table columns={columns} data={services} title="Listed Services" />
+
+        {showModal && (
+          <ServiceModal
+            data={
+              showModal === "delete"
+                ? deleteData
+                : showModal === "edit"
+                ? editData
+                : ""
+            }
+            showModal={showModal}
+            setShowModal={setShowModal}
+          />
+        )}
       </React.Suspense>
     </AdminWrapper>
   );

@@ -32,6 +32,7 @@ const Home: React.FC<IProps> = () => {
         JSON.stringify({ name: data.profession }),
         { headers: tokenHeader.headers }
       );
+      setData({ profession: "", service: "" });
       toast.update(t, {
         render: "Created a profession",
         type: "success",
@@ -58,6 +59,7 @@ const Home: React.FC<IProps> = () => {
         JSON.stringify({ name: data.service }),
         { headers: tokenHeader.headers }
       );
+      setData({ profession: "", service: "" });
       toast.update(t, {
         render: "Created a service",
         type: "success",
