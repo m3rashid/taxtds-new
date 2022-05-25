@@ -97,6 +97,37 @@ const Footer = () => {
           copyrights &copy; {new Date().getFullYear()} &nbsp;All rights
           reserved.
         </div>
+        <div className="text-center py-4 bg-black">
+          <p>
+            Project designed and developed by &nbsp;
+            <a
+              href="https://m3rashid.netlify.app"
+              rel="noopener noreferrer"
+              target="_blank"
+              className="text-buttonSuccess hover:text-lightHover"
+            >
+              MD Rashid Hussain
+            </a>
+          </p>
+          <p>m3rashid.hussain@gmail.com</p>
+          <a
+            href="https://www.linkedin.com/in/m3rashid/"
+            rel="noopener noreferrer"
+            target="_blank"
+            className="text-buttonSuccess hover:text-lightHover"
+          >
+            Contact via linkedin
+          </a>
+          <br />
+          <a
+            href="https://github.com/m3rashid"
+            rel="noopener noreferrer"
+            target="_blank"
+            className="text-buttonSuccess hover:text-lightHover"
+          >
+            Contact via Github
+          </a>
+        </div>
       </footer>
     </>
   );

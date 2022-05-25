@@ -9,8 +9,6 @@ import { listingPagination } from "../store/data";
 
 interface IProps {}
 
-// implement this with url params to persist data
-
 const Pagination: React.FC<IProps> = () => {
   const { getListings } = useData();
   const pagination = useRecoilValue(listingPagination);
@@ -20,6 +18,10 @@ const Pagination: React.FC<IProps> = () => {
       page: pagination.currentPage + 1,
     });
   };
+
+  if (!pagination.hasMore) {
+    return null;
+  }
 
   return (
     <div className="flex flex-col gap-2 mt-10">
