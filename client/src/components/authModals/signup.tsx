@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { useSetRecoilState, useRecoilValue } from 'recoil';
 import {
   MdLocationCity,
@@ -22,17 +22,14 @@ import { ReactSelect } from '../atoms/reactSelect';
 
 const titleStyle = 'text-[white] text-center font-bold text-xl -mt-4';
 
-const SignupStepOne = ({
-  email,
-  setEmail,
-  setStepOneDone,
-}: {
+const SignupStepOne: React.FC<{
   email: string;
   setEmail: Function;
   setStepOneDone: React.Dispatch<React.SetStateAction<boolean>>;
-}) => {
+}> = ({ email, setEmail, setStepOneDone }) => {
+  const { handleRegister } = useAuth();
+
   const handleRegisterOne = () => {
-    const { handleRegister } = useAuth();
     const actions = {
       endpoint: '/user/register',
       pendingMessage: 'Request in progress',
@@ -91,6 +88,7 @@ const SignupStepTwo: React.FC<ISignupStepTwoProps> = ({
 }) => {
   const setRecoilState = useSetRecoilState(authState);
   const givenProfessions = useRecoilValue(professions);
+  const { handleAuth } = useAuth();
 
   const [data, setData] = React.useState({
     name: '',
@@ -126,7 +124,6 @@ const SignupStepTwo: React.FC<ISignupStepTwoProps> = ({
   };
 
   const signupUser = () => {
-    const { handleAuth } = useAuth();
     const actions: IActions = {
       endpoint: '/user/create-account',
       pendingMessage: 'Creating your account ...',
@@ -250,7 +247,7 @@ const Signup: React.FC<IProps> = ({ setModal }) => {
   const [stepOneDone, setStepOneDone] = React.useState<boolean>(false);
 
   return (
-    <>
+    <Fragment>
       {!stepOneDone ? (
         <SignupStepOne
           email={email}
@@ -264,7 +261,7 @@ const Signup: React.FC<IProps> = ({ setModal }) => {
           setModal={setModal}
         />
       )}
-    </>
+    </Fragment>
   );
 };
 

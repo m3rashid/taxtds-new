@@ -1,16 +1,16 @@
-import React from "react";
-import axios from "axios";
-import { toast } from "react-toastify";
+import React from 'react';
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 import {
   formatResponseMessage,
   SERVER_ROOT_URL,
   tokenHeader,
-} from "../../hooks/helpers";
-import { IListing } from "../../store/interfaces";
-import { Loader } from "../../components/atoms/loader";
-import UserWrapper from "../../components/user/wrapper";
-import Card, { EmptyCard } from "../../components/main/card";
+} from '../../hooks/helpers';
+import { IListing } from '../../store/interfaces';
+import { Loader } from '../../components/atoms/loader';
+import UserWrapper from '../../components/user/wrapper';
+import Card, { EmptyCard } from '../../components/main/card';
 
 const User = () => {
   const [services, setServices] = React.useState<IListing[]>([]);
@@ -36,7 +36,7 @@ const User = () => {
 
   return (
     <UserWrapper>
-      <div className="flex flex-col md:flex-row flex-shrink-0 gap-4 p-4 md:w-full max-w-[1600px] mb-4">
+      <div className='flex flex-col flex-wrap md:flex-row flex-shrink-0 gap-4 p-4 md:w-full max-w-[1600px] mb-4'>
         {loading ? (
           <Loader />
         ) : services.length > 0 ? (
