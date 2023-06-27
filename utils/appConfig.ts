@@ -1,4 +1,4 @@
-import { CorsOptions } from "cors";
+import { CorsOptions } from 'cors';
 
 export interface IAppConfig {
   cors: CorsOptions;
@@ -22,12 +22,12 @@ export interface IAppConfig {
 
 const devConfig: IAppConfig = {
   cors: {
-    origin: "http://localhost:3000",
+    origin: 'http://localhost:3000',
     optionsSuccessStatus: 200,
   },
   errorMessage: (err: any) =>
-    JSON.stringify(err.message) || "Internal Server Error",
-  mongodbUri: "mongodb://localhost/taxtds",
+    JSON.stringify(err.message) || 'Internal Server Error',
+  mongodbUri: process.env.DATABASE_URL!,
   startLog: (port: string | number) =>
     `Server ready on: http://localhost:${port} under ${process.env
       .NODE_ENV!} environment`,
@@ -48,13 +48,11 @@ const devConfig: IAppConfig = {
 
 const prodConfig: IAppConfig = {
   cors: {
-    origin: "https://taxtds.netlify.app",
+    origin: 'https://taxtds.netlify.app',
     optionsSuccessStatus: 200,
   },
-  errorMessage: "Internal Server Error",
-  mongodbUri: `mongodb+srv://${process.env.PROD_DB_USERNAME!}:${process.env
-    .PROD_DB_PASSWORD!}@taxtds-website.wc4rg.mongodb.net/${process.env
-    .PROD_DB_NAME!}?retryWrites=true&w=majority`,
+  errorMessage: 'Internal Server Error',
+  mongodbUri: process.env.DATABASE_URL!,
   startLog: (port: string | number) =>
     `Server ready on: https://taxtds.herokuapp.com:${port} under ${process.env
       .NODE_ENV!} environment`,
@@ -74,6 +72,6 @@ const prodConfig: IAppConfig = {
 };
 
 const appConfig =
-  process.env.NODE_ENV === "production" ? prodConfig : devConfig;
+  process.env.NODE_ENV === 'production' ? prodConfig : devConfig;
 
 export default appConfig;
