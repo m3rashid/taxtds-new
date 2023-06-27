@@ -1,5 +1,5 @@
-import React from "react";
-import { useSetRecoilState, useRecoilValue } from "recoil";
+import React from 'react';
+import { useSetRecoilState, useRecoilValue } from 'recoil';
 import {
   MdLocationCity,
   MdPhone,
@@ -9,18 +9,18 @@ import {
   MdLock,
   MdLocationOn,
   MdWork,
-} from "react-icons/md";
+} from 'react-icons/md';
 
-import InputEl from "../atoms/Input";
-import ButtonEl from "../atoms/Button";
-import StateUt from "../../data/state";
-import useAuth from "../../hooks/useAuth";
-import { authState } from "../../store/auth";
-import { IActions } from "../../hooks/helpers";
-import { professions } from "../../store/data";
-import { ReactSelect } from "../atoms/reactSelect";
+import InputEl from '../atoms/Input';
+import ButtonEl from '../atoms/Button';
+import StateUt from '../../data/state';
+import useAuth from '../../hooks/useAuth';
+import { authState } from '../../store/auth';
+import { IActions } from '../../hooks/helpers';
+import { professions } from '../../store/data';
+import { ReactSelect } from '../atoms/reactSelect';
 
-const titleStyle = "text-[white] text-center font-bold text-xl -mt-4";
+const titleStyle = 'text-[white] text-center font-bold text-xl -mt-4';
 
 const SignupStepOne = ({
   email,
@@ -34,10 +34,10 @@ const SignupStepOne = ({
   const handleRegisterOne = () => {
     const { handleRegister } = useAuth();
     const actions = {
-      endpoint: "/user/register",
-      pendingMessage: "Request in progress",
-      successMessage: "Check your Email for the OTP",
-      failureMessage: "An error occured, please try again later",
+      endpoint: '/user/register',
+      pendingMessage: 'Request in progress',
+      successMessage: 'Check your Email for the OTP',
+      failureMessage: 'An error occurred, please try again later',
     };
     handleRegister({ email }, actions);
   };
@@ -48,29 +48,29 @@ const SignupStepOne = ({
 
   return (
     <>
-      <h2 className={titleStyle}>Signup Here</h2>
-      <p className="mt-1 mb-4 text-[white] text-center font-semibold">
+      <h2 className={titleStyle}>Sign up Here</h2>
+      <p className='mt-1 mb-4 text-[white] text-center font-semibold'>
         Verify your email first
       </p>
       <InputEl
-        name="email"
+        name='email'
         value={email}
         onChange={(e: any) => {
           setEmail(e.target.value);
         }}
         Icon={<MdAlternateEmail />}
-        type="email"
-        placeholder="Enter your Email"
+        type='email'
+        placeholder='Enter your Email'
       />
-      <div className="flex flex-col w-full">
+      <div className='flex flex-col w-full'>
         <ButtonEl
           Icon={<MdLock />}
-          label="Verify email"
+          label='Verify email'
           callback={handleRegisterOne}
         />
         <ButtonEl
           Icon={<MdLock />}
-          label="Already verified ?"
+          label='Already verified ?'
           callback={alreadyVerified}
         />
       </div>
@@ -93,17 +93,17 @@ const SignupStepTwo: React.FC<ISignupStepTwoProps> = ({
   const givenProfessions = useRecoilValue(professions);
 
   const [data, setData] = React.useState({
-    name: "",
-    email: email || "",
-    phone: "",
-    experience: "",
-    addressLineOne: "",
-    addressLineTwo: "",
+    name: '',
+    email: email || '',
+    phone: '',
+    experience: '',
+    addressLineOne: '',
+    addressLineTwo: '',
     professions: [],
-    state: "",
-    password: "",
-    confirmPassword: "",
-    otp: "",
+    state: '',
+    password: '',
+    confirmPassword: '',
+    otp: '',
   });
 
   const handleChangeProfessions = (values: any) => {
@@ -128,114 +128,114 @@ const SignupStepTwo: React.FC<ISignupStepTwoProps> = ({
   const signupUser = () => {
     const { handleAuth } = useAuth();
     const actions: IActions = {
-      endpoint: "/user/create-account",
-      pendingMessage: "Creating your account ...",
+      endpoint: '/user/create-account',
+      pendingMessage: 'Creating your account ...',
       successMessage:
-        "Account Created Successfullu, start listing your services",
-      failureMessage: "An error occured, please try again later",
+        'Account Created Successfullu, start listing your services',
+      failureMessage: 'An error occured, please try again later',
     };
     handleAuth(data, actions, setRecoilState);
-    setModal("");
+    setModal('');
   };
 
   return (
     <>
       <h2 className={`${titleStyle} mb-4`}>Complete signup</h2>
-      <div className="max-w-[300px]">
+      <div className='max-w-[300px]'>
         <InputEl
-          name="name"
+          name='name'
           value={data.name}
           onChange={handleChange}
           Icon={<MdPerson />}
-          type="text"
-          placeholder="Enter your name"
+          type='text'
+          placeholder='Enter your name'
         />
         <InputEl
-          name="email"
+          name='email'
           value={data.email}
           onChange={handleChange}
           Icon={<MdAlternateEmail />}
-          type="email"
-          placeholder="Enter your Email"
+          type='email'
+          placeholder='Enter your Email'
         />
         <InputEl
-          name="phone"
+          name='phone'
           value={data.phone}
           onChange={handleChange}
           Icon={<MdPhone />}
-          placeholder="Enter Phone Number"
-          type="text"
+          placeholder='Enter Phone Number'
+          type='text'
         />
         <InputEl
-          name="addressLineOne"
+          name='addressLineOne'
           value={data.addressLineOne}
           onChange={handleChange}
           Icon={<MdLocationCity />}
-          placeholder="Address Line One"
-          type="text"
+          placeholder='Address Line One'
+          type='text'
         />
         <InputEl
-          name="addressLineTwo"
+          name='addressLineTwo'
           value={data.addressLineTwo}
           onChange={handleChange}
           Icon={<MdLocationCity />}
-          placeholder="Address Line Two"
-          type="text"
+          placeholder='Address Line Two'
+          type='text'
         />
         <InputEl
-          name="experience"
+          name='experience'
           value={data.experience}
           onChange={handleChange}
           Icon={<MdLocationCity />}
-          placeholder="Experience in years"
-          type="number"
+          placeholder='Experience in years'
+          type='number'
         />
         <ReactSelect
-          name="professions"
+          name='professions'
           handleChange={handleChangeProfessions}
           Icon={<MdWork />}
-          placeholder="Select Professions"
+          placeholder='Select Professions'
           customOptions={givenProfessions}
           value={data.professions}
           useDefaultFilter={false}
           isMulti={true}
         />
         <ReactSelect
-          name="state"
+          name='state'
           setData={setData}
           Icon={<MdLocationOn />}
-          placeholder="Select Your State"
+          placeholder='Select Your State'
           options={StateUt}
           value={data.state}
         />
         <InputEl
-          name="password"
+          name='password'
           value={data.password}
           onChange={handleChange}
           Icon={<MdVpnKey />}
-          type="password"
-          placeholder="Choose a password"
+          type='password'
+          placeholder='Choose a password'
         />
         <InputEl
-          name="confirmPassword"
+          name='confirmPassword'
           value={data.confirmPassword}
           onChange={handleChange}
           Icon={<MdVpnKey />}
-          type="password"
-          placeholder="Confirm password"
+          type='password'
+          placeholder='Confirm password'
         />
         <InputEl
-          name="otp"
+          name='otp'
           value={data.otp}
           onChange={handleChange}
           Icon={<MdVpnKey />}
-          type="password"
-          placeholder="OTP"
+          type='password'
+          placeholder='OTP'
         />
       </div>
-      <div className="flex flex-col w-full">
-        <ButtonEl Icon={<MdLock />} label="SignUp" callback={signupUser} />
-        <ButtonEl Icon={<MdLock />} label="Go Back" callback={goBack} />
+      <div className='flex flex-col w-full'>
+        <ButtonEl Icon={<MdLock />} label='SignUp' callback={signupUser} />
+        <ButtonEl Icon={<MdLock />} label='Go Back' callback={goBack} />
       </div>
     </>
   );
@@ -246,7 +246,7 @@ interface IProps {
 }
 
 const Signup: React.FC<IProps> = ({ setModal }) => {
-  const [email, setEmail] = React.useState<string>("");
+  const [email, setEmail] = React.useState<string>('');
   const [stepOneDone, setStepOneDone] = React.useState<boolean>(false);
 
   return (

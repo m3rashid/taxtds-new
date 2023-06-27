@@ -1,16 +1,16 @@
-import fs from "fs";
-import path from "path";
-import sharp from "sharp";
-import { Request, Response } from "express";
-import { v2 as cloudinary } from "cloudinary";
-import mongoose, { HydratedDocument } from "mongoose";
+import fs from 'fs';
+import path from 'path';
+import sharp from 'sharp';
+import { Request, Response } from 'express';
+import { v2 as cloudinary } from 'cloudinary';
+import mongoose, { HydratedDocument } from 'mongoose';
 
-import logger from "../utils/logger";
-import appConfig from "../utils/appConfig";
-import sendMail from "../utils/nodemailer";
-import { paginationConfig } from "./helpers";
-import { IEditListing } from "../mailerTemplates";
-import Listing, { IListing, Image } from "../models/listing";
+import logger from '../utils/logger';
+import appConfig from '../utils/appConfig';
+import sendMail from '../utils/nodemailer';
+import { paginationConfig } from './helpers';
+import { IEditListing } from '../mailerTemplates';
+import Listing, { IListing, Image } from '../models/listing';
 
 cloudinary.config({
   cloud_name: appConfig.cloudinary.cloudName,
@@ -48,10 +48,10 @@ const removeFileFromServer = (filename: string) => {
 
 export const addListing = async (req: Request, res: Response) => {
   const files = req.files as { [fieldname: string]: Express.Multer.File[] };
-  const avatar = files["avatar"][0];
-  const galleryImgOne = files["galleryImgOne"][0];
-  const galleryImgTwo = files["galleryImgTwo"][0];
-  const galleryImgThree = files["galleryImgThree"][0];
+  const avatar = files['avatar'][0];
+  const galleryImgOne = files['galleryImgOne'][0];
+  const galleryImgTwo = files['galleryImgTwo'][0];
+  const galleryImgThree = files['galleryImgThree'][0];
 
   let gallery: Express.Multer.File[] = [];
   [galleryImgOne, galleryImgTwo, galleryImgThree].forEach((file) => {
@@ -98,7 +98,7 @@ export const addListing = async (req: Request, res: Response) => {
   await listing.save();
 
   return res.status(200).json({
-    message: "Listing added successfully",
+    message: 'Listing added successfully',
     listing,
   });
 };
@@ -108,7 +108,7 @@ export const editListing = async (req: Request, res: Response) => {
 
   const listing = await Listing.findById(listingId);
   if (!listing || listing.addedBy !== req.user)
-    throw new Error("No Services Found");
+    throw new Error('No Services Found');
   const updatedListing = await Listing.findByIdAndUpdate(listingId, {
     $set: {
       brandName: req.body.brandName,
@@ -126,15 +126,15 @@ export const editListing = async (req: Request, res: Response) => {
   });
   sendMail({
     emailId: listing.email,
-    type: "EDIT_LISTING",
-    subject: "Your Listing was updated",
+    type: 'EDIT_LISTING',
+    subject: 'Your Listing was updated',
     textVersion: `Your listing was updated`,
     data: {
       brandName: updatedListing ? updatedListing.brandName : req.body.brandName,
       listingId: listingId,
     } as IEditListing,
   });
-  return res.status(200).json({ message: "Listing updated successfully" });
+  return res.status(200).json({ message: 'Listing updated successfully' });
 };
 
 export const removeListing = async (req: Request, res: Response) => {
@@ -144,13 +144,13 @@ export const removeListing = async (req: Request, res: Response) => {
     { $set: { deleted: true } }
   );
   sendMail({
-    emailId: listing?.email || "",
-    subject: "Listing removed",
-    type: "DELETE_LISTING_BY_USER",
-    textVersion: `You delted one of your listings`,
+    emailId: listing?.email || '',
+    subject: 'Listing removed',
+    type: 'DELETE_LISTING_BY_USER',
+    textVersion: `You deleted one of your listings`,
     data: {},
   });
-  return res.status(200).json({ message: "Listing removed successfully" });
+  return res.status(200).json({ message: 'Listing removed successfully' });
 };
 
 export const getAllListings = async (req: Request, res: Response) => {
@@ -161,20 +161,20 @@ export const getAllListings = async (req: Request, res: Response) => {
     { $sort: { featured: -1 } },
     {
       $unset: [
-        "addedBy",
-        "addressLineOne",
-        "addressLineTwo",
-        "createdAt",
-        "updatedAt",
-        "deleted",
-        "gallery",
-        "reviews",
-        "services",
+        'addedBy',
+        'addressLineOne',
+        'addressLineTwo',
+        'createdAt',
+        'updatedAt',
+        'deleted',
+        'gallery',
+        'reviews',
+        'services',
       ],
     },
     {
       $facet: {
-        metadata: [{ $count: "count" }],
+        metadata: [{ $count: 'count' }],
         data: [{ $skip: page * limit }, { $limit: limit }],
       },
     },
@@ -198,15 +198,15 @@ export const getAllListings = async (req: Request, res: Response) => {
 export const getUserListings = async (req: Request, res: Response) => {
   const listings = await Listing.find({ deleted: false, addedBy: req.user })
     .select([
-      "-addedBy",
-      "-addressLineOne",
-      "-addressLineTwo",
-      "-createdAt",
-      "-updatedAt",
-      "-deleted",
-      "-gallery",
-      "-reviews",
-      "-services",
+      '-addedBy',
+      '-addressLineOne',
+      '-addressLineTwo',
+      '-createdAt',
+      '-updatedAt',
+      '-deleted',
+      '-gallery',
+      '-reviews',
+      '-services',
     ])
     .lean();
 
@@ -227,41 +227,41 @@ export const getOneListing = async (req: Request, res: Response) => {
     },
     {
       $lookup: {
-        from: "services",
-        localField: "services",
-        foreignField: "_id",
-        as: "services",
+        from: 'services',
+        localField: 'services',
+        foreignField: '_id',
+        as: 'services',
       },
     },
     {
       $lookup: {
-        from: "users",
-        localField: "addedBy",
-        foreignField: "_id",
-        as: "addedBy",
+        from: 'users',
+        localField: 'addedBy',
+        foreignField: '_id',
+        as: 'addedBy',
       },
     },
-    { $unwind: { path: "$addedBy", preserveNullAndEmptyArrays: true } },
+    { $unwind: { path: '$addedBy', preserveNullAndEmptyArrays: true } },
     {
       $lookup: {
-        from: "professions",
-        localField: "addedBy.professions",
-        foreignField: "_id",
-        as: "addedBy.professions",
+        from: 'professions',
+        localField: 'addedBy.professions',
+        foreignField: '_id',
+        as: 'addedBy.professions',
       },
     },
     {
       $lookup: {
-        from: "reviews",
-        localField: "reviews",
-        foreignField: "_id",
-        as: "reviews",
+        from: 'reviews',
+        localField: 'reviews',
+        foreignField: '_id',
+        as: 'reviews',
       },
     },
   ];
 
   const listing = await Listing.aggregate(aggrPipeline);
 
-  if (!listing) throw new Error("No listing found");
+  if (!listing) throw new Error('No listing found');
   return res.status(200).json({ listing: listing[0] });
 };

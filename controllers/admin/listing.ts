@@ -1,9 +1,9 @@
-import { Request, Response } from "express";
+import { Request, Response } from 'express';
 
-import Review from "../../models/review";
-import Listing from "../../models/listing";
-import { paginationConfig } from "../helpers";
-import { deleteFromCloudinary } from "../listing";
+import Review from '../../models/review';
+import Listing from '../../models/listing';
+import { paginationConfig } from '../helpers';
+import { deleteFromCloudinary } from '../listing';
 
 export const deleteListing = async (req: Request, res: Response) => {
   const { listingId } = req.body;
@@ -24,20 +24,20 @@ export const deleteListing = async (req: Request, res: Response) => {
     await deleteFromCloudinary(ids[i]);
   }
   await Listing.deleteOne({ _id: listingId });
-  return res.status(200).json({ message: "Deleted listing successfully" });
+  return res.status(200).json({ message: 'Deleted listing successfully' });
 };
 
 export const removeRecoverListing = async (req: Request, res: Response) => {
   const { listingId, toRemove } = req.body;
   await Listing.findByIdAndUpdate(listingId, { $set: { deleted: toRemove } });
   // TODO send mail to the user that their listing was updated
-  return res.status(200).json({ message: "Recover listing successfully" });
+  return res.status(200).json({ message: 'Recover listing successfully' });
 };
 
 export const getAllListingsAdmin = async (req: Request, res: Response) => {
   const { page, limit } = paginationConfig(req);
   const listings = await Listing.find()
-    .sort({ createdAt: "desc" })
+    .sort({ createdAt: 'desc' })
     .skip(page * limit)
     .limit(limit);
 
@@ -50,8 +50,8 @@ export const featureUnfeatureListing = async (req: Request, res: Response) => {
     { _id: listingId },
     { $set: { featured: toFeature } }
   );
-  // TODO send mail to the user that their listing was featured/unfeatured
+  // TODO send mail to the user that their listing was featured/un-featured
   return res.status(200).json({
-    message: `Listing ${toFeature ? "featured" : "unfeatured"} successfully`,
+    message: `Listing ${toFeature ? 'featured' : 'un-featured'} successfully`,
   });
 };
