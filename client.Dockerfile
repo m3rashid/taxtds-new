@@ -1,15 +1,17 @@
 FROM node:latest AS build
 WORKDIR /app
 
-COPY . .
-WORKDIR /app/client
+COPY ./client/package.json ./
+COPY ./client/yarn.lock ./
+RUN yarn install 
 
-RUN yarn install && yarn build
+COPY ./client/ ./
+RUN yarn build
 
 
 FROM nginx:alpine
 
-COPY --from=build /app/client/build /usr/share/nginx/html
+COPY --from=build /app/build /usr/share/nginx/html
 COPY nginx.conf /etc/nginx/nginx.conf
 
 EXPOSE 80
