@@ -8,10 +8,10 @@ export interface IActions {
 	role?: "USER" | "ADMIN";
 }
 
-export const SERVER_ROOT_URL =
-	process.env.NODE_ENV === "production"
-		? "https://taxtds.herokuapp.com"
-		: "http://localhost:4000";
+export const SERVER_ROOT_URL = "http://webserver:4000";
+// process.env.NODE_ENV === "production"
+// 	? "https://taxtds.herokuapp.com"
+// 	: "http://localhost:4000";
 export const JWT_AUTH = "jwtAuth";
 export const LAST_LOGIN = "lastLogin";
 
