@@ -1,8 +1,8 @@
-name: bizmate
+name: taxtds
 
 networks:
   default:
-    name: bizmate
+    name: taxtds
 
 services:
   webserver:
@@ -12,15 +12,13 @@ services:
     restart: always
     env_file:
       - .env
-    volumes:
-      - .:/app
+    # volumes:
+    #   - .:/app
     ports:
-      - 5000:4000
-    command: NODE_ENV=production node .
+      - 4000:5000
+    command: node .
     depends_on:
       - mongodb
-
-  
 
   mongodb:
     image: mongo
@@ -28,10 +26,8 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: genos
       MONGO_INITDB_ROOT_PASSWORD: genos
-      MONGO_INITDB_DATABASE: bizmatedb
+      MONGO_INITDB_DATABASE: taxtdsdb
     ports:
       - 27017:27017
     volumes:
       - ./.data/mongoDb:/data/db
-
- 
