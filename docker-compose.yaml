@@ -20,6 +20,17 @@ services:
     depends_on:
       - mongodb
 
+  frontend:
+    build:
+      context: .
+      dockerfile: ./client/Dockerfile
+    ports: 
+      - 3000:3000
+    command: yarm prod
+      
+    # depends_on:
+    #   - webserver
+
   mongodb:
     image: mongo
     restart: always
